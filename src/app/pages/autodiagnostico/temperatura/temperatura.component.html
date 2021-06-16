@@ -1,0 +1,26 @@
+<form [formGroup]="temperatura" (onSubmit)="submit()">
+    <!-- <ng-template matStepLabel></ng-template> -->
+
+    <!-- botonera temperatura -->
+    <div fxLayout fxLayoutAlign="center center">
+      <button mat-mini-fab color="primary" (click)="cambiarTemp(-0.1)"><mat-icon>remove</mat-icon></button>
+      <span class="valorTemp">{{ temperaturaGrados | number:'1.1-1' }}</span>
+      <button mat-mini-fab color="primary" (click)="cambiarTemp(0.1)"><mat-icon>add</mat-icon></button>
+    </div>
+    <!-- fin botonera temperatura -->
+
+    <!-- campo (oculto !) -->
+    <mat-form-field class="hidden">
+      <!-- <input matInput formControlName="tempGrados" type="text" required> -->
+      <input matInput formControlName="tempGrados" type="text" [(ngModel)]="temperaturaGrados" required>
+    </mat-form-field>
+    <!-- fin campos -->
+
+    <!-- botones atras - siguiente -->
+    <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutAlign="center center" fxLayoutGap="10px" fxLayoutGap.gt-sm="3px" fxFill="100" fxFill.gt-sm="50">
+      <button class="btn-autodiagnostico" mat-stroked-button color="primary" (click)="volverIngreso()">VOLVER</button>
+      <button class="btn-autodiagnostico" mat-raised-button color="primary" type="submit" matStepperNext (click)="mostrarConsola()">SIGUIENTE</button>
+    </div>
+    <!-- fin botones atras - siguiente -->
+
+  </form>

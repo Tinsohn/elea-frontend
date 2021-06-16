@@ -1,0 +1,14 @@
+mat-label, mat-radio-button {
+    margin-bottom: 1em;
+}
+mat-radio-group {
+    margin-bottom: 1em;
+}
+
+mat-label, .txt-radio-button {
+    font-weight: 500;
+}
+
+mat-label {
+    line-height: 1em;
+}

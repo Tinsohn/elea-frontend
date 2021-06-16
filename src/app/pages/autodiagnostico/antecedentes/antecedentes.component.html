@@ -1,0 +1,19 @@
+<form [formGroup]="antecedentes" (onSubmit)="submit()">
+
+    <!-- campos -->
+    <div *ngFor="let campoAntecedente of txtCamposAntecedentes; let i=index" class="campo-antecedente" fxLayout fxLayoutAlign="start center" fxLayoutGap="16px">
+        <!-- <mat-form-field> -->
+        <mat-checkbox formControlName="antecedente_{{i}}"></mat-checkbox>
+        <label class="font-color-gris">{{ campoAntecedente }}</label>
+        <!-- </mat-form-field> -->
+    </div>
+    <!-- fin campos -->
+
+    <!-- botones atras - siguiente -->
+    <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutAlign="center center" fxLayoutGap="10px" fxFill="100" fxFill.gt-sm="50">
+      <button class="btn-autodiagnostico" mat-stroked-button color="primary" matStepperPrevious>ATRÁS</button>
+      <button class="btn-autodiagnostico" mat-raised-button color="primary" type="submit" matStepperNext >SIGUIENTE</button>
+  </div>
+    <!-- fin botones atras - siguiente -->
+
+</form>

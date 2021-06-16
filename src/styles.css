@@ -1,1 +1,101 @@
-/* You can add global styles to this file, and also import other style files */
+html, body { 
+    height: 100%;
+    font-family: Roboto, sans-serif;
+}
+body {
+    margin: 0;
+    background-color: #ddd;
+}
+
+.contenedor {
+    background-color: #fff;
+    width: 100%;
+    margin: 0 auto;
+}
+
+@media screen and (min-width: 600px) {
+    .contenedor {
+        width: 85%;
+    }
+}
+
+.contenedor img {
+    width: 175px;
+}
+
+@media screen and (min-width: 400px) {
+    .contenedor img {
+        width: 200px;
+    }
+}
+
+
+/* button[mat-stroked-button] {
+    border: 2px solid #3f51b5;
+} */
+
+button[mat-raised-button], button[mat-stroked-button] {
+    margin-top: 2em;
+    padding: 1em 2em;
+    border-radius: 3em;
+    min-width: 40%;
+}
+
+
+/* FORMULARIOS DE INGRESO */
+.div-formulario-usuario .formulario-usuario form mat-form-field {
+    margin-bottom: .5em;
+}
+
+.div-formulario-usuario .formulario-usuario form ngx-recaptcha2 {
+    margin-top: .5em;
+}
+/* fin formularios de ingreso */
+
+
+
+
+button[mat-stroked-button].btn-autodiagnostico {
+    border: 2px solid #3f51b5;
+}
+
+.btn-autodiagnostico {
+    margin: 2em .25em 0;
+    padding: 1em 2em;
+    border-radius: 3em;
+    /* min-width: 45%; */
+    width: 100%;
+
+}@media screen and (max-width: 960px) {
+    .btn-autodiagnostico {
+        width: 100%;
+    }
+    button[mat-raised-button].btn-autodiagnostico {
+        order: 0;
+    }
+    button[mat-stroked-button].btn-autodiagnostico {
+        order: 1;
+        margin-top: 0;
+    }
+}
+
+.btn-autodiagnostico-atras {
+    margin: 0 0 2em;
+    position: relative;
+    left: -16px;
+}
+
+
+.mat-stepper-label-position-bottom .mat-horizontal-stepper-header, .mat-vertical-stepper-header {
+    width: 80%;
+    padding-bottom: 0;
+}
+
+.mat-step-header .mat-step-icon-selected, .mat-step-header .mat-step-icon-state-done, .mat-step-header .mat-step-icon-state-edit {
+    background-color: #ff4081;
+}
+
+
+.font-color-gris {
+    color: #555;
+}

@@ -1,0 +1,52 @@
+.contenedor-autodiagnostico {
+    padding: 4em 0;
+}
+
+.div-stepper-autodiagnostico {
+    width: 80%;
+    margin: 0 auto;
+}
+
+@media screen and (min-width: 1400px) {
+    .div-stepper-autodiagnostico {
+        width: 50%;
+    }
+}
+
+/* button[mat-mini-fab] {
+    width: 2em;
+    height: 2em;
+} */
+
+/* .valorTemp {
+    font-size: 2em;
+    margin: 0 .75em;
+} */
+
+/* .hidden {
+    display: none;
+} */
+
+/* button[mat-raised-button], button[mat-stroked-button] { */
+    /* margin-top: 2em; */
+    /* margin: 2em .25em 0;
+    padding: 1em 2em;
+    border-radius: 3em;
+    min-width: 45%;
+} */
+
+/* button[mat-stroked-button] {
+    border: 2px solid #3f51b5;
+} */
+
+/* @media screen and (max-width: 960px) {
+    button[mat-raised-button], button[mat-stroked-button] {
+        width: 100%;
+    }
+    button[mat-raised-button] {
+        order: 0;
+    }
+    button[mat-stroked-button] {
+        order: 1;
+    }
+} */

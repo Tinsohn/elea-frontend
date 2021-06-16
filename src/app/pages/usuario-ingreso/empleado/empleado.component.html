@@ -1,0 +1,30 @@
+<form [formGroup]="form" (ngSubmit)="submit()" fxLayout="column" fxLayoutAlign="space-between stretch">
+    <!-- NUMERO LEGAJO -->
+    <mat-form-field appearance="fill">
+        <mat-label>Número de legajo</mat-label>
+        <input matInput formControlName="nroLegajo" type="text" maxlength="8" required>
+        <mat-error *ngIf="this.form.get('nroLegajo')?.invalid">{{getErrorMessage('nroLegajo')}}</mat-error>
+    </mat-form-field>
+
+    <!-- DNI -->
+    <mat-form-field appearance="fill">
+        <mat-label>DNI</mat-label>
+        <input matInput formControlName="dni" type="text" maxlength="8" required>
+        <mat-error *ngIf="this.form.get('dni')?.invalid">{{getErrorMessage('dni')}}</mat-error>
+    </mat-form-field>
+    <br>
+
+    <!-- LUGAR DE ACCESO -->
+    <mat-form-field appearance="fill">
+        <mat-label>Lugar de acceso</mat-label>
+        <mat-select formControlName="lugarAcceso" required>
+          <mat-option *ngFor="let lugarAcceso of lugaresAcceso" value="{{ lugarAcceso.id }}">{{ lugarAcceso.descripcion }}</mat-option>
+        </mat-select>
+        <mat-error *ngIf="this.form.get('lugarAcceso')?.invalid">{{getErrorMessage('lugarAcceso')}}</mat-error>
+    </mat-form-field>
+
+    <!-- CAPTCHA -->
+    <ngx-recaptcha2 #captchaElem [siteKey]="siteKey" formControlName="recaptcha" fxFlexAlign="center"></ngx-recaptcha2>
+
+    <button mat-raised-button color="primary" [disabled]="form.invalid" type="submit">SIGUIENTE</button>
+</form>

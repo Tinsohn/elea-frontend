@@ -1,0 +1,59 @@
+<form [formGroup]="form" (ngSubmit)="submit()" fxLayout="column" fxLayoutAlign="space-between stretch">
+    <!-- DNI -->
+    <mat-form-field appearance="fill">
+        <mat-label>DNI</mat-label>
+        <input matInput formControlName="dni" type="text" maxlength="8" required>
+        <mat-error *ngIf="this.form.get('dni')?.invalid">{{getErrorMessage('dni')}}</mat-error>
+    </mat-form-field>
+
+    <!-- NOMBRE -->
+    <mat-form-field appearance="fill">
+        <mat-label>Nombre</mat-label>
+        <input matInput formControlName="nombre" type="text" required>
+        <mat-error *ngIf="this.form.get('nombre')?.invalid">{{getErrorMessage('nombre')}}</mat-error>
+    </mat-form-field>
+
+    <!-- APELLIDO -->
+    <mat-form-field appearance="fill">
+        <mat-label>Apellido</mat-label>
+        <input matInput formControlName="apellido" type="text" required>
+        <mat-error *ngIf="this.form.get('apellido')?.invalid">{{getErrorMessage('apellido')}}</mat-error>
+    </mat-form-field>
+
+    <!-- TELEFONO -->
+    <mat-form-field appearance="fill">
+        <mat-label>Teléfono</mat-label>
+        <input matInput formControlName="telefono" type="text" required>
+        <mat-error *ngIf="this.form.get('telefono')?.invalid">{{getErrorMessage('telefono')}}</mat-error>
+    </mat-form-field>
+
+    <!-- EMPRESA -->
+    <mat-form-field appearance="fill">
+        <mat-label>Empresa</mat-label>
+        <input matInput formControlName="empresa" type="text" required>
+        <mat-error *ngIf="this.form.get('empresa')?.invalid">{{getErrorMessage('empresa')}}</mat-error>
+    </mat-form-field>
+
+    <!-- EMAIL -->
+    <mat-form-field appearance="fill">
+        <mat-label>E-mail</mat-label>
+        <input matInput formControlName="email" type="text" required>
+        <mat-error *ngIf="this.form.get('email')?.invalid">{{getErrorMessage('email')}}</mat-error>
+    </mat-form-field>
+    <br>
+
+    <!-- LUGAR DE ACCESO -->
+    <mat-form-field appearance="fill">
+        <mat-label>Lugar de acceso</mat-label>
+        <mat-select formControlName="lugarAcceso" required>
+            <mat-option *ngFor="let lugarAcceso of lugaresAcceso" value="{{ lugarAcceso.id }}">{{ lugarAcceso.descripcion }}</mat-option>
+        </mat-select>
+        <mat-error *ngIf="this.form.get('lugarAcceso')?.invalid">{{getErrorMessage('lugarAcceso')}}</mat-error>
+    </mat-form-field>
+
+    <!-- CAPTCHA -->
+    <ngx-recaptcha2 #captchaElem [siteKey]="siteKey" formControlName="recaptcha" fxFlexAlign="center"></ngx-recaptcha2>
+
+    
+    <button mat-raised-button color="primary" [disabled]="form.invalid" type="submit">SIGUIENTE</button>
+</form>

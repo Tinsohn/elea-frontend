@@ -1,0 +1,43 @@
+<div class="contenedor-autodiagnostico">
+
+
+  <div class="div-stepper-autodiagnostico">
+    <mat-horizontal-stepper linear #stepper labelPosition="bottom" color="accent">
+      
+      <!-- inicio TEMPERATURA -->
+      <mat-step [stepControl]="temperatura">
+        <app-temperatura (submitTemperatura)="submitTempAutodiag( $event )"></app-temperatura>
+      </mat-step>
+      <!-- fin TEMPERATURA -->
+
+      
+      <!-- inicio SINTOMAS -->
+      <mat-step [stepControl]="sintomas">
+        <app-sintomas (submitSintomas)="submitSintomas( $event )"></app-sintomas>
+      </mat-step>
+      <!-- fin SINTOMAS -->
+
+      
+      <!-- inicio ANTECEDENTES -->
+      <mat-step [stepControl]="antecedentes">
+        <app-antecedentes></app-antecedentes>
+      </mat-step>
+      <!-- fin ANTECEDENTES -->
+
+      <!-- inicio RESUMEN -->
+      <mat-step>
+        <p>You are now done.</p>
+
+        <!-- botones atras - siguiente -->
+        <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutAlign="center center" fxLayoutGap="10px" fxLayoutGap.gt-sm="3px" fxFill="100" fxFill.gt-sm="50">
+          <button class="btn-autodiagnostico" mat-stroked-button color="primary" type="button" (click)="stepper.reset();reset()">Volver a empezar</button>
+          <button class="btn-autodiagnostico" mat-raised-button color="primary" matStepperNext>ENVIAR</button>
+        </div>
+        <!-- fin botones atras - siguiente -->
+
+      </mat-step>
+      <!-- fin RESUMEN -->
+
+    </mat-horizontal-stepper>
+  </div>
+</div>

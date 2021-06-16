@@ -1,0 +1,25 @@
+<div class="contenedor-ingreso" fxLayout="column" fxLayoutAlign="start center" fxLayoutGap="1.5rem">
+    <img src="./assets/elea-logo-v2@2x.png" alt="elea-logo">
+
+    <div class="icon-circle" fxLayout fxLayoutAlign="center center" color="primary">
+        <i class="far fa-address-card"></i>
+    </div>    
+    
+    <div class="div-formulario-usuario">
+        <div class="datos-pers">
+            <p class="p1 font-color-gris">Para empezar necesitamos tus datos personales</p>
+            
+            <mat-checkbox [(ngModel)]="checked">¿Trabajás en ELEA?</mat-checkbox>
+    
+            <p class="p2 font-color-gris">
+                Tu información está protegida por la ley y es para uso exclusivo de las autoridades sanitarias.
+            </p>
+        </div>
+        <app-empleado class="formulario-usuario" *ngIf="checked"></app-empleado>
+        <app-visitante class="formulario-usuario" *ngIf="!checked"></app-visitante>
+
+        <!-- <div [ngClass]="loading ? 'hidden' : 'ninguna'">
+            <mat-spinner></mat-spinner>
+        </div> -->
+    </div>
+</div>

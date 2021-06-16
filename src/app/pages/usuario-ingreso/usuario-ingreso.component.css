@@ -1,0 +1,62 @@
+.contenedor-ingreso {
+    padding: 4em 0;
+}
+
+.icon-circle {
+    border-radius: 50%;
+    width: 2.5rem;
+    height: 2.5rem;
+    background-color: #ff4081;
+}
+
+.icon-circle i {
+    font-size: 1.25rem;
+    color: #fff;
+}
+
+/*
+ * ========================
+ *  FORMULARIOS DE INGRESO 
+ * ========================
+ */
+.div-formulario-usuario {
+    width: 260px;
+}
+
+@media screen and (max-width: 320px) {
+    .div-formulario-usuario {
+        width: 80%;
+    }
+}
+
+@media screen and (min-width: 960px) {
+    .div-formulario-usuario {
+        width: 50%;
+    }
+}
+
+.datos-pers {
+    margin-bottom: 1em;
+}
+
+.datos-pers .p1 {
+    font-size: 1.25em;
+    font-weight: 500;
+}
+
+.datos-pers .p2 {
+    margin-top: 8px;
+}
+
+/* EL SIGUIENTE CÓDIGO SE ENCUENTRA EN style.css (no funciona bien acá) */
+/*.div-formulario-usuario .formulario-usuario form mat-form-field {
+    margin-bottom: .5em;
+}
+
+.div-formulario-usuario .formulario-usuario form ngx-recaptcha2 {
+    margin-top: .5em;
+}*/
+
+/*
+ *  fin formularios de ingreso
+ */

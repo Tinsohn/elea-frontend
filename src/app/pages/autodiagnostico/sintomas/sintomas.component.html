@@ -1,0 +1,29 @@
+<form [formGroup]="sintomas" (onSubmit)="submit()">
+    <div class="btn-autodiagnostico-atras">
+        <button mat-button matStepperPrevious fxLayout fxLayoutAlign="center center">
+            <mat-icon>arrow_back</mat-icon> <span>Atrás</span> 
+        </button>
+    </div>
+
+
+    <!-- campos -->
+    <div *ngFor="let campoSintoma of txtCamposSintomas; let i=index"
+          fxLayout="column">
+        <!-- <mat-form-field> -->
+        <mat-label class="font-color-gris">{{ campoSintoma }}</mat-label>
+        <mat-radio-group formControlName="sintoma_{{i}}" fxLayout="column" required>
+            <mat-radio-button value="si"><span class="txt-radio-button">SI</span></mat-radio-button>
+            <mat-radio-button value="no"><span class="txt-radio-button">NO</span></mat-radio-button>
+        </mat-radio-group>
+        <!-- </mat-form-field> -->
+    </div>
+    <!-- fin campos -->
+
+    <!-- botones atras - siguiente -->
+    <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutAlign="center center" fxLayoutGap="10px" fxFill="100" fxFill.gt-sm="50">
+        <button class="btn-autodiagnostico" mat-stroked-button color="primary" matStepperPrevious>ATRÁS</button>
+        <button class="btn-autodiagnostico" mat-raised-button color="primary" type="submit" matStepperNext >SIGUIENTE</button>
+    </div>
+    <!-- fin botones atras - siguiente -->
+
+</form>
