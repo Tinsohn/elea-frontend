@@ -32,7 +32,7 @@ export class SintomasComponent implements OnInit {
   }
 
   submit() {
-    console.log(this.sintomas);
+    console.log(this.sintomas.value);
     this.submitSintomas.emit(this.sintomas);
   }
 }

@@ -18,7 +18,8 @@ export class TemperaturaComponent implements OnInit {
 
   ngOnInit(): void {
     this.temperatura = this.fb.group({
-      tempGrados: `${ this.temperaturaGrados }`
+      // tempGrados: `${ this.temperaturaGrados }`
+      tempGrados: this.temperaturaGrados
     });
   }
   
@@ -30,6 +31,7 @@ export class TemperaturaComponent implements OnInit {
   }
 
   submit() {
+    console.log(this.temperatura.controls.tempGrados.value);
     this.submitTemperatura.emit(this.temperatura);
   }
 

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { AutodiagnosticoService } from '../../../services/autodiagnostico/autodiagnostico.service';
 
@@ -11,6 +11,7 @@ export class AntecedentesComponent implements OnInit {
   txtCamposAntecedentes: string[] = [];
 
   antecedentes!: FormGroup;
+  @Output() submitAntecedentes: EventEmitter<FormGroup> = new EventEmitter();
 
   constructor(private fb: FormBuilder, private autodiagnosticoService: AutodiagnosticoService) { }
 
@@ -31,6 +32,7 @@ export class AntecedentesComponent implements OnInit {
   }
 
   submit() {
-    
+    console.log(this.antecedentes.value);
+    this.submitAntecedentes.emit(this.antecedentes);
   }
 }

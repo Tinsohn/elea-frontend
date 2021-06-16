@@ -80,9 +80,9 @@ button[mat-stroked-button].btn-autodiagnostico {
 }
 
 .btn-autodiagnostico-atras {
-    margin: 0 0 2em;
+    margin-bottom: 1em;
     position: relative;
-    left: -16px;
+    left: -20px;
 }
 
 

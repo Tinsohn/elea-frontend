@@ -1,4 +1,16 @@
-<form [formGroup]="antecedentes" (onSubmit)="submit()">
+<form [formGroup]="antecedentes">
+    <!-- boton paso anterior -->
+    <div class="btn-autodiagnostico-atras">
+        <!-- <button mat-button matStepperPrevious fxLayout fxLayoutAlign="center center"> -->
+        <button mat-button type="button" matStepperPrevious>
+            <mat-icon>arrow_back</mat-icon>
+            <!-- <span>Atrás</span> -->
+        </button>
+    </div>
+    <!-- fin boton paso anterior -->
+
+
+    <h4 class="font-color-gris">Si tu situación de salud contempla alguna de las siguientes opciones, seleccioná las que correspondan</h4>
 
     <!-- campos -->
     <div *ngFor="let campoAntecedente of txtCamposAntecedentes; let i=index" class="campo-antecedente" fxLayout fxLayoutAlign="start center" fxLayoutGap="16px">
@@ -11,8 +23,8 @@
 
     <!-- botones atras - siguiente -->
     <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutAlign="center center" fxLayoutGap="10px" fxFill="100" fxFill.gt-sm="50">
-      <button class="btn-autodiagnostico" mat-stroked-button color="primary" matStepperPrevious>ATRÁS</button>
-      <button class="btn-autodiagnostico" mat-raised-button color="primary" type="submit" matStepperNext >SIGUIENTE</button>
+      <!-- <button class="btn-autodiagnostico" mat-stroked-button color="primary" matStepperPrevious>ATRÁS</button> -->
+      <button class="btn-autodiagnostico" mat-raised-button color="primary" type="button" matStepperNext (click)="submit()">SIGUIENTE</button>
   </div>
     <!-- fin botones atras - siguiente -->
 

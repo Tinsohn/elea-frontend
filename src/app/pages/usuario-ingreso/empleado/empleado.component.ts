@@ -63,10 +63,10 @@ export class EmpleadoComponent implements OnInit {
     const nroLegajo = this.form.get('nroLegajo')?.value;
     const dni = this.form.get('dni')?.value;
 
-    this.redireccionar(Number(nroLegajo), Number(dni));
+    // this.redireccionar(Number(nroLegajo), Number(dni));
     
     
-    // this.router.navigate(['/autodiagnostico']);
+    this.router.navigate(['/autodiagnostico']);
   }
 
   redireccionar(nroLegajo: number, dni: number): void {

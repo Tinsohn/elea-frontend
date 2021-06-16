@@ -1,8 +1,50 @@
-/* .hidden {
+h3, h4 {
+    text-align: center;
+    font-weight: 600;
+}
+
+h4, .txt-consejo{
+    line-height: 1em;
+}
+
+h3 {
+    font-size: 1.2em;
+    line-height: 1.1em;
+    margin-bottom: 2em;
+}
+
+h4 {
+    font-size: 1.1em;
+    margin-top: 2em;
+}
+
+.txt-consejo {
+    font-weight: 500;
+}
+
+.hidden {
     display: none;
-} */
+}
 
 .valorTemp {
     font-size: 2em;
     margin: 0 .75em;
+}
+
+
+
+.icon-circle {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 50%;
+    width: 2em;
+    height: 2em;
+    background-color: #555;
+}
+
+.icon-circle span {
+    font-weight: 500;
+    font-size: 1em;
+    color: #fff;
 }

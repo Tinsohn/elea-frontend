@@ -28,21 +28,29 @@ export class AutodiagnosticoComponent implements OnInit {
     // this.txtCamposAntecedentes = this.autodiagnosticoService.getTxtCamposAntecedentes();
 
     this.temperatura = this.fb.group({
-      tempGrados: ''
+      tempGrados: '37.0'
     });
     this.sintomas = this.fb.group({
-      sintoma_0: '',
-      sintoma_1: '',
-      sintoma_2: '',
-      sintoma_3: '',
-      sintoma_4: '',
-      sintoma_5: '',
-      sintoma_6: '',
-      sintoma_7: '',
-      sintoma_8: ''
+      sintoma_0: 'no',
+      sintoma_1: 'no',
+      sintoma_2: 'no',
+      sintoma_3: 'no',
+      sintoma_4: 'no',
+      sintoma_5: 'no',
+      sintoma_6: 'no',
+      sintoma_7: 'no',
+      sintoma_8: 'no'
     });
     this.antecedentes = this.fb.group({
-      contactoEstrecho: ''
+      antecedente_0: false,
+      antecedente_1: false,
+      antecedente_2: false,
+      antecedente_3: false,
+      antecedente_4: false,
+      antecedente_5: false,
+      antecedente_6: false,
+      antecedente_7: false,
+      antecedente_8: false
     });
   }
   
@@ -57,18 +65,19 @@ export class AutodiagnosticoComponent implements OnInit {
 
   submitTempAutodiag(form: FormGroup) {
     this.temperatura = form;
-    console.log(`Autodiagnostico: `);
-    console.log(this.temperatura);
+    // console.log(`Autodiagnostico: `);
+    // console.log(this.temperatura);
   }
 
   submitSintomas(form: FormGroup) {
     this.sintomas = form;
-    console.log(`Autodiagnostico: `);
-    console.log(this.sintomas);
+    // console.log(`Autodiagnostico: `);
+    // console.log(this.sintomas);
   }
 
-
-
+  submitAntecedentes(form: FormGroup) {
+    this.antecedentes = form;
+  }
 
 
 
@@ -91,14 +100,39 @@ export class AutodiagnosticoComponent implements OnInit {
   //   this.router.navigate(['/usuario-ingreso']);
   // }
 
-  reset() {
+  reset(stepper: any) {
+    stepper.reset();
     // this.temperatura.reset();
     // this.temperaturaGrados = 37;
-    // this.temperatura.setValue({tempGrados: this.temperaturaGrados});
+    this.temperatura.setValue({
+      tempGrados: 37
+    });
 
-    // this.sintomas.reset();
-    // this.antecedentes.reset();
-    this.router.navigate(['/autodiagnostico']);
+    this.sintomas.setValue({
+      sintoma_0: 'no',
+      sintoma_1: 'no',
+      sintoma_2: 'no',
+      sintoma_3: 'no',
+      sintoma_4: 'no',
+      sintoma_5: 'no',
+      sintoma_6: 'no',
+      sintoma_7: 'no',
+      sintoma_8: 'no'
+    });
+
+    this.antecedentes.setValue({
+      antecedente_0: false,
+      antecedente_1: false,
+      antecedente_2: false,
+      antecedente_3: false,
+      antecedente_4: false,
+      antecedente_5: false,
+      antecedente_6: false,
+      antecedente_7: false,
+      antecedente_8: false
+    });
+
+    // this.router.navigate(['/autodiagnostico']);
     // return;
   }
 
