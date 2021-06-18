@@ -2,7 +2,7 @@ import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 
-import { LugarAcceso } from 'src/app/models/lugar-acceso.interface';
+import { LugarAcceso } from 'src/app/interfaces/lugar-acceso.interface';
 import { LugarAccesoService } from 'src/app/services/lugar-acceso.service';
 import { EmpleadoService } from 'src/app/services/usuario-ingreso/empleado/empleado.service';
 
@@ -55,6 +55,7 @@ export class EmpleadoComponent implements OnInit {
 
     return;
   }
+  
 
   submit() {
     // this.loading = true;
@@ -69,7 +70,8 @@ export class EmpleadoComponent implements OnInit {
     this.router.navigate(['/autodiagnostico']);
   }
 
-  redireccionar(nroLegajo: number, dni: number): void {
+
+  private redireccionar(nroLegajo: number, dni: number): void {
 
     this._empleadoService.getEmpleadoPorId(nroLegajo) // * RECUPERAR POR nroLegajo!
       .subscribe( empleado => { 

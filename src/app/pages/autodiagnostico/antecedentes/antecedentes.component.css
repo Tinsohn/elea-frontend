@@ -1,14 +1,30 @@
 h4 {
-    font-weight: 600;
-    line-height: 1.1em;
+    margin-bottom: 1em !important;
 }
-
-label {
-    font-weight: 500;
-    line-height: 1em;
-}
-
 
 .campo-antecedente {
     margin-bottom: 1.25em;
 }
+
+
+
+
+
+
+
+
+
+
+
+/* label {
+    font-weight: 500;
+    line-height: 1em;
+} */
+
+/* input[type=checkbox], input[type=checkbox]:checked {
+    width: 1.5em;
+    height: 1.5em;
+}
+input[type=checkbox]:checked {
+    background-color: blue;
+} */

@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { LugarAcceso } from '../models/lugar-acceso.interface';
+import { LugarAcceso } from '../interfaces/lugar-acceso.interface';
 
 @Injectable({
   providedIn: 'root'

@@ -1,7 +1,7 @@
-<form [formGroup]="antecedentes">
+<form [formGroup]="autodiagnosticoService.antecedentes">
+    
     <!-- boton paso anterior -->
     <div class="btn-autodiagnostico-atras">
-        <!-- <button mat-button matStepperPrevious fxLayout fxLayoutAlign="center center"> -->
         <button mat-button type="button" matStepperPrevious>
             <mat-icon>arrow_back</mat-icon>
             <!-- <span>Atrás</span> -->
@@ -10,22 +10,18 @@
     <!-- fin boton paso anterior -->
 
 
-    <h4 class="font-color-gris">Si tu situación de salud contempla alguna de las siguientes opciones, seleccioná las que correspondan</h4>
+    <h4 class="font-color-gris step-header">Si tu situación de salud contempla alguna de las siguientes opciones, seleccioná las que correspondan</h4>
 
     <!-- campos -->
     <div *ngFor="let campoAntecedente of txtCamposAntecedentes; let i=index" class="campo-antecedente" fxLayout fxLayoutAlign="start center" fxLayoutGap="16px">
-        <!-- <mat-form-field> -->
-        <mat-checkbox formControlName="antecedente_{{i}}"></mat-checkbox>
-        <label class="font-color-gris">{{ campoAntecedente }}</label>
-        <!-- </mat-form-field> -->
+        <mat-checkbox class="font-color-gris" formControlName="antecedente_{{i}}">{{ campoAntecedente }}</mat-checkbox>
     </div>
     <!-- fin campos -->
 
-    <!-- botones atras - siguiente -->
+    <!-- boton paso siguiente -->
     <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutAlign="center center" fxLayoutGap="10px" fxFill="100" fxFill.gt-sm="50">
-      <!-- <button class="btn-autodiagnostico" mat-stroked-button color="primary" matStepperPrevious>ATRÁS</button> -->
-      <button class="btn-autodiagnostico" mat-raised-button color="primary" type="button" matStepperNext (click)="submit()">SIGUIENTE</button>
-  </div>
-    <!-- fin botones atras - siguiente -->
+      <button class="btn-autodiagnostico" mat-raised-button color="primary" type="button" matStepperNext>SIGUIENTE</button>
+    </div>
+    <!-- fin boton paso siguiente -->
 
 </form>

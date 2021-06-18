@@ -5,3 +5,13 @@
 h2 {
     text-align: center;
 }
+
+img {
+    width: 172px;
+}
+
+@media screen and (min-width: 400px) {
+    img {
+        width: 200px;
+    }
+}

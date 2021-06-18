@@ -12,37 +12,52 @@ body {
     width: 100%;
     margin: 0 auto;
 }
-
 @media screen and (min-width: 600px) {
     .contenedor {
         width: 85%;
     }
 }
 
-.contenedor img {
-    width: 175px;
-}
-
-@media screen and (min-width: 400px) {
-    .contenedor img {
-        width: 200px;
-    }
+/* utilities */
+.font-color-gris {
+    color: #555;
 }
 
 
-/* button[mat-stroked-button] {
-    border: 2px solid #3f51b5;
-} */
-
-button[mat-raised-button], button[mat-stroked-button] {
+/* ========= */
+/*  BOTONES  */
+/* ========= */
+button[mat-raised-button] {
     margin-top: 2em;
     padding: 1em 2em;
     border-radius: 3em;
     min-width: 40%;
 }
 
+button[mat-stroked-button].btn-stroked {
+    border: 2px solid #3f51b5;
+    border-radius: 3em;
+}
 
-/* FORMULARIOS DE INGRESO */
+button[mat-raised-button].btn-autodiagnostico, button[mat-stroked-button].btn-stroked {
+    margin: 1em 0 0;
+    padding: 1em 2em;
+    width: 100%;
+}
+
+@media screen and (max-width: 650px) {
+    button[mat-raised-button], button[mat-raised-button].btn-autodiagnostico, button[mat-stroked-button].btn-stroked {
+        padding: .5em 2em;
+    }
+}
+/* ----------- */
+/* fin botones */
+/* ----------- */
+
+
+/* ======================== */
+/*  FORMULARIOS DE INGRESO  */
+/* ======================== */
 .div-formulario-usuario .formulario-usuario form mat-form-field {
     margin-bottom: .5em;
 }
@@ -50,42 +65,14 @@ button[mat-raised-button], button[mat-stroked-button] {
 .div-formulario-usuario .formulario-usuario form ngx-recaptcha2 {
     margin-top: .5em;
 }
+/* -------------------------- */
 /* fin formularios de ingreso */
+/* -------------------------- */
 
 
-
-
-button[mat-stroked-button].btn-autodiagnostico {
-    border: 2px solid #3f51b5;
-}
-
-.btn-autodiagnostico {
-    margin: 2em .25em 0;
-    padding: 1em 2em;
-    border-radius: 3em;
-    /* min-width: 45%; */
-    width: 100%;
-
-}@media screen and (max-width: 960px) {
-    .btn-autodiagnostico {
-        width: 100%;
-    }
-    button[mat-raised-button].btn-autodiagnostico {
-        order: 0;
-    }
-    button[mat-stroked-button].btn-autodiagnostico {
-        order: 1;
-        margin-top: 0;
-    }
-}
-
-.btn-autodiagnostico-atras {
-    margin-bottom: 1em;
-    position: relative;
-    left: -20px;
-}
-
-
+/* ========= */
+/*  STEPPER  */
+/* ========= */
 .mat-stepper-label-position-bottom .mat-horizontal-stepper-header, .mat-vertical-stepper-header {
     width: 80%;
     padding-bottom: 0;
@@ -96,6 +83,35 @@ button[mat-stroked-button].btn-autodiagnostico {
 }
 
 
-.font-color-gris {
-    color: #555;
+.step-header {
+    font-size: 1.2em !important;
+    line-height: 1.1em !important;
 }
+
+h4.step-header {
+    font-weight: 600 !important;
+    margin-bottom: 1em !important;
+}
+
+/* Boton paso previo */
+.btn-autodiagnostico-atras {
+    margin-bottom: 1em;
+    position: relative;
+    left: -20px;
+}
+
+/* Checkboxs */
+.mat-checkbox-inner-container {
+    margin-right: 15px !important;
+}
+
+.mat-checkbox-layout {
+    white-space: normal !important;
+}
+
+.mat-checkbox-layout .mat-checkbox-label {
+    line-height: 1.1em;
+}
+/* ----------- */
+/* fin stepper */
+/* ----------- */

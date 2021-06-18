@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { LugarAcceso } from 'src/app/models/lugar-acceso.interface';
+import { LugarAcceso } from 'src/app/interfaces/lugar-acceso.interface';
 import { LugarAccesoService } from 'src/app/services/lugar-acceso.service';
 
 @Component({

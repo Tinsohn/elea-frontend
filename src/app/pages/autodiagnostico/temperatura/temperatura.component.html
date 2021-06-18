@@ -1,4 +1,4 @@
-<form [formGroup]="temperatura">
+<!-- <form [formGroup]="temperatura"> -->
   
   <!-- boton paso anterior -->
   <div class="btn-autodiagnostico-atras" style="visibility:hidden;">
@@ -11,50 +11,50 @@
   <!-- fin boton paso anterior -->
 
 
-  <h3 class="font-color-gris">¿Cuál es tu temperatura corporal actual?</h3>
+  <h4 class="font-color-gris step-header">¿Cuál es tu temperatura corporal actual?</h4>
 
   <!-- botonera temperatura -->
-  <div fxLayout fxLayoutAlign="center center">
+  <div class="botonera" fxLayout fxLayoutAlign="center center">
     <button mat-mini-fab color="primary" type="button" (click)="cambiarTemp(-0.1)"><mat-icon>remove</mat-icon></button>
-    <span class="valorTemp">{{ temperaturaGrados | number:'1.1-1' }}</span>
+    <!-- <span class="valorTemp">{{ temperaturaGrados | number:'1.1-1' }}</span> -->
+    <span class="valorTemp">{{ autodiagnosticoService.temperaturaGrados | number:'1.1-1' }}</span>
     <button mat-mini-fab color="primary" type="button" (click)="cambiarTemp(0.1)"><mat-icon>add</mat-icon></button>
   </div>
   <!-- fin botonera temperatura -->
 
   <!-- campo (oculto !) -->
-  <mat-form-field class="hidden">
-    <input matInput formControlName="tempGrados" type="text" [(ngModel)]="temperaturaGrados" required>
-  </mat-form-field>
+  <!-- <mat-form-field class="hidden">
+    <input matInput formControlName="tempGrados" type="text" [(ngModel)]="temperaturaGrados">
+  </mat-form-field> -->
   <!-- fin campos -->
 
   <!-- CONSEJOS PARA MEDIR TEMPERATURA -->
-  <div class="font-color-gris">
-    <h4>Consejos para medir la temperatura</h4>
+  <div class="font-color-gris div-consejos">
+    <h5>Consejos para medir la temperatura</h5>
     <div fxLayout="column" fxLayoutGap="16px">
       <div fxLayout fxLayoutAlign="start start" fxLayoutAlign.gt-xs="start center" fxLayoutGap="16px">
-        <div class="icon-circle"><span>1</span></div>
+        <div class="icon-circle-num"><span>1</span></div>
         <div fxFlex="70" fxFlex.sm="80" fxFlex.gt-sm="90" class="txt-consejo">Medí la temperatura siempre en el mismo lugar (oído y axila), ya que de otro modo pueden variar los valores.</div>
       </div>
       <div fxLayout fxLayoutAlign="start start" fxLayoutAlign.gt-xs="start center" fxLayoutGap="16px">
-        <div class="icon-circle"><span>2</span></div>
+        <div class="icon-circle-num"><span>2</span></div>
         <div fxFlex="70" fxFlex.sm="80" fxFlex.gt-sm="90" class="txt-consejo">No se debe tomar la temperatura después del baño o de haber finalizado una actividad física. Esperá por lo menos 20 minutos para hacerlo.</div>
       </div>
       <div fxLayout fxLayoutAlign="start start" fxLayoutAlign.gt-xs="start center" fxLayoutGap="16px">
-        <div class="icon-circle"><span>3</span></div>
+        <div class="icon-circle-num"><span>3</span></div>
         <div fxFlex="70" fxFlex.sm="80" fxFlex.gt-sm="90" class="txt-consejo">La fiebre hay que medirla, no hay que fiarse de la percepción que se tenga al tocar la frente.</div>
       </div>
       <div fxLayout fxLayoutAlign="start start" fxLayoutAlign.gt-xs="start center" fxLayoutGap="16px">
-        <div class="icon-circle"><span>4</span></div>
+        <div class="icon-circle-num"><span>4</span></div>
         <div fxFlex="70" fxFlex.sm="80" fxFlex.gt-sm="90" class="txt-consejo">Los termómetros deben ser seguros, que no se rompan.</div>
       </div>
     </div>
   </div>
 
   <!-- botones atras - siguiente -->
-  <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutAlign="center center" fxLayoutGap="10px" fxLayoutGap.gt-sm="3px" fxFill="100" fxFill.gt-sm="50">
-    <!-- <button class="btn-autodiagnostico" mat-stroked-button color="primary" (click)="volverIngreso()">VOLVER</button> -->
-    <button class="btn-autodiagnostico" mat-raised-button color="primary" type="button" matStepperNext (click)="submit()">SIGUIENTE</button>
-  </div>
+  <!-- <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutAlign="center center" fxLayoutGap="10px" fxLayoutGap.gt-sm="3px" fxFill="100" fxFill.gt-sm="50"> -->
+    <button class="btn-autodiagnostico" mat-raised-button color="primary" type="button" matStepperNext>SIGUIENTE</button>
+  <!-- </div> -->
   <!-- fin botones atras - siguiente -->
 
-  </form>
+  <!-- </form> -->

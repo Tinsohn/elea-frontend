@@ -1,5 +1,4 @@
-import { Component, EventEmitter, OnInit, Output } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { Component, OnInit } from '@angular/core';
 import { AutodiagnosticoService } from '../../../services/autodiagnostico/autodiagnostico.service';
 
 @Component({
@@ -10,29 +9,9 @@ import { AutodiagnosticoService } from '../../../services/autodiagnostico/autodi
 export class AntecedentesComponent implements OnInit {
   txtCamposAntecedentes: string[] = [];
 
-  antecedentes!: FormGroup;
-  @Output() submitAntecedentes: EventEmitter<FormGroup> = new EventEmitter();
-
-  constructor(private fb: FormBuilder, private autodiagnosticoService: AutodiagnosticoService) { }
+  constructor(public autodiagnosticoService: AutodiagnosticoService) { }
 
   ngOnInit(): void {
     this.txtCamposAntecedentes = this.autodiagnosticoService.getTxtCamposAntecedentes();
-
-    this.antecedentes = this.fb.group({
-      antecedente_0: false,
-      antecedente_1: false,
-      antecedente_2: false,
-      antecedente_3: false,
-      antecedente_4: false,
-      antecedente_5: false,
-      antecedente_6: false,
-      antecedente_7: false,
-      antecedente_8: false
-    });
-  }
-
-  submit() {
-    console.log(this.antecedentes.value);
-    this.submitAntecedentes.emit(this.antecedentes);
   }
 }

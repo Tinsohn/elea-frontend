@@ -8,53 +8,29 @@
     <mat-horizontal-stepper linear #stepper labelPosition="bottom" color="accent">
       
       <!-- inicio TEMPERATURA -->
-      <mat-step [stepControl]="temperatura">
-        <app-temperatura (submitTemperatura)="submitTempAutodiag( $event )"></app-temperatura>
+      <mat-step>
+        <app-temperatura></app-temperatura>
       </mat-step>
       <!-- fin TEMPERATURA -->
 
       
       <!-- inicio SINTOMAS -->
-      <mat-step [stepControl]="sintomas">
-        <app-sintomas (submitSintomas)="submitSintomas( $event )"></app-sintomas>
+      <!-- <mat-step [stepControl]="sintomas"> -->
+      <mat-step>
+        <app-sintomas></app-sintomas>
       </mat-step>
       <!-- fin SINTOMAS -->
-
+      
       
       <!-- inicio ANTECEDENTES -->
-      <mat-step [stepControl]="antecedentes">
-        <app-antecedentes (submitAntecedentes)="submitAntecedentes( $event )"></app-antecedentes>
+      <mat-step>
+        <app-antecedentes></app-antecedentes>
       </mat-step>
       <!-- fin ANTECEDENTES -->
 
       <!-- inicio RESUMEN -->
       <mat-step>
-        <!-- boton paso anterior -->
-        <div class="btn-autodiagnostico-atras">
-            <!-- <button mat-button matStepperPrevious fxLayout fxLayoutAlign="center center"> -->
-            <button mat-button matStepperPrevious>
-                <mat-icon>arrow_back</mat-icon>
-                <!-- <span>Atrás</span> -->
-            </button>
-        </div>
-        <!-- fin boton paso anterior -->
-        
-        <p>TEMPERATURA</p>
-        <pre>{{ temperatura.value | json }}</pre>
-        
-        <p>SINTAOMAS</p>
-        <pre>{{ sintomas.value | json }}</pre>
-
-        <p>ANTECEDENTE</p>
-        <pre>{{ antecedentes.value | json }}</pre>
-
-        <!-- botones atras - siguiente -->
-        <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutAlign="center center" fxLayoutGap="10px" fxLayoutGap.gt-sm="3px" fxFill="100" fxFill.gt-sm="50">
-          <button class="btn-autodiagnostico" mat-stroked-button color="primary" (click)="reset(stepper)">Volver a empezar</button>
-          <button class="btn-autodiagnostico" mat-raised-button color="primary" matStepperNext>ENVIAR</button>
-        </div>
-        <!-- fin botones atras - siguiente -->
-
+        <app-resumen [stepper]="stepper"></app-resumen>
       </mat-step>
       <!-- fin RESUMEN -->
 

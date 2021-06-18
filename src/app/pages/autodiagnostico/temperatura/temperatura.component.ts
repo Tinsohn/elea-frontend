@@ -1,6 +1,6 @@
-import { Component, EventEmitter, OnInit, Output } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { AutodiagnosticoService } from '../../../services/autodiagnostico/autodiagnostico.service';
 
 @Component({
   selector: 'app-temperatura',
@@ -8,40 +8,27 @@ import { Router } from '@angular/router';
   styleUrls: ['./temperatura.component.css']
 })
 export class TemperaturaComponent implements OnInit {
-  temperaturaGrados: number = 37;
+  // temperaturaGrados: number = 37;
+  // temperatura!: FormGroup;
 
-  temperatura!: FormGroup;
-  @Output() submitTemperatura: EventEmitter<FormGroup> = new EventEmitter();
-
-  constructor(private fb: FormBuilder, private router: Router) {
+  constructor(private router: Router,
+              public autodiagnosticoService: AutodiagnosticoService) {
   }
 
   ngOnInit(): void {
-    this.temperatura = this.fb.group({
-      // tempGrados: `${ this.temperaturaGrados }`
-      tempGrados: this.temperaturaGrados
-    });
+    // this.temperatura = this.fb.group({
+    //   // tempGrados: `${ this.temperaturaGrados }`
+    //   tempGrados: this.temperaturaGrados
+    // });
+    // this.temperaturaGrados = this.autodiagnosticoService.temperaturaGrados;
   }
   
   cambiarTemp(valor: number) {
-    this.temperaturaGrados += valor
-    this.temperaturaGrados *= 10;
-    this.temperaturaGrados = Math.ceil(this.temperaturaGrados);
-    this.temperaturaGrados /= 10;
-  }
-
-  submit() {
-    console.log(this.temperatura.controls.tempGrados.value);
-    this.submitTemperatura.emit(this.temperatura);
+    this.autodiagnosticoService.cambiarTemp(valor);
+    // console.log(this.autodiagnosticoService.temperaturaGrados);
   }
 
   volverIngreso() {
     this.router.navigate(['/usuario-ingreso']);
-  }
-
-  mostrarConsola() {
-    // console.log(this.temperatura);
-    // console.log(this.temperaturaGrados)
-    return;
   }
 }
