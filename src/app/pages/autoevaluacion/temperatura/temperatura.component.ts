@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { AutodiagnosticoService } from '../../../services/autodiagnostico/autodiagnostico.service';
+import { AutoevaluacionStepperService } from '../../../services/autoevaluacion/autoevaluacion-stepper.service';
 
 @Component({
   selector: 'app-temperatura',
@@ -12,7 +12,7 @@ export class TemperaturaComponent implements OnInit {
   // temperatura!: FormGroup;
 
   constructor(private router: Router,
-              public autodiagnosticoService: AutodiagnosticoService) {
+              public autodiagnosticoService: AutoevaluacionStepperService) {
   }
 
   ngOnInit(): void {

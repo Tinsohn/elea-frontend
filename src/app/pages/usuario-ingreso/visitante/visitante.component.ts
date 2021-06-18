@@ -61,6 +61,6 @@ export class VisitanteComponent implements OnInit {
   }
 
   submit() {
-    this.router.navigate(['/autodiagnostico']);
+    this.router.navigate(['/autoevaluacion']);
   }
 }

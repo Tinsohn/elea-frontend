@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { AutodiagnosticoService } from '../../../services/autodiagnostico/autodiagnostico.service';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { AutoevaluacionStepperService } from '../../../services/autoevaluacion/autoevaluacion-stepper.service';
 
 @Component({
   selector: 'app-sintomas',
@@ -10,7 +9,7 @@ import { FormBuilder, FormGroup } from '@angular/forms';
 export class SintomasComponent implements OnInit {
   txtCamposSintomas : string[] = [];
 
-  constructor(private fb: FormBuilder, public autodiagnosticoService: AutodiagnosticoService) { }
+  constructor(public autodiagnosticoService: AutoevaluacionStepperService) { }
 
   ngOnInit(): void {
     this.txtCamposSintomas = this.autodiagnosticoService.getTxtCamposSintomas();

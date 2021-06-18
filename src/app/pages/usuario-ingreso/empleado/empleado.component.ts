@@ -67,7 +67,7 @@ export class EmpleadoComponent implements OnInit {
     // this.redireccionar(Number(nroLegajo), Number(dni));
     
     
-    this.router.navigate(['/autodiagnostico']);
+    this.router.navigate(['/autoevaluacion']);
   }
 
 
@@ -81,7 +81,7 @@ export class EmpleadoComponent implements OnInit {
         if ( empleado.nroLegajo === dni) {
           // this.empleado = empleado;
           // console.log(this.empleado);
-          this.router.navigate(['/autodiagnostico']);
+          this.router.navigate(['/autoevaluacion']);
         } else {
           console.log('dni incorrecto');
         }

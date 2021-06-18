@@ -4,7 +4,7 @@ import { FormGroup, FormBuilder } from '@angular/forms';
 @Injectable({
   providedIn: 'root'
 })
-export class AutodiagnosticoService {
+export class AutoevaluacionStepperService {
   private txtCamposSintomas: string[] = [
     "¿Percibiste una marcada pérdida del olfato de manera repentina?",
     "¿Percibiste una marcada pérdida del gusto (sabor de los alimentos) de manera repentina?",

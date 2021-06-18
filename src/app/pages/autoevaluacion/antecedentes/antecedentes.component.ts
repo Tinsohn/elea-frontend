@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { AutodiagnosticoService } from '../../../services/autodiagnostico/autodiagnostico.service';
+import { AutoevaluacionStepperService } from '../../../services/autoevaluacion/autoevaluacion-stepper.service';
 
 @Component({
   selector: 'app-antecedentes',
@@ -9,7 +9,7 @@ import { AutodiagnosticoService } from '../../../services/autodiagnostico/autodi
 export class AntecedentesComponent implements OnInit {
   txtCamposAntecedentes: string[] = [];
 
-  constructor(public autodiagnosticoService: AutodiagnosticoService) { }
+  constructor(public autodiagnosticoService: AutoevaluacionStepperService) { }
 
   ngOnInit(): void {
     this.txtCamposAntecedentes = this.autodiagnosticoService.getTxtCamposAntecedentes();

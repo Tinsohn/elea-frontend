@@ -6,7 +6,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { AngularMaterialModule } from 'src/app/angular-material/angular-material.module';
 import { FlexLayoutModule } from '@angular/flex-layout';
 
-import { AutodiagnosticoComponent } from './autodiagnostico.component';
+import { AutoevaluacionComponent } from './autoevaluacion.component';
 import { TemperaturaComponent } from './temperatura/temperatura.component';
 import { SintomasComponent } from './sintomas/sintomas.component';
 import { AntecedentesComponent } from './antecedentes/antecedentes.component';
@@ -16,7 +16,7 @@ import { DialogDeclaracionJuradaComponent } from './components/dialog-declaracio
 
 @NgModule({
   declarations: [
-    AutodiagnosticoComponent,
+    AutoevaluacionComponent,
     TemperaturaComponent,
     SintomasComponent,
     AntecedentesComponent,
@@ -30,7 +30,7 @@ import { DialogDeclaracionJuradaComponent } from './components/dialog-declaracio
     ReactiveFormsModule
   ],
   exports: [
-    AutodiagnosticoComponent
+    AutoevaluacionComponent
   ]
 })
-export class AutodiagnosticoModule { }
+export class AutoevaluacionModule { }

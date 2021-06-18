@@ -3,12 +3,12 @@ import { CommonModule } from '@angular/common';
 
 import { HomeModule } from './home/home.module';
 import { UsuarioIngresoModule } from './usuario-ingreso/usuario-ingreso.module';
-import { AutodiagnosticoModule } from './autodiagnostico/autodiagnostico.module';
+import { AutoevaluacionModule } from './autoevaluacion/autoevaluacion.module';
 
 const PAGINAS_MODULOS = [
   HomeModule,
   UsuarioIngresoModule,
-  AutodiagnosticoModule
+  AutoevaluacionModule
 ]
 
 @NgModule({
