@@ -57,3 +57,10 @@ h5 {
     font-size: 1em;
     color: #fff;
 }
+
+
+
+.btn-atras-leyenda {
+    position: relative;
+    top: 1.5px;
+}

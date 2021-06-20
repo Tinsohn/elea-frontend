@@ -1,17 +1,21 @@
-import { Component, OnInit } from '@angular/core';
-import { AutoevaluacionStepperService } from '../../../services/autoevaluacion/autoevaluacion-stepper.service';
+import { Component } from '@angular/core';
+import { FormGroup } from '@angular/forms';
+import { AutoevaluacionService } from '../../../services/autoevaluacion/autoevaluacion.service';
 
 @Component({
   selector: 'app-antecedentes',
   templateUrl: './antecedentes.component.html',
   styleUrls: ['./antecedentes.component.css']
 })
-export class AntecedentesComponent implements OnInit {
-  txtCamposAntecedentes: string[] = [];
+export class AntecedentesComponent {
 
-  constructor(public autodiagnosticoService: AutoevaluacionStepperService) { }
-
-  ngOnInit(): void {
-    this.txtCamposAntecedentes = this.autodiagnosticoService.getTxtCamposAntecedentes();
+  get txtCamposAntecedentes(): string[] {
+    return this.autodiagnosticoService.txtCamposAntecedentes;
   }
+
+  get antecedentes(): FormGroup {
+    return this.autodiagnosticoService.antecedentes;
+  }
+
+  constructor(private autodiagnosticoService: AutoevaluacionService) { }
 }

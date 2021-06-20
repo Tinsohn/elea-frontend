@@ -9,19 +9,19 @@
 <h4 class="font-color-gris step-header">Resumen de autoevaluación</h4>
 
 <mat-list role="list">
-  <mat-list-item role="temperatura">Mi temperatura es: {{ autodiagnosticoService.temperaturaGrados | number:'1.1-1' }}</mat-list-item>
-  <mat-list-item role="sintoams">Item 2</mat-list-item><!-- !!!!! -->
+  <mat-list-item role="temperatura">Mi temperatura es: {{ temperaturaGrados | number:'1.1-1' }}</mat-list-item>
+  <mat-list-item role="sintomas">Item 2</mat-list-item><!-- !!!!! -->
   <mat-list-item role="antecedentes">Item 3</mat-list-item><!-- !!!!! -->
 </mat-list>
 
 <p>TEMPERATURA</p>
-<pre>{{ autodiagnosticoService.temperaturaGrados | number:'1.1-1' }}</pre>
+<pre>{{ temperaturaGrados | number:'1.1-1' }}</pre>
 
 <p>SINTAOMAS</p>
-<pre>{{ autodiagnosticoService.sintomas.value | json }}</pre>
+<pre>{{ sintomas.value | json }}</pre>
 
 <p>ANTECEDENTE</p>
-<pre>{{ autodiagnosticoService.antecedentes.value | json }}</pre>
+<pre>{{ antecedentes.value | json }}</pre>
 
 <!-- botones resetear - confirmar -->
 <div fxLayout="column" fxLayoutAlign="center center">

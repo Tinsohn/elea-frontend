@@ -1,34 +1,32 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { Router } from '@angular/router';
-import { AutoevaluacionStepperService } from '../../../services/autoevaluacion/autoevaluacion-stepper.service';
+
+import { AutoevaluacionService } from '../../../services/autoevaluacion/autoevaluacion.service';
 
 @Component({
   selector: 'app-temperatura',
   templateUrl: './temperatura.component.html',
   styleUrls: ['./temperatura.component.css']
 })
-export class TemperaturaComponent implements OnInit {
-  // temperaturaGrados: number = 37;
-  // temperatura!: FormGroup;
+export class TemperaturaComponent {
+
+  get temperaturaGrados(): number {
+    return this.autoevaluacionService.temperaturaGrados;
+  }
 
   constructor(private router: Router,
-              public autodiagnosticoService: AutoevaluacionStepperService) {
-  }
-
-  ngOnInit(): void {
-    // this.temperatura = this.fb.group({
-    //   // tempGrados: `${ this.temperaturaGrados }`
-    //   tempGrados: this.temperaturaGrados
-    // });
-    // this.temperaturaGrados = this.autodiagnosticoService.temperaturaGrados;
-  }
-  
-  cambiarTemp(valor: number) {
-    this.autodiagnosticoService.cambiarTemp(valor);
-    // console.log(this.autodiagnosticoService.temperaturaGrados);
-  }
+              private autoevaluacionService: AutoevaluacionService) {}
 
   volverIngreso() {
     this.router.navigate(['/usuario-ingreso']);
+  }
+  
+  cambiarTemp(valor: number) {
+    this.autoevaluacionService.cambiarTemp(valor);
+    // console.log(this.autodiagnosticoService.temperaturaGrados);
+  }
+
+  validar() {
+    this.autoevaluacionService.validarSintomasEstado();
   }
 }

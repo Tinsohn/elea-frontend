@@ -1,13 +1,13 @@
 import { TestBed } from '@angular/core/testing';
 
-import { AutoevaluacionStepperService } from './autoevaluacion-stepper.service';
+import { AutoevaluacionService } from './autoevaluacion.service';
 
 describe('AutoevaluacionStepperService', () => {
-  let service: AutoevaluacionStepperService;
+  let service: AutoevaluacionService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({});
-    service = TestBed.inject(AutoevaluacionStepperService);
+    service = TestBed.inject(AutoevaluacionService);
   });
 
   it('should be created', () => {

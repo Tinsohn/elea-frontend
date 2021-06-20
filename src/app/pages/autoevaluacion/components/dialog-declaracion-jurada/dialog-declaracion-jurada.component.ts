@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { AutoevaluacionService } from '../../../../services/autoevaluacion/autoevaluacion.service';
 
 @Component({
   selector: 'app-dialog-declaracion-jurada',
@@ -7,9 +8,9 @@ import { Component } from '@angular/core';
 })
 export class DialogDeclaracionJuradaComponent {
 
-  constructor() { }
+  constructor(private autoEvaluacionService: AutoevaluacionService) { }
 
   grabar() {
-    console.log("GRABAR!!!!");
+    this.autoEvaluacionService.grabarResultados();
   }
 }

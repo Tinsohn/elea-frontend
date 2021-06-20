@@ -2,5 +2,5 @@
 <div mat-dialog-content>Este formulario tiene carácter de declaración jurada, hacer una falsa declaración es considerada una contravención grave.</div>
 <div mat-dialog-actions>
     <button mat-button color="primary" mat-dialog-close>Cancelar</button>
-    <button mat-button color="primary" (click)="grabar()">GRABAR</button>
+    <button mat-button color="primary" [mat-dialog-close]="true" cdkFocusInitial (click)="grabar()">GRABAR</button>
 </div>
