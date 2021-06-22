@@ -3,6 +3,8 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { LugarAcceso } from 'src/app/interfaces/lugar-acceso.interface';
 import { LugarAccesoService } from 'src/app/services/usuario-ingreso/lugar-acceso.service';
+import { MatDialog } from '@angular/material/dialog';
+import { DialogTerminosCondicionesComponent } from '../components/dialog-terminos-condiciones/dialog-terminos-condiciones.component';
 
 @Component({
   selector: 'app-visitante',
@@ -23,6 +25,7 @@ export class VisitanteComponent implements OnInit {
   }
 
   constructor(private fb: FormBuilder,
+              private dialog: MatDialog,
               private _lugaresAccesoService: LugarAccesoService,
               private router: Router) { }
 
@@ -70,5 +73,9 @@ export class VisitanteComponent implements OnInit {
 
   submit() {
     this.router.navigate(['/autoevaluacion']);
+  }
+
+  openDialogTerminosCondiciones() {
+    this.dialog.open(DialogTerminosCondicionesComponent);
   }
 }

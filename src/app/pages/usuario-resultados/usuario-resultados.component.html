@@ -37,9 +37,11 @@
             <hr>
         </div>
 
-        <div id="datos-resultado">
-            <h3 class="txt-fw500 font-color-gris">Autodiagnóstico</h3>
-            
+        <div id="datos-resultado" class="font-color-gris">
+            <h3 class="txt-fw500">Autodiagnóstico</h3>
+            <span [ngClass]="isHabilitado ? 'txt-success' : 'txt-danger'">Sin/Con ??? síntomas</span>
+            <p>Vence 14/02/2021 18h:30m:00</p>
+            <p>GENERADO EL 14/02/2021 06h:30m:00</p>
         </div>
 
         <div id="botones" class="div-boton">

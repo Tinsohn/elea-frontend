@@ -26,6 +26,10 @@
     <!-- CAPTCHA -->
     <ngx-recaptcha2 #captchaElem [siteKey]="siteKey" formControlName="recaptcha" fxFlexAlign="center"></ngx-recaptcha2>
 
+    <div class="terminos-condiciones font-color-gris">
+        <mat-checkbox formControlName="terminosCondicion">Acepto los <span class="open-dialog" (click)="openDialogTerminosCondiciones()">Términos y Condiciones</span> de la [NOMBRE APLICACION AUTODIAGNOSTICO ELEA] así como a la Política de Privacidad establecida en el punto 5 de los Términos y Condiciones</mat-checkbox>
+    </div>
+
     <div class="div-boton">
         <button mat-raised-button color="primary" [disabled]="form.invalid" type="submit">SIGUIENTE</button>
     </div>

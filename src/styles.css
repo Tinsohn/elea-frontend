@@ -138,3 +138,21 @@ h4.step-header {
 /* ----------- */
 /* fin stepper */
 /* ----------- */
+
+
+/* ==================== */
+/*  FORMULARIO USUARIO  */
+/* ==================== */
+.terminos-condiciones {
+    background-color: #eee;
+    margin: 1em 0;
+    padding: .75em;
+    font-size: 14px;
+}
+
+span.open-dialog {
+    text-decoration: underline;
+}
+/* ---------------------- */
+/* fin formulario usuario */
+/* ---------------------- */

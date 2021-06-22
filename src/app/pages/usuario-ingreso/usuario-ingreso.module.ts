@@ -10,12 +10,14 @@ import { NgxCaptchaModule } from 'ngx-captcha';
 import { UsuarioIngresoComponent } from './usuario-ingreso.component';
 import { EmpleadoComponent } from './empleado/empleado.component';
 import { VisitanteComponent } from './visitante/visitante.component';
+import { DialogTerminosCondicionesComponent } from './components/dialog-terminos-condiciones/dialog-terminos-condiciones.component';
 
 @NgModule({
   declarations: [
     UsuarioIngresoComponent,
     EmpleadoComponent,
-    VisitanteComponent
+    VisitanteComponent,
+    DialogTerminosCondicionesComponent
   ],
   imports: [
     CommonModule,

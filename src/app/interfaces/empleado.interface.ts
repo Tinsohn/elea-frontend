@@ -1,15 +1,42 @@
-import { LugarAcceso } from "./lugar-acceso.interface";
+// import { LugarAcceso } from "./lugar-acceso.interface";
 
 export interface Empleado {
-    // id?: number
-    numeroLegajo: number;
+    id?: number
+    version: number;
+    idAutoDiagnostico?: number;
+    nroLegajo: number;
     dni: number;
+
     nombre: string;
     apellido: string;
-    email: string;
-    estado: boolean;
-    // fecha registro del autodiagnostico
-    // fecha expiracion del autodiagnostico
+    telefono: string;
+    empresa?: string;
+    mail: string;
+    lugarAcceso: number; // Enum/Interface LugarAcceso
+    estado: string; // boolean???
+
+    resultado?: any; // ???
+
+    fechaAutoDiagnostico?: Date; // string?
+
+    fechaVencimiento?: Date; // string?
     
-    // lugarAcceso: LugarAcceso; ??? o string?
+    password?: string;
+
+    celular?: string;
+    aceptarTerminoCondicion?: boolean; // ??????????????????????????
+    
+    resultadoRegistro?: string; // ???
+    
+    fechaHoraUltVisita?: Date; // string?
+    
+    fechaProceso?: Date; // string?
+    
+    fechaExpiracion?: Date; // string?
+    idTipoEmpleado?: number;
+    idTipoTareas?: number;
+    idEstado?: number;
+    idResultado?: number;
+    status: boolean;
+    telfPrivate?: string;
 }

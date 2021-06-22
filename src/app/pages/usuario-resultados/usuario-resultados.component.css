@@ -93,9 +93,19 @@
 #datos-resultado {
     /* grid-area: 'datos-resultado'; */
     grid-column: 1 / span 2;
+    margin-bottom: 1em;
 }
 #datos-resultado h3 {
     font-size: 1em;
+    margin-bottom: 0;
+}
+#datos-resultado span {
+    font-size: 1.25em;
+}
+#datos-resultado p {
+    margin: 0;
+    font-size: .85em;
+    line-height: 1.25em;
 }
 
 #botones {
