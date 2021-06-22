@@ -3,7 +3,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 
 import { LugarAcceso } from 'src/app/interfaces/lugar-acceso.interface';
-import { LugarAccesoService } from 'src/app/services/lugar-acceso.service';
+import { LugarAccesoService } from 'src/app/services/usuario-ingreso/lugar-acceso.service';
 import { EmpleadoService } from 'src/app/services/usuario-ingreso/empleado/empleado.service';
 
 @Component({
@@ -14,16 +14,24 @@ import { EmpleadoService } from 'src/app/services/usuario-ingreso/empleado/emple
 export class EmpleadoComponent implements OnInit {
   // loading: boolean = false;
 
+  private _siteKey: string = "6Ld58yUbAAAAACRtuaTZ9cZ9BkynxvoutKphl7s1";
+
   form: FormGroup;
-  siteKey: string = "6Ld58yUbAAAAACRtuaTZ9cZ9BkynxvoutKphl7s1";
-  lugaresAcceso: LugarAcceso[] = [];
 
   empleado!: any;
 
+  get siteKey(): string {
+    return this._siteKey;
+  }
+
+  get lugaresAcceso(): LugarAcceso[] {
+    return this._lugaresAccesoService.lugaresAcceso;
+  }
+
   constructor(private fb: FormBuilder,
-              private _lugaresAccesoService: LugarAccesoService,
+              private router: Router,
               private _empleadoService: EmpleadoService,
-              private router: Router) { }
+              private _lugaresAccesoService: LugarAccesoService) { }
 
   ngOnInit(): void {
     this.form = this.fb.group({
@@ -32,8 +40,6 @@ export class EmpleadoComponent implements OnInit {
       lugarAcceso: ['', Validators.required],
       recaptcha: ['', Validators.required]
     });
-
-    this.lugaresAcceso = this._lugaresAccesoService.getLugaresAcceso();
   }
 
   getErrorMessage(campo: string) {

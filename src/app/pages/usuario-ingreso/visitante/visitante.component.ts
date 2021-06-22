@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { LugarAcceso } from 'src/app/interfaces/lugar-acceso.interface';
-import { LugarAccesoService } from 'src/app/services/lugar-acceso.service';
+import { LugarAccesoService } from 'src/app/services/usuario-ingreso/lugar-acceso.service';
 
 @Component({
   selector: 'app-visitante',
@@ -10,9 +10,17 @@ import { LugarAccesoService } from 'src/app/services/lugar-acceso.service';
   styleUrls: ['./visitante.component.css']
 })
 export class VisitanteComponent implements OnInit {
+  private _siteKey: string = "6Ld58yUbAAAAACRtuaTZ9cZ9BkynxvoutKphl7s1";
+
   form: FormGroup;
-  siteKey: string = "6Ld58yUbAAAAACRtuaTZ9cZ9BkynxvoutKphl7s1";
-  lugaresAcceso: LugarAcceso[] = [];
+
+  get siteKey(): string {
+    return this._siteKey;
+  }
+  
+  get lugaresAcceso(): LugarAcceso[] {
+    return this._lugaresAccesoService.lugaresAcceso;
+  }
 
   constructor(private fb: FormBuilder,
               private _lugaresAccesoService: LugarAccesoService,
@@ -29,19 +37,19 @@ export class VisitanteComponent implements OnInit {
       lugarAcceso: ['', Validators.required],
       recaptcha: ['', Validators.required]
     });
-    
-    this.lugaresAcceso = this._lugaresAccesoService.getLugaresAcceso();
   }
 
   getErrorMessage(campo: string) {
     
-    if (this.form.get(campo)?.hasError('required')) {
+    if (this.form.get(campo).hasError('required')) {
       return 'Campo requerido';
     }
 
     if (campo === 'dni') {
-      if (this.form.get(campo)?.hasError('maxLength') || this.form.get(campo)?.hasError('pattern')) {
-        return 'Debe ingresar un D.N.I. válido';
+      if (this.form.get(campo).hasError('minLength')
+          || this.form.get(campo).hasError('maxLength')
+          || this.form.get(campo).hasError('pattern')) {
+        return 'Debe ingresar un D.N.I. válido sin puntos';
       }
     }
 
@@ -53,7 +61,7 @@ export class VisitanteComponent implements OnInit {
 
     if (campo === 'email') {
       if (this.form.get(campo)?.hasError('email')) {
-        return 'Debe ingresar un email válido';
+        return 'Debe ingresar un e-mail válido';
       }
     }
 

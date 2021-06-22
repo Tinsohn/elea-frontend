@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { FormGroup } from '@angular/forms';
+import { FormArray, FormGroup } from '@angular/forms';
 import { AutoevaluacionService } from '../../../services/autoevaluacion/autoevaluacion.service';
 
 @Component({
@@ -13,9 +13,17 @@ export class AntecedentesComponent {
     return this.autodiagnosticoService.txtCamposAntecedentes;
   }
 
-  get antecedentes(): FormGroup {
-    return this.autodiagnosticoService.antecedentes;
+  // get antecedentes(): FormGroup {
+  //   return this.autodiagnosticoService.antecedentes;
+  // }
+
+  get formAutoevaluacion(): FormGroup {
+    return this.autodiagnosticoService.formAutoevaluacion;
   }
 
+  get antecedentes(): FormArray {
+    return this.formAutoevaluacion.get('antecedentes') as FormArray;
+  }
+  
   constructor(private autodiagnosticoService: AutoevaluacionService) { }
 }

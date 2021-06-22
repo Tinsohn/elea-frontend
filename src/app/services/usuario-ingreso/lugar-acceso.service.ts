@@ -1,11 +1,12 @@
 import { Injectable } from '@angular/core';
-import { LugarAcceso } from '../interfaces/lugar-acceso.interface';
+import { LugarAcceso } from '../../interfaces/lugar-acceso.interface';
 
 @Injectable({
   providedIn: 'root'
 })
 export class LugarAccesoService {
-  lugaresAcceso: LugarAcceso[] = [
+  // TODO: consumir servicio q provee los lugares de acceso (ahora esta hardcodeado)
+  private _lugaresAcceso: LugarAcceso[] = [
     {
       id: "planta-vdm",
       descripcion: "Planta VDM"
@@ -29,9 +30,9 @@ export class LugarAccesoService {
     }
   ]
 
-  constructor() { }
-
-  getLugaresAcceso(): LugarAcceso[] {
-    return this.lugaresAcceso;
+  get lugaresAcceso(): LugarAcceso[] {
+    return this._lugaresAcceso;
   }
+
+  constructor() { }
 }

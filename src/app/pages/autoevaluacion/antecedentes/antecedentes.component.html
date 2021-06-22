@@ -1,4 +1,5 @@
 <form [formGroup]="antecedentes">
+<form [formGroup]="formAutoevaluacion">
     
     <!-- boton paso anterior -->
     <div class="btn-autodiagnostico-atras">
@@ -13,14 +14,19 @@
     <h4 class="font-color-gris step-header">Si tu situación de salud contempla alguna de las siguientes opciones, seleccioná las que correspondan</h4>
 
     <!-- campos -->
-    <div *ngFor="let campoAntecedente of txtCamposAntecedentes; let i=index" class="campo-antecedente" fxLayout fxLayoutAlign="start center" fxLayoutGap="16px">
+    <!-- <div *ngFor="let campoAntecedente of txtCamposAntecedentes; let i=index" class="campo-antecedente" fxLayout fxLayoutAlign="start center" fxLayoutGap="16px">
         <mat-checkbox class="font-color-gris" formControlName="antecedente_{{i}}">{{ campoAntecedente }}</mat-checkbox>
+    </div> -->
+
+    <div *ngFor="let campoAntecedente of txtCamposAntecedentes; let i=index" class="campo-antecedente" fxLayout fxLayoutAlign="start center" fxLayoutGap="16px" formArrayName="antecedentes">
+        <mat-checkbox class="font-color-gris" [formControlName]="i">{{ campoAntecedente }}</mat-checkbox>
     </div>
     <!-- fin campos -->
 
     <!-- boton paso siguiente -->
-    <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutAlign="center center" fxLayoutGap="10px" fxFill="100" fxFill.gt-sm="50">
-      <button class="btn-autodiagnostico" mat-raised-button color="primary" type="button" matStepperNext>SIGUIENTE</button>
+    <!-- <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutAlign="center center" fxLayoutGap="10px" fxFill="100" fxFill.gt-sm="50"> -->
+    <div class="div-boton">
+      <button mat-raised-button color="primary" type="button" matStepperNext>SIGUIENTE</button>
     </div>
     <!-- fin boton paso siguiente -->
 

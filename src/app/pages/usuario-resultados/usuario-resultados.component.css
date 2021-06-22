@@ -1,0 +1,113 @@
+@import url('https://fonts.googleapis.com/css2?family=Varela+Round&display=swap');
+
+.bg-success {
+    background-color: #28a745;
+}
+.txt-success {
+    color: #28a745;
+}
+.bg-danger {
+    background-color: #dc3545;
+}
+.txt-danger {
+    color: #dc3545;
+}
+.txt-fw500 {
+    font-weight: 500;
+}
+
+.header-img {
+    background-color: #fff;
+    padding-top: 1em;
+    padding-bottom: .5em;
+    text-align: center;
+    border-radius: 0 0 1em 1em;
+}
+
+.header-img img {
+    width: 100px;
+}
+
+.header-title {
+    padding: 1.5em;
+}
+.header-title h2 {
+    color: #fff;
+    font-family: 'Varela Round', sans-serif;
+    text-align: center;
+    margin: 0;
+}
+
+.contenedor-resultados {
+    padding: 1em 0 3em;
+}
+
+.div-contenedor-resultados {
+    width: 90%;
+    margin: 0 auto;
+    display: grid;
+    justify-content: space-around;
+    grid-template-columns: 50% 50%;
+    /* grid-template-areas: 'datos-usuario datos-usuario'
+                         'estado-usuario qr-datos'
+                         'datos-resultados datos-resultados' 
+                         'botones botones'; */
+}
+
+#datos-usuario {
+    /* grid-area: 'datos-usuario'; */
+    grid-column: 1 / span 2;
+}
+#datos-usuario ul {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    /* font-weight: 500; */
+    margin-bottom: 1.5em;
+}
+#datos-usuario p {
+    font-weight: 500;
+    margin-bottom: 0;
+}
+
+#estado-usuario {
+    /* grid-area: 'estado-usuario'; */
+    grid-column: 1 / span 1;
+}
+#estado-usuario h3 {
+    font-size: 1.25em;
+    margin-bottom: 0;
+}
+#estado-usuario p {
+    font-size: .75em;
+    line-height: 1.25em;
+    margin-top: 1em;
+}
+
+#qr-datos {
+    /* grid-area: 'qr-datos'; */
+    grid-column: 2 / span 1;
+    text-align: center;
+}
+
+#datos-resultado {
+    /* grid-area: 'datos-resultado'; */
+    grid-column: 1 / span 2;
+}
+#datos-resultado h3 {
+    font-size: 1em;
+}
+
+#botones {
+    /* grid-area: 'botones'; */
+    grid-column: 1 / span 2;
+}
+
+#hr-1 {
+    grid-column: 1 / span 2;
+    margin-bottom: 1em;
+}
+#hr-2 {
+    grid-column: 1 / span 2;
+    margin-top: 1em;
+}

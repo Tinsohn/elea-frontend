@@ -4,15 +4,16 @@ import { CommonModule } from '@angular/common';
 import { HomeModule } from './home/home.module';
 import { UsuarioIngresoModule } from './usuario-ingreso/usuario-ingreso.module';
 import { AutoevaluacionModule } from './autoevaluacion/autoevaluacion.module';
+import { UsuarioResultadosModule } from './usuario-resultados/usuario-resultados.module';
 
 const PAGINAS_MODULOS = [
   HomeModule,
   UsuarioIngresoModule,
-  AutoevaluacionModule
+  AutoevaluacionModule,
+  UsuarioResultadosModule
 ]
 
 @NgModule({
-  declarations: [],
   imports: [
     CommonModule,
     PAGINAS_MODULOS

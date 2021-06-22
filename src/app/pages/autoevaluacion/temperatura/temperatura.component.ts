@@ -10,15 +10,18 @@ import { AutoevaluacionService } from '../../../services/autoevaluacion/autoeval
 })
 export class TemperaturaComponent {
 
+  // get temperaturaGrados(): number {
+  //   return this.autoevaluacionService.temperaturaGrados;
+  // }
   get temperaturaGrados(): number {
-    return this.autoevaluacionService.temperaturaGrados;
+    return this.autoevaluacionService.temperaturaValue;
   }
 
   constructor(private router: Router,
               private autoevaluacionService: AutoevaluacionService) {}
 
   volverIngreso() {
-    this.router.navigate(['/usuario-ingreso']);
+    this.router.navigate(['/ingreso']);
   }
   
   cambiarTemp(valor: number) {
@@ -26,7 +29,7 @@ export class TemperaturaComponent {
     // console.log(this.autodiagnosticoService.temperaturaGrados);
   }
 
-  validar() {
-    this.autoevaluacionService.validarSintomasEstado();
-  }
+  // validar() {
+  //   this.autoevaluacionService.validarSintomasEstado();
+  // }
 }

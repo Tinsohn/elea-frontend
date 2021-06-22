@@ -1,6 +1,8 @@
 import { Component, Input } from '@angular/core';
-import { FormGroup } from '@angular/forms';
+import { FormArray, FormControl } from '@angular/forms';
+
 import { MatDialog } from '@angular/material/dialog';
+
 import { DialogDeclaracionJuradaComponent } from '../components/dialog-declaracion-jurada/dialog-declaracion-jurada.component';
 import { AutoevaluacionService } from '../../../services/autoevaluacion/autoevaluacion.service';
 
@@ -13,15 +15,15 @@ export class ResumenComponent {
 
   @Input() stepper: any;
 
-  get temperaturaGrados(): number {
-    return this.autoevaluacionService.temperaturaGrados;
+  get temperatura(): FormControl {
+    return this.autoevaluacionService.temperatura;
   }
 
-  get sintomas(): FormGroup {
+  get sintomas(): FormArray {
     return this.autoevaluacionService.sintomas;
   }
 
-  get antecedentes(): FormGroup {
+  get antecedentes(): FormArray {
     return this.autoevaluacionService.antecedentes;
   }
 
@@ -36,9 +38,23 @@ export class ResumenComponent {
   openDialog() {
     this.dialog.open(DialogDeclaracionJuradaComponent, {
       width: '90%',
-      maxWidth: '450px',
-      // minWidth: '280px'
+      maxWidth: '450px'
     });
   }
 
+
+  validarSintomas() {
+    this.autoevaluacionService.validarSintomasEstado();
+    return this.autoevaluacionService.sintomasEstado;
+  }
+
+  validarContactoEstrecho() {
+    this.autoevaluacionService.validarContactoEstrechoEstado();
+    return this.autoevaluacionService.contactoEstrechoEstado;
+  }
+
+  validarAntecedentes() {
+    this.autoevaluacionService.validarAntecedentesEstado();
+    return this.autoevaluacionService.antecedentesEstado;
+  }
 }

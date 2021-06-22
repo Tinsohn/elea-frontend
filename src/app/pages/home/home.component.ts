@@ -11,6 +11,6 @@ export class HomeComponent {
   constructor(private router: Router) { }
 
   hacerAutodiagnostico() {
-    this.router.navigate(['/usuario-ingreso']);
+    this.router.navigate(['/ingreso']);
   }
 }

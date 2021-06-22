@@ -8,24 +8,38 @@
 
 <h4 class="font-color-gris step-header">Resumen de autoevaluación</h4>
 
-<mat-list role="list">
-  <mat-list-item role="temperatura">Mi temperatura es: {{ temperaturaGrados | number:'1.1-1' }}</mat-list-item>
-  <mat-list-item role="sintomas">Item 2</mat-list-item><!-- !!!!! -->
-  <mat-list-item role="antecedentes">Item 3</mat-list-item><!-- !!!!! -->
-</mat-list>
-
-<p>TEMPERATURA</p>
-<pre>{{ temperaturaGrados | number:'1.1-1' }}</pre>
-
-<p>SINTAOMAS</p>
-<pre>{{ sintomas.value | json }}</pre>
-
-<p>ANTECEDENTE</p>
-<pre>{{ antecedentes.value | json }}</pre>
+<ul class="font-color-gris">
+  <li>Mi temperatura es: {{ temperatura.value | number:'1.1-1' }}</li>
+  <li>{{ validarSintomas() ? 'Con' : 'Sin' }} síntomas</li>
+  <li>{{ validarContactoEstrecho() ? 'Con' : 'Sin' }} contacto estrecho</li>
+  <li>{{ validarAntecedentes() ? 'Con' : 'Sin' }} antecedentes</li>
+</ul>
 
 <!-- botones resetear - confirmar -->
 <div fxLayout="column" fxLayoutAlign="center center">
-  <button class="btn-stroked" mat-stroked-button color="primary" (click)="reset(stepper)">HACER OTRO AUTODIAGNÓSTICO</button>
-  <button class="btn-autodiagnostico" mat-raised-button color="primary" (click)="openDialog()">CONFIRMAR</button>
+  <button mat-stroked-button color="primary" (click)="reset(stepper)">HACER OTRO AUTODIAGNÓSTICO</button>
+  <button mat-raised-button color="primary" (click)="openDialog()">CONFIRMAR</button>
 </div>
 <!-- fin botones resetear - confirmar -->
+
+<hr>
+
+<p>• FORM AUTOEVALUACION - TEMPERATURA</p>
+<pre>{{ temperatura.value | json }}</pre>
+
+<p>• FORM AUTOEVALUACION - SINTOMAS</p>
+<pre>{{ sintomas.value | json }}</pre>
+
+<p>• FORM AUTOEVALUACION - ANTECEDENTES</p>
+<pre>{{ antecedentes.value | json }}</pre>
+
+<hr>
+
+<p>• ESTADO SINTOMAS</p>
+<pre>{{ validarSintomas() }}</pre>
+
+<p>• ESTADO CONTACTO ESTRECHO</p>
+<pre>{{ validarContactoEstrecho() }}</pre>
+
+<p>• ESTADO ANTECEDENTES</p>
+<pre>{{ validarAntecedentes() }}</pre>

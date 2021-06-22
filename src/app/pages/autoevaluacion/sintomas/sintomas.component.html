@@ -1,21 +1,34 @@
-<form [formGroup]="sintomas">
+<!-- <form [formGroup]="sintomas"> -->
+<form [formGroup]="formAutoevaluacion">
 
     <!-- boton paso anterior -->
-    <div class="btn-autodiagnostico-atras">
-        <!-- <button mat-button matStepperPrevious fxLayout fxLayoutAlign="center center"> -->
-        <button mat-button type="button" matStepperPrevious>
-            <mat-icon>arrow_back</mat-icon>
-            <!-- <span>Atrás</span> -->
-        </button>
+    <div class="sticky">
+
+        <div class="btn-autodiagnostico-atras">
+            <!-- <button mat-button matStepperPrevious fxLayout fxLayoutAlign="center center"> -->
+                <button mat-button type="button" matStepperPrevious>
+                    <mat-icon>arrow_back</mat-icon>
+                    <!-- <span>Atrás</span> -->
+                </button>
+            </div>
     </div>
     <!-- fin boton paso anterior -->
 
 
     <!-- campos -->
-    <div *ngFor="let campoSintoma of txtCamposSintomas; let i=index"
+    <!-- <div *ngFor="let campoSintoma of txtCamposSintomas; let i=index"
           fxLayout="column">
         <mat-label class="font-color-gris step-header">{{ campoSintoma }}</mat-label>
         <mat-radio-group formControlName="sintoma_{{i}}" fxLayout="column" required>
+            <mat-radio-button value="si"><span class="txt-radio-button">SI</span></mat-radio-button>
+            <mat-radio-button value="no"><span class="txt-radio-button">NO</span></mat-radio-button>
+        </mat-radio-group>
+    </div> -->
+
+    <div *ngFor="let campoSintoma of txtCamposSintomas; let i=index"
+          fxLayout="column" formArrayName="sintomas">
+        <mat-label class="font-color-gris step-header">{{ campoSintoma }}</mat-label>
+        <mat-radio-group [formControlName]="i" fxLayout="column" required>
             <mat-radio-button value="si"><span class="txt-radio-button">SI</span></mat-radio-button>
             <mat-radio-button value="no"><span class="txt-radio-button">NO</span></mat-radio-button>
         </mat-radio-group>
@@ -24,8 +37,9 @@
 
     <!-- botones atras - siguiente -->
     <!-- <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutAlign="center center" fxLayoutGap="10px" fxFill="100" fxFill.gt-sm="50"> -->
-        <button class="btn-autodiagnostico" mat-raised-button color="primary" type="button" matStepperNext>SIGUIENTE</button>
-    <!-- </div> -->
+    <div class="div-boton">
+        <button mat-raised-button color="primary" type="button" matStepperNext>SIGUIENTE</button>
+    </div>
     <!-- fin botones atras - siguiente -->
 
 </form>

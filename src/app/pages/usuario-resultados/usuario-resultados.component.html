@@ -1,0 +1,50 @@
+<header class="bg-success">
+    <div class="header-img">
+        <img src="./assets/elea-logo-v2@2x.png" alt="elea-logo">
+    </div>
+    <div class="header-title">
+        <h2>Autodiagnóstico</h2>
+    </div>
+</header>
+
+<main class="contenedor-resultados">
+    <div class="div-contenedor-resultados">
+        <div id="datos-usuario">
+            <ul class="txt-fw500">
+                <li>Juan Pérez</li>
+                <li>DNI: 99.999.999</li>
+            </ul>
+            
+            <p class="font-color-gris">Recordá siempre las medidas sanitarias</p>
+        </div>
+
+        <div id="hr-1">
+            <hr>
+        </div>
+
+        <div id="estado-usuario" [ngClass]="isHabilitado ? 'txt-success' : 'txt-danger'">
+            <h3 class="txt-fw500" >{{ isHabilitado ? 'Habilitado' : 'No habilitado' }}</h3>
+            <span class="txt-fw500">[Nombre del lugar de acceso]</span>
+
+            <p *ngIf="!isHabilitado">Usted no está habilitado para concurrir al trabajo. Por favor, comuníquese con Servicio Médico por teléfono o Whatsapp al 011 3867-3669.</p>
+        </div>
+
+        <div id="qr-datos">
+            QR
+        </div>
+        
+        <div id="hr-2">
+            <hr>
+        </div>
+
+        <div id="datos-resultado">
+            <h3 class="txt-fw500 font-color-gris">Autodiagnóstico</h3>
+            
+        </div>
+
+        <div id="botones" class="div-boton">
+            <button mat-stroked-button color="primary" *ngIf="isHabilitado">GUARDAR PDF</button>
+            <button mat-raised-button color="primary">SALIR</button>
+        </div>
+    </div>
+</main>
