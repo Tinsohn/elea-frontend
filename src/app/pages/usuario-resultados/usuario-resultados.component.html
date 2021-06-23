@@ -30,7 +30,8 @@
         </div>
 
         <div id="qr-datos">
-            QR
+            QR <br>
+            ???
         </div>
         
         <div id="hr-2">
@@ -46,7 +47,7 @@
 
         <div id="botones" class="div-boton">
             <button mat-stroked-button color="primary" *ngIf="isHabilitado">GUARDAR PDF</button>
-            <button mat-raised-button color="primary">SALIR</button>
+            <button mat-raised-button color="primary" (click)="cerrarSesion()">SALIR</button>
         </div>
     </div>
 </main>

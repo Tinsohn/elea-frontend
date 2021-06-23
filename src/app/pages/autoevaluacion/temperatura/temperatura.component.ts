@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 
 import { AutoevaluacionService } from '../../../services/autoevaluacion/autoevaluacion.service';
+import { EmpleadoService } from '../../../services/usuario-ingreso/empleado/empleado.service';
 
 @Component({
   selector: 'app-temperatura',
@@ -18,9 +19,11 @@ export class TemperaturaComponent {
   }
 
   constructor(private router: Router,
-              private autoevaluacionService: AutoevaluacionService) {}
+              private autoevaluacionService: AutoevaluacionService,
+              private empleadoService: EmpleadoService) {}
 
   volverIngreso() {
+    this.empleadoService.cerrarSesionUsuario();
     this.router.navigate(['/ingreso']);
   }
   

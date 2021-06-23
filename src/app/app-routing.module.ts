@@ -6,11 +6,14 @@ import { UsuarioIngresoComponent } from './pages/usuario-ingreso/usuario-ingreso
 import { AutoevaluacionComponent } from './pages/autoevaluacion/autoevaluacion.component';
 import { UsuarioResultadosComponent } from './pages/usuario-resultados/usuario-resultados.component';
 
+import { UsuarioGuard } from './pages/guards/usuario/usuario.guard';
+import { AutoevaluacionGuard } from './pages/guards/autoevaluacion/autoevaluacion.guard';
+
 const routes: Routes = [
   { path: '', component: HomeComponent },
   { path: 'ingreso', component: UsuarioIngresoComponent },
-  { path: 'autoevaluacion', component: AutoevaluacionComponent },
-  { path: 'resultados', component: UsuarioResultadosComponent },
+  { path: 'autoevaluacion', component: AutoevaluacionComponent, canLoad: [UsuarioGuard], canActivate: [UsuarioGuard] },
+  { path: 'resultados', component: UsuarioResultadosComponent, canLoad: [UsuarioGuard, AutoevaluacionGuard], canActivate: [UsuarioGuard, AutoevaluacionGuard] },
   { path: '**', pathMatch: 'full', redirectTo: '' }
 ];
 

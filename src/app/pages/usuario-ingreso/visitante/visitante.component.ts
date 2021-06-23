@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { LugarAcceso } from 'src/app/interfaces/lugar-acceso.interface';
-import { LugarAccesoService } from 'src/app/services/usuario-ingreso/lugar-acceso.service';
+import { LugarAccesoService } from 'src/app/services/usuario-ingreso/lugar-acceso/lugar-acceso.service';
 import { MatDialog } from '@angular/material/dialog';
 import { DialogTerminosCondicionesComponent } from '../components/dialog-terminos-condiciones/dialog-terminos-condiciones.component';
 
@@ -38,7 +38,8 @@ export class VisitanteComponent implements OnInit {
       empresa: ['', Validators.required],
       email: ['', [Validators.required, Validators.email]],
       lugarAcceso: ['', Validators.required],
-      recaptcha: ['', Validators.required]
+      recaptcha: ['', Validators.required],
+      terminosCondicion: [null, Validators.required]
     });
   }
 

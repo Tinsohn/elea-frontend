@@ -1,4 +1,7 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Empleado } from 'src/app/interfaces/empleado.interface';
+import { EmpleadoService } from '../../services/usuario-ingreso/empleado/empleado.service';
+import { AutoevaluacionService } from '../../services/autoevaluacion/autoevaluacion.service';
 
 @Component({
   selector: 'app-autoevaluacion',
@@ -7,10 +10,16 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 })
 export class AutoevaluacionComponent implements OnInit, OnDestroy{
 
-  constructor() { }
+  get empleado() {
+    return this.empleadoService.empleado;
+  }
+
+  constructor(private empleadoService: EmpleadoService,
+              private autoevaluacionService: AutoevaluacionService) { }
 
   ngOnInit(): void {
-    // localStorage.setItem('prueba', 'soy una prueba!')
+    this.autoevaluacionService.reset();
+    localStorage.removeItem('autoevaluacion_grabada');
   }
 
   ngOnDestroy(): void{

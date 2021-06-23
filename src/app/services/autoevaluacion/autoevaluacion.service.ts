@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { FormGroup, FormBuilder, FormArray, FormControl } from '@angular/forms';
+import { Observable, of } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -103,12 +104,23 @@ export class AutoevaluacionService {
 
   constructor(private fb: FormBuilder) { }
 
+  // -----------------------------
+  //  Validar resultados grabados
+  // -----------------------------
+  // para el guard autoevaluacion
+  validarResultadosGrabados(): Observable<boolean> {
+    if (!localStorage.getItem('autoevaluacion_grabada')) {
+      return of(false); 
+   }
+   return of(true);
+  }
 
   // --------
   //  Grabar
   // --------
   grabarResultados(): void {
-    // console.log(this._sintomas.get('sintoma_0').value);
+    console.log(this.formAutoevaluacion);
+    localStorage.setItem('autoevaluacion_grabada', 'true');
   }
 
   // ----------

@@ -3,7 +3,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 
 import { LugarAcceso } from 'src/app/interfaces/lugar-acceso.interface';
-import { LugarAccesoService } from 'src/app/services/usuario-ingreso/lugar-acceso.service';
+import { LugarAccesoService } from 'src/app/services/usuario-ingreso/lugar-acceso/lugar-acceso.service';
 import { EmpleadoService } from 'src/app/services/usuario-ingreso/empleado/empleado.service';
 import { Empleado } from 'src/app/interfaces/empleado.interface';
 import { MatDialog } from '@angular/material/dialog';
@@ -43,7 +43,7 @@ export class EmpleadoComponent implements OnInit {
       dni: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(8), Validators.pattern('[0-9]*')]],
       lugarAcceso: ['', Validators.required],
       recaptcha: ['', Validators.required],
-      terminosCondicion: [false, Validators.required]
+      terminosCondicion: [null, Validators.required]
     });
   }
 
@@ -74,33 +74,47 @@ export class EmpleadoComponent implements OnInit {
     const nroLegajo = this.form.get('nroLegajo')?.value;
     const dni = this.form.get('dni')?.value;
 
-    this.redireccionar(Number(nroLegajo), Number(dni));
-    
-    
-    // this.router.navigate(['/autoevaluacion']);
-  }
+    // this.redireccionar(Number(nroLegajo), Number(dni));
 
+    this._empleadoService.autenticarUsuario(nroLegajo)
+      .subscribe( empleado => {
+        console.log(empleado);
 
-  private redireccionar(nroLegajo: number, dni: number): void {
-
-    this._empleadoService.getEmpleadoPorNroLegajo(nroLegajo)
-      .subscribe( empleado => { 
-        
-        // this.loading = false;
-
-        if ( empleado.dni === dni) {
-          this.empleado = empleado;
-          console.log(this.empleado);
+        if ( empleado.id && (empleado.dni === Number(dni)) ) {
           this.router.navigate(['/autoevaluacion']);
         } else {
-          alert('dni incorrecto');
+          alert('DNI incorrecto');
         }
-
-      }, () => {
-        this.empleado = null;
-        alert('empleado no encontrado');
+      },
+      () => {
+        alert('Legajo incorrecto');
       });
+    
+    
+      // this.router.navigate(['/autoevaluacion']);
   }
+
+
+  // private redireccionar(nroLegajo: number, dni: number): void {
+
+  //   this._empleadoService.getEmpleadoPorNroLegajo(nroLegajo)
+  //     .subscribe( empleado => { 
+        
+  //       // this.loading = false;
+
+  //       if ( empleado.dni === dni) {
+  //         this.empleado = empleado;
+  //         // console.log(this.empleado);
+  //         this.router.navigate(['/autoevaluacion']);
+  //       } else {
+  //         alert('dni incorrecto');
+  //       }
+
+  //     }, () => {
+  //       this.empleado = null;
+  //       alert('empleado no encontrado');
+  //     });
+  // }
 
   openDialogTerminosCondiciones() {
     this.dialog.open(DialogTerminosCondicionesComponent);
