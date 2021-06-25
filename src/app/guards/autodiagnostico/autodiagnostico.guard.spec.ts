@@ -1,13 +1,13 @@
 import { TestBed } from '@angular/core/testing';
 
-import { AutoevaluacionGuard } from './autoevaluacion.guard';
+import { AutodiagnosticoGuard } from './autodiagnostico.guard';
 
-describe('AutoevaluacionGuard', () => {
-  let guard: AutoevaluacionGuard;
+describe('AutodiagnosticoGuard', () => {
+  let guard: AutodiagnosticoGuard;
 
   beforeEach(() => {
     TestBed.configureTestingModule({});
-    guard = TestBed.inject(AutoevaluacionGuard);
+    guard = TestBed.inject(AutodiagnosticoGuard);
   });
 
   it('should be created', () => {

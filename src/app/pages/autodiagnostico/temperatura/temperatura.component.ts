@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 
-import { AutoevaluacionService } from '../../../services/autoevaluacion/autoevaluacion.service';
+import { AutodiagnosticoService } from '../../../services/autodiagnostico/autodiagnostico.service';
 import { EmpleadoService } from '../../../services/usuario-ingreso/empleado/empleado.service';
 
 @Component({
@@ -19,7 +19,7 @@ export class TemperaturaComponent {
   }
 
   constructor(private router: Router,
-              private autoevaluacionService: AutoevaluacionService,
+              private autoevaluacionService: AutodiagnosticoService,
               private empleadoService: EmpleadoService) {}
 
   volverIngreso() {

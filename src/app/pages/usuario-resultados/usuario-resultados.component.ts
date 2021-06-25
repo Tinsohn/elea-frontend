@@ -10,7 +10,7 @@ import { EmpleadoService } from '../../services/usuario-ingreso/empleado/emplead
 })
 export class UsuarioResultadosComponent implements OnInit {
 
-  isHabilitado: boolean = true;
+  isHabilitado: boolean = false;
 
   constructor(private router: Router, private empleadoService: EmpleadoService) { }
 

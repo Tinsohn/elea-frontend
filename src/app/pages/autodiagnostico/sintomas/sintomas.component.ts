@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { FormArray, FormGroup } from '@angular/forms';
-import { AutoevaluacionService } from '../../../services/autoevaluacion/autoevaluacion.service';
+import { AutodiagnosticoService } from '../../../services/autodiagnostico/autodiagnostico.service';
 
 @Component({
   selector: 'app-sintomas',
@@ -24,5 +24,5 @@ export class SintomasComponent {
     return this.formAutoevaluacion.get('sintomas') as FormArray;
   }
 
-  constructor(private autoevaluacionService: AutoevaluacionService) { }
+  constructor(private autoevaluacionService: AutodiagnosticoService) { }
 }

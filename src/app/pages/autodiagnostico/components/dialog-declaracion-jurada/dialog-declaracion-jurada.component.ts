@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { AutoevaluacionService } from '../../../../services/autoevaluacion/autoevaluacion.service';
+import { AutodiagnosticoService } from '../../../../services/autodiagnostico/autodiagnostico.service';
 import { Router } from '@angular/router';
 
 @Component({
@@ -10,7 +10,7 @@ import { Router } from '@angular/router';
 export class DialogDeclaracionJuradaComponent {
 
   constructor(private router: Router,
-              private autoEvaluacionService: AutoevaluacionService) { }
+              private autoEvaluacionService: AutodiagnosticoService) { }
 
   grabar() {
     this.autoEvaluacionService.grabarResultados();

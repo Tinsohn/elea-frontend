@@ -9,24 +9,27 @@ export class LugarAccesoService {
   // TODO: consumir servicio q provee los lugares de acceso (ahora esta hardcodeado)
   private _lugaresAcceso: LugarAcceso[] = [
     {
-      id: "planta-vdm",
+      id: 1,
       descripcion: "Planta VDM"
     },
     { 
-      id: "planta-disprofarma",
+      id: 2,
       descripcion: "Planta Disprofarma"
     },
-    { id: "planta-pilar",
+    { 
+      id: 3,
       descripcion: "Planta Pilar"
     },
     {
-      id: "planta-humahuaca",
+      id: 4,
       descripcion: "Planta Humahuaca"
     },
-    { id: "fuerza-venta",
-    descripcion: "Fuerza de Venta"
+    { 
+      id: 5,
+      descripcion: "Fuerza de Venta"
     },
-    { id: "home-office",
+    { 
+      id: 6,
       descripcion: "Home Office"
     }
   ]

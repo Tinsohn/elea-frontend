@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { FormArray, FormGroup } from '@angular/forms';
-import { AutoevaluacionService } from '../../../services/autoevaluacion/autoevaluacion.service';
+import { AutodiagnosticoService } from '../../../services/autodiagnostico/autodiagnostico.service';
 
 @Component({
   selector: 'app-antecedentes',
@@ -25,5 +25,5 @@ export class AntecedentesComponent {
     return this.formAutoevaluacion.get('antecedentes') as FormArray;
   }
   
-  constructor(private autodiagnosticoService: AutoevaluacionService) { }
+  constructor(private autodiagnosticoService: AutodiagnosticoService) { }
 }

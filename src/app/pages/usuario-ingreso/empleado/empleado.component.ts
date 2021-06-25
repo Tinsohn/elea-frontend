@@ -2,11 +2,17 @@ import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 
-import { LugarAcceso } from 'src/app/interfaces/lugar-acceso.interface';
-import { LugarAccesoService } from 'src/app/services/usuario-ingreso/lugar-acceso/lugar-acceso.service';
-import { EmpleadoService } from 'src/app/services/usuario-ingreso/empleado/empleado.service';
-import { Empleado } from 'src/app/interfaces/empleado.interface';
 import { MatDialog } from '@angular/material/dialog';
+
+// import { Usuario } from 'src/app/interfaces/usuario.interface';
+import { UsuarioService } from '../../../services/usuario/usuario.service';
+
+import { LugarAcceso } from 'src/app/interfaces/lugar-acceso.interface';
+import { LugarAccesoService } from 'src/app/services/lugar-acceso/lugar-acceso.service';
+
+// import { Empleado } from 'src/app/interfaces/empleado.interface';
+import { EmpleadoService } from 'src/app/services/usuario-ingreso/empleado/empleado.service';
+
 import { DialogTerminosCondicionesComponent } from '../components/dialog-terminos-condiciones/dialog-terminos-condiciones.component';
 
 @Component({
@@ -21,7 +27,8 @@ export class EmpleadoComponent implements OnInit {
 
   form: FormGroup;
 
-  empleado!: Empleado;
+  // usuario!: Usuario;
+  // empleado!: Empleado;
 
   get siteKey(): string {
     return this._siteKey;
@@ -34,13 +41,20 @@ export class EmpleadoComponent implements OnInit {
   constructor(private fb: FormBuilder,
               private router: Router,
               private dialog: MatDialog,
+              private _usuarioService: UsuarioService,
               private _empleadoService: EmpleadoService,
               private _lugaresAccesoService: LugarAccesoService) { }
 
   ngOnInit(): void {
     this.form = this.fb.group({
-      nroLegajo: ['', [Validators.required, Validators.minLength(1), Validators.maxLength(8), Validators.pattern('[0-9]*')]],
-      dni: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(8), Validators.pattern('[0-9]*')]],
+      nroLegajo: ['', [Validators.required,
+                       Validators.minLength(8),
+                       Validators.maxLength(8), 
+                       Validators.pattern('[0-9]*')]],
+      dni: ['', [Validators.required, 
+                 Validators.minLength(1), // ???
+                 Validators.maxLength(10), 
+                 Validators.pattern('[0-9]*')]],
       lugarAcceso: ['', Validators.required],
       recaptcha: ['', Validators.required],
       terminosCondicion: [null, Validators.required]
@@ -72,7 +86,7 @@ export class EmpleadoComponent implements OnInit {
     // this.loading = true;
 
     const nroLegajo = this.form.get('nroLegajo')?.value;
-    const dni = this.form.get('dni')?.value;
+    const dni       = this.form.get('dni')?.value;
 
     // this.redireccionar(Number(nroLegajo), Number(dni));
 
@@ -83,12 +97,28 @@ export class EmpleadoComponent implements OnInit {
         if ( empleado.id && (empleado.dni === Number(dni)) ) {
           this.router.navigate(['/autoevaluacion']);
         } else {
+          localStorage.removeItem('legajo');
           alert('DNI incorrecto');
         }
       },
       () => {
         alert('Legajo incorrecto');
       });
+
+
+    // this._usuarioService.autenticarUsuarioEmpleado(nroLegajo)
+    //   .subscribe( empleado => {
+    //     console.log(empleado);
+
+    //     if ( empleado.id && (empleado.dni === dni) ) {
+    //       this.router.navigate(['/autoevaluacion']);
+    //     } else {
+    //       alert('DNI incorrecto');
+    //     }
+    //   },
+    //   () => {
+    //     alert('Legajo incorrecto');
+    //   });
     
     
       // this.router.navigate(['/autoevaluacion']);

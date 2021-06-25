@@ -2,14 +2,16 @@ import { Injectable } from '@angular/core';
 import { CanActivate, CanLoad, Route, UrlSegment, ActivatedRouteSnapshot, RouterStateSnapshot, UrlTree, Router } from '@angular/router';
 import { Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
-import { AutoevaluacionService } from '../../../services/autoevaluacion/autoevaluacion.service';
+
+import { AutodiagnosticoService } from '../../services/autodiagnostico/autodiagnostico.service';
 
 @Injectable({
   providedIn: 'root'
 })
-export class AutoevaluacionGuard implements CanActivate, CanLoad {
+export class AutodiagnosticoGuard implements CanActivate, CanLoad {
   
-  constructor(private router: Router, private autoevaluacionService: AutoevaluacionService) {}
+  constructor(private router: Router,
+              private autoevaluacionService: AutodiagnosticoService) {}
 
   canActivate(
     route: ActivatedRouteSnapshot,

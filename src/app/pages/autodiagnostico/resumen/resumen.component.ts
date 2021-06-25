@@ -3,8 +3,8 @@ import { FormArray, FormControl } from '@angular/forms';
 
 import { MatDialog } from '@angular/material/dialog';
 
+import { AutodiagnosticoService } from '../../../services/autodiagnostico/autodiagnostico.service';
 import { DialogDeclaracionJuradaComponent } from '../components/dialog-declaracion-jurada/dialog-declaracion-jurada.component';
-import { AutoevaluacionService } from '../../../services/autoevaluacion/autoevaluacion.service';
 
 @Component({
   selector: 'app-resumen',
@@ -28,7 +28,7 @@ export class ResumenComponent {
   }
 
   constructor(public dialog: MatDialog,
-              private autoevaluacionService: AutoevaluacionService) { }
+              private autoevaluacionService: AutodiagnosticoService) { }
 
   reset(stepper: any) {
     stepper.reset();

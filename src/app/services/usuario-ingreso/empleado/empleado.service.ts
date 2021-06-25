@@ -40,7 +40,7 @@ export class EmpleadoService {
   }
 
   // ingreso
-  autenticarUsuario(nroLegajo: number) {
+  autenticarUsuario(nroLegajo: string) {
     return this.http.get<Empleado>(`${this.baseUrl}/legajo/empleado/${nroLegajo}`)
             .pipe(
               tap( empleado => this._empleado = empleado ),
