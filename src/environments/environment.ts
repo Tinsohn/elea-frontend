@@ -4,7 +4,8 @@
 
 export const environment = {
   production: false,
-  baseUrlBE: 'http://localhost:8080'
+  baseUrlBE: 'http://localhost:8080',
+  siteKeyCaptcha: '6Ld58yUbAAAAACRtuaTZ9cZ9BkynxvoutKphl7s1'
 };
 
 /*

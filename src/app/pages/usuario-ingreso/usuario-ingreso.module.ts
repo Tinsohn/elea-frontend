@@ -11,13 +11,15 @@ import { UsuarioIngresoComponent } from './usuario-ingreso.component';
 import { EmpleadoComponent } from './empleado/empleado.component';
 import { VisitanteComponent } from './visitante/visitante.component';
 import { DialogTerminosCondicionesComponent } from './components/dialog-terminos-condiciones/dialog-terminos-condiciones.component';
+import { DialogMensajeErrorIngresoComponent } from './components/dialog-mensaje-error-ingreso/dialog-mensaje-error-ingreso.component';
 
 @NgModule({
   declarations: [
     UsuarioIngresoComponent,
     EmpleadoComponent,
     VisitanteComponent,
-    DialogTerminosCondicionesComponent
+    DialogTerminosCondicionesComponent,
+    DialogMensajeErrorIngresoComponent
   ],
   imports: [
     CommonModule,

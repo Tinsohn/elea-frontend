@@ -4,16 +4,16 @@ import { Router } from '@angular/router';
 
 import { MatDialog } from '@angular/material/dialog';
 
+import { environment } from 'src/environments/environment';
+
 // import { Usuario } from 'src/app/interfaces/usuario.interface';
 import { UsuarioService } from '../../../services/usuario/usuario.service';
 
 import { LugarAcceso } from 'src/app/interfaces/lugar-acceso.interface';
 import { LugarAccesoService } from 'src/app/services/lugar-acceso/lugar-acceso.service';
 
-// import { Empleado } from 'src/app/interfaces/empleado.interface';
-import { EmpleadoService } from 'src/app/services/usuario-ingreso/empleado/empleado.service';
-
 import { DialogTerminosCondicionesComponent } from '../components/dialog-terminos-condiciones/dialog-terminos-condiciones.component';
+import { DialogMensajeErrorIngresoComponent } from '../components/dialog-mensaje-error-ingreso/dialog-mensaje-error-ingreso.component';
 
 @Component({
   selector: 'app-empleado',
@@ -23,12 +23,11 @@ import { DialogTerminosCondicionesComponent } from '../components/dialog-termino
 export class EmpleadoComponent implements OnInit {
   // loading: boolean = false;
 
-  private _siteKey: string = "6Ld58yUbAAAAACRtuaTZ9cZ9BkynxvoutKphl7s1";
+  private _siteKey: string = environment.siteKeyCaptcha;
 
   form: FormGroup;
 
   // usuario!: Usuario;
-  // empleado!: Empleado;
 
   get siteKey(): string {
     return this._siteKey;
@@ -42,7 +41,6 @@ export class EmpleadoComponent implements OnInit {
               private router: Router,
               private dialog: MatDialog,
               private _usuarioService: UsuarioService,
-              private _empleadoService: EmpleadoService,
               private _lugaresAccesoService: LugarAccesoService) { }
 
   ngOnInit(): void {
@@ -55,7 +53,7 @@ export class EmpleadoComponent implements OnInit {
                  Validators.minLength(1), // ???
                  Validators.maxLength(10), 
                  Validators.pattern('[0-9]*')]],
-      lugarAcceso: ['', Validators.required],
+      idLugarAcceso: ['', Validators.required],
       recaptcha: ['', Validators.required],
       terminosCondicion: [null, Validators.required]
     });
@@ -85,66 +83,33 @@ export class EmpleadoComponent implements OnInit {
   submit() {
     // this.loading = true;
 
-    const nroLegajo = this.form.get('nroLegajo')?.value;
-    const dni       = this.form.get('dni')?.value;
+    const { nroLegajo, dni, idLugarAcceso } = this.form.value;
+    console.log(nroLegajo, dni, idLugarAcceso);
 
-    // this.redireccionar(Number(nroLegajo), Number(dni));
-
-    this._empleadoService.autenticarUsuario(nroLegajo)
+    this._usuarioService.autenticarUsuarioEmpleado(nroLegajo, idLugarAcceso)
       .subscribe( empleado => {
-        console.log(empleado);
-
-        if ( empleado.id && (empleado.dni === Number(dni)) ) {
+        
+        if ( empleado.nroLegajo && (empleado.dni === dni) ) {
           this.router.navigate(['/autoevaluacion']);
+          console.log("empleado component", this._usuarioService.usuario)
         } else {
-          localStorage.removeItem('legajo');
-          alert('DNI incorrecto');
+          localStorage.clear();
+          // alert('DNI incorrecto');
+          this.dialog.open(DialogMensajeErrorIngresoComponent, {
+            data: { msg: 'El DNI ingresado es incorrecto' }
+          });
         }
       },
-      () => {
-        alert('Legajo incorrecto');
+      err => {
+        console.log(err);
+        this.dialog.open(DialogMensajeErrorIngresoComponent, {
+          data: { msg: `El número de legajo ingresado no existe` }
+        });
       });
-
-
-    // this._usuarioService.autenticarUsuarioEmpleado(nroLegajo)
-    //   .subscribe( empleado => {
-    //     console.log(empleado);
-
-    //     if ( empleado.id && (empleado.dni === dni) ) {
-    //       this.router.navigate(['/autoevaluacion']);
-    //     } else {
-    //       alert('DNI incorrecto');
-    //     }
-    //   },
-    //   () => {
-    //     alert('Legajo incorrecto');
-    //   });
     
     
       // this.router.navigate(['/autoevaluacion']);
   }
-
-
-  // private redireccionar(nroLegajo: number, dni: number): void {
-
-  //   this._empleadoService.getEmpleadoPorNroLegajo(nroLegajo)
-  //     .subscribe( empleado => { 
-        
-  //       // this.loading = false;
-
-  //       if ( empleado.dni === dni) {
-  //         this.empleado = empleado;
-  //         // console.log(this.empleado);
-  //         this.router.navigate(['/autoevaluacion']);
-  //       } else {
-  //         alert('dni incorrecto');
-  //       }
-
-  //     }, () => {
-  //       this.empleado = null;
-  //       alert('empleado no encontrado');
-  //     });
-  // }
 
   openDialogTerminosCondiciones() {
     this.dialog.open(DialogTerminosCondicionesComponent);

@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { AutodiagnosticoService } from '../../../../services/autodiagnostico/autodiagnostico.service';
 import { Router } from '@angular/router';
+import { ResultadoService } from '../../../../services/resultado/resultado.service';
 
 @Component({
   selector: 'app-dialog-declaracion-jurada',
@@ -10,10 +11,10 @@ import { Router } from '@angular/router';
 export class DialogDeclaracionJuradaComponent {
 
   constructor(private router: Router,
-              private autoEvaluacionService: AutodiagnosticoService) { }
+              private _resultadoService: ResultadoService) { }
 
   grabar() {
-    this.autoEvaluacionService.grabarResultados();
+    this._resultadoService.grabarResultado();
     this.router.navigate(['/resultados']);
   }
 }

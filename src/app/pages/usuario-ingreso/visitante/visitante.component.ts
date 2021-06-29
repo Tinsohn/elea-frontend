@@ -10,6 +10,7 @@ import { LugarAcceso } from 'src/app/interfaces/lugar-acceso.interface';
 import { LugarAccesoService } from 'src/app/services/lugar-acceso/lugar-acceso.service';
 
 import { DialogTerminosCondicionesComponent } from '../components/dialog-terminos-condiciones/dialog-terminos-condiciones.component';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-visitante',
@@ -17,7 +18,7 @@ import { DialogTerminosCondicionesComponent } from '../components/dialog-termino
   styleUrls: ['./visitante.component.css']
 })
 export class VisitanteComponent implements OnInit {
-  private _siteKey: string = "6Ld58yUbAAAAACRtuaTZ9cZ9BkynxvoutKphl7s1";
+  private _siteKey: string = environment.siteKeyCaptcha;
 
   form: FormGroup;
 
@@ -49,7 +50,7 @@ export class VisitanteComponent implements OnInit {
       email: ['', [Validators.required, 
                    Validators.email, 
                    Validators.pattern('^[_a-z0-9-]+(.[_a-z0-9-]+)*@[a-z0-9-]+(.[a-z0-9-]+)*(.[a-z]{2,4})$')]],
-      lugarAcceso: ['', Validators.required],
+      idLugarAcceso: ['', Validators.required],
       recaptcha: ['', Validators.required],
       terminosCondicion: [null, Validators.required]
     });

@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 
 import { AutodiagnosticoService } from '../../../services/autodiagnostico/autodiagnostico.service';
-import { EmpleadoService } from '../../../services/usuario-ingreso/empleado/empleado.service';
+import { UsuarioService } from 'src/app/services/usuario/usuario.service';
 
 @Component({
   selector: 'app-temperatura',
@@ -11,24 +11,21 @@ import { EmpleadoService } from '../../../services/usuario-ingreso/empleado/empl
 })
 export class TemperaturaComponent {
 
-  // get temperaturaGrados(): number {
-  //   return this.autoevaluacionService.temperaturaGrados;
-  // }
   get temperaturaGrados(): number {
-    return this.autoevaluacionService.temperaturaValue;
+    return this._autoevaluacionService.temperaturaValue;
   }
 
   constructor(private router: Router,
-              private autoevaluacionService: AutodiagnosticoService,
-              private empleadoService: EmpleadoService) {}
+              private _autoevaluacionService: AutodiagnosticoService,
+              private _usuarioService: UsuarioService) {}
 
   volverIngreso() {
-    this.empleadoService.cerrarSesionUsuario();
+    this._usuarioService.cerrarSesionUsuario();
     this.router.navigate(['/ingreso']);
   }
   
   cambiarTemp(valor: number) {
-    this.autoevaluacionService.cambiarTemp(valor);
+    this._autoevaluacionService.cambiarTemp(valor);
     // console.log(this.autodiagnosticoService.temperaturaGrados);
   }
 

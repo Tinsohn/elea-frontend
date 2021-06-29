@@ -12,8 +12,8 @@ li {
     margin-bottom: 1em;
 }
 
-@media screen and (max-width: 344px) {
+/* @media screen and (max-width: 344px) {
     button[mat-stroked-button].mat-stroked-button {
         line-height: 1.1em;
     }
-}
+} */

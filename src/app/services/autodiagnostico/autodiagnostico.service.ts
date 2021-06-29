@@ -86,9 +86,9 @@ export class AutodiagnosticoService {
   get temperaturaValue(): number {
     return this._formAutoevaluacion.get('temperatura').value;
   }
-  set temperaturaValue(temperaturaValue: number) {
-    this._formAutoevaluacion.get('temperatura').setValue(temperaturaValue);
-  }
+  // set temperaturaValue(temperaturaValue: number) {
+  //   this._formAutoevaluacion.get('temperatura').setValue(temperaturaValue);
+  // }
 
   // Getters: Estados
   get sintomasEstado(): boolean {
@@ -224,6 +224,7 @@ export class AutodiagnosticoService {
     temperaturaValue = Math.ceil(temperaturaValue);
     temperaturaValue /= 10;
 
-    this.temperaturaValue = temperaturaValue;
+    this._formAutoevaluacion.get('temperatura').setValue(temperaturaValue);
+    // this.temperaturaValue = temperaturaValue;
   }
 }

@@ -46,10 +46,10 @@
     <!-- LUGAR DE ACCESO -->
     <mat-form-field appearance="fill">
         <mat-label>Lugar de acceso</mat-label>
-        <mat-select formControlName="lugarAcceso" required>
+        <mat-select formControlName="idLugarAcceso" required>
             <mat-option *ngFor="let lugarAcceso of lugaresAcceso" value="{{ lugarAcceso.id }}">{{ lugarAcceso.descripcion }}</mat-option>
         </mat-select>
-        <mat-error *ngIf="this.form.get('lugarAcceso').invalid">{{getErrorMessage('lugarAcceso')}}</mat-error>
+        <mat-error *ngIf="this.form.get('idLugarAcceso').invalid">{{getErrorMessage('idLugarAcceso')}}</mat-error>
     </mat-form-field>
 
     <!-- CAPTCHA -->

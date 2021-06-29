@@ -1,27 +1,30 @@
-<!-- boton paso anterior -->
-<div class="btn-autodiagnostico-atras">
-    <button mat-button matStepperPrevious>
-        <mat-icon>arrow_back</mat-icon>
-    </button>
+<div class="contenido-stepper">
+  <!-- boton paso anterior -->
+  <div class="btn-autodiagnostico-atras">
+      <button mat-button matStepperPrevious>
+          <mat-icon>arrow_back</mat-icon>
+      </button>
+  </div>
+  <!-- fin boton paso anterior -->
+
+  <h4 class="font-color-gris step-header">Resumen de autoevaluación</h4>
+
+  <ul class="font-color-gris">
+    <li>Mi temperatura es: {{ temperatura.value | number:'1.1-1' }}</li>
+    <li>{{ validarSintomas() ? 'Con' : 'Sin' }} síntomas</li>
+    <li>{{ validarContactoEstrecho() ? 'Con' : 'Sin' }} contacto estrecho</li>
+    <li>{{ validarAntecedentes() ? 'Con' : 'Sin' }} antecedentes</li>
+  </ul>
+
+  <!-- botones resetear - confirmar -->
+  <div fxLayout="column" fxLayoutAlign="center center">
+    <!-- <button mat-stroked-button color="primary" (click)="reset(stepper)">HACER OTRO AUTODIAGNÓSTICO</button> -->
+    <button mat-stroked-button color="primary" (click)="reset(stepper)">Volver a empezar</button>
+    <button mat-raised-button color="primary" (click)="openDialog()">CONFIRMAR</button>
+  </div>
+  <!-- fin botones resetear - confirmar -->
+
 </div>
-<!-- fin boton paso anterior -->
-
-<h4 class="font-color-gris step-header">Resumen de autoevaluación</h4>
-
-<ul class="font-color-gris">
-  <li>Mi temperatura es: {{ temperatura.value | number:'1.1-1' }}</li>
-  <li>{{ validarSintomas() ? 'Con' : 'Sin' }} síntomas</li>
-  <li>{{ validarContactoEstrecho() ? 'Con' : 'Sin' }} contacto estrecho</li>
-  <li>{{ validarAntecedentes() ? 'Con' : 'Sin' }} antecedentes</li>
-</ul>
-
-<!-- botones resetear - confirmar -->
-<div fxLayout="column" fxLayoutAlign="center center">
-  <button mat-stroked-button color="primary" (click)="reset(stepper)">HACER OTRO AUTODIAGNÓSTICO</button>
-  <button mat-raised-button color="primary" (click)="openDialog()">CONFIRMAR</button>
-</div>
-<!-- fin botones resetear - confirmar -->
-
 <!-- <hr>
 
 <p>• FORM AUTOEVALUACION - TEMPERATURA</p>

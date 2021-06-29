@@ -1,30 +1,18 @@
-<!-- <form [formGroup]="sintomas"> -->
-<form [formGroup]="formAutoevaluacion">
+<form [formGroup]="formAutoevaluacion" class="contenido-stepper">
 
     <!-- boton paso anterior -->
-    <div class="sticky">
+    <!-- <div class="sticky"> -->
 
         <div class="btn-autodiagnostico-atras">
-            <!-- <button mat-button matStepperPrevious fxLayout fxLayoutAlign="center center"> -->
-                <button mat-button type="button" matStepperPrevious>
-                    <mat-icon>arrow_back</mat-icon>
-                    <!-- <span>Atrás</span> -->
-                </button>
-            </div>
-    </div>
+            <button mat-button type="button" matStepperPrevious>
+                <mat-icon>arrow_back</mat-icon>
+            </button>
+        </div>
+    <!-- </div> -->
     <!-- fin boton paso anterior -->
 
 
     <!-- campos -->
-    <!-- <div *ngFor="let campoSintoma of txtCamposSintomas; let i=index"
-          fxLayout="column">
-        <mat-label class="font-color-gris step-header">{{ campoSintoma }}</mat-label>
-        <mat-radio-group formControlName="sintoma_{{i}}" fxLayout="column" required>
-            <mat-radio-button value="si"><span class="txt-radio-button">SI</span></mat-radio-button>
-            <mat-radio-button value="no"><span class="txt-radio-button">NO</span></mat-radio-button>
-        </mat-radio-group>
-    </div> -->
-
     <div *ngFor="let campoSintoma of txtCamposSintomas; let i=index"
           fxLayout="column" formArrayName="sintomas">
         <mat-label class="font-color-gris step-header">{{ campoSintoma }}</mat-label>

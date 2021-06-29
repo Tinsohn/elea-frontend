@@ -100,7 +100,8 @@
     margin-bottom: 0;
 }
 #datos-resultado span {
-    font-size: 1.25em;
+    font-size: 1.1em;
+    line-height: .1em;
 }
 #datos-resultado p {
     margin: 0;

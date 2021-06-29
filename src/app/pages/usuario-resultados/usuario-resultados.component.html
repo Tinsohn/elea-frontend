@@ -11,8 +11,8 @@
     <div class="div-contenedor-resultados">
         <div id="datos-usuario">
             <ul class="txt-fw500">
-                <li>Juan Pérez</li>
-                <li>DNI: 99.999.999</li>
+                <li>{{ usuario.nombre }} {{ usuario.apellido }}</li>
+                <li>DNI: {{ usuario.dni }}</li>
             </ul>
             
             <p class="font-color-gris">Recordá siempre las medidas sanitarias</p>
@@ -22,11 +22,11 @@
             <hr>
         </div>
 
-        <div id="estado-usuario" [ngClass]="isHabilitado ? 'txt-success' : 'txt-danger'">
-            <h3 class="txt-fw500" >{{ isHabilitado ? 'Habilitado' : 'No habilitado' }}</h3>
-            <span class="txt-fw500">[Nombre del lugar de acceso]</span>
+        <div id="estado-usuario" [ngClass]="resultado.resultado ? 'txt-success' : 'txt-danger'">
+            <h3 class="txt-fw500" >{{ resultado.resultado ? 'Habilitado' : 'No habilitado' }}</h3>
+            <span class="txt-fw500">[{{ lugarAccesoService.getLugarAccesoPorId(usuario.idLugarAcceso).descripcion }}]</span>
 
-            <p *ngIf="!isHabilitado">Usted no está habilitado para concurrir al trabajo. Por favor, comuníquese con Servicio Médico por teléfono o Whatsapp al 011 3867-3669.</p>
+            <p *ngIf="!resultado.resultado">Usted no está habilitado para concurrir al trabajo. Por favor, comuníquese con Servicio Médico por teléfono o Whatsapp al 011 3867-3669.</p>
         </div>
 
         <div id="qr-datos">
@@ -40,13 +40,16 @@
 
         <div id="datos-resultado" class="font-color-gris">
             <h3 class="txt-fw500">Autodiagnóstico</h3>
-            <span [ngClass]="isHabilitado ? 'txt-success' : 'txt-danger'">Sin/Con ??? síntomas</span>
-            <p>Vence 14/02/2021 18h:30m:00</p>
-            <p>GENERADO EL 14/02/2021 06h:30m:00</p>
+            <span [ngClass]="resultado.resultado ? 'txt-success' : 'txt-danger'">{{ resultado.temperaturaLabel }}</span><br>
+            <span [ngClass]="resultado.resultado ? 'txt-success' : 'txt-danger'">{{ resultado.sintomasLabel }}</span><br>
+            <span [ngClass]="resultado.resultado ? 'txt-success' : 'txt-danger'">{{ resultado.contactoEstrechoLabel }}</span><br>
+            <span [ngClass]="resultado.resultado ? 'txt-success' : 'txt-danger'">{{ resultado.antecedentesLabel }}</span>
+            <p>Vence {{ resultado.fecha_hasta_resultado | date }}</p>
+            <p>GENERADO EL {{ resultado.fecha_autodiagnostico | date }}</p>
         </div>
 
         <div id="botones" class="div-boton">
-            <button mat-stroked-button color="primary" *ngIf="isHabilitado">GUARDAR PDF</button>
+            <button mat-stroked-button color="primary" *ngIf="resultado.resultado">GUARDAR PDF</button>
             <button mat-raised-button color="primary" (click)="cerrarSesion()">SALIR</button>
         </div>
     </div>

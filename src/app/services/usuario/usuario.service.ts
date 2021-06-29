@@ -7,6 +7,7 @@ import { environment } from 'src/environments/environment';
 
 import { Usuario } from 'src/app/interfaces/usuario.interface';
 import { FormGroup } from '@angular/forms';
+import { LugarAcceso } from '../../interfaces/lugar-acceso.interface';
 
 @Injectable({
   providedIn: 'root'
@@ -26,42 +27,62 @@ export class UsuarioService {
   // para el guard usuario
   // ---------------------
   verificarAutenticacion(): Observable<boolean> {
-    // visitante
-    if (localStorage.getItem('dni')) {
-      return of(true);
-    }
 
-    // no existe usuario alguno
-    if (!localStorage.getItem('legajo')) {
-       return of(false); 
+    if (!localStorage.getItem('nroLegajo')
+        || !localStorage.getItem('dni')
+        || !localStorage.getItem('nombre')
+        || !localStorage.getItem('apellido')
+        || !localStorage.getItem('telefono')
+        || !localStorage.getItem('empresa')
+        || !localStorage.getItem('mail')
+        || !localStorage.getItem('lugarAcceso')) {
+      return of(false); 
+    }
+    
+    // visitante
+    if ( localStorage.getItem('nroLegajo') === '0' ) {
+      this._usuario = {
+        nroLegajo: localStorage.getItem('nroLegajo'),
+        dni: localStorage.getItem('dni'),
+        nombre: localStorage.getItem('nombre'),
+        apellido: localStorage.getItem('apellido'),
+        telefono: localStorage.getItem('telefono'),
+        empresa: localStorage.getItem('empresa'),
+        mail: localStorage.getItem('mail'),
+        idLugarAcceso: Number(localStorage.getItem('lugarAcceso'))
+      }
+      return of(true); 
     }
 
     // empleado
-    return this.http.get<Usuario>(`${this.baseUrl}/legajo/empleado/${localStorage.getItem('legajo')}`)
+    return this.http.get<Usuario>(`${this.baseUrl}/legajo/empleado/${localStorage.getItem('nroLegajo')}`)
             .pipe(
               map( usuario => {
                 this._usuario = usuario;
+                
+                this._usuario.empresa     = 'ELEA';
+                this._usuario.idLugarAcceso = Number(localStorage.getItem('lugarAcceso'));
                 return true;
-              } )
+              }),
+              catchError(() => of(false))
             );
   }
 
   // ----------------
   // ingreso empleado
   // ----------------
-  autenticarUsuarioEmpleado(nroLegajo: string, dni: string) {
+  autenticarUsuarioEmpleado(nroLegajo: string, lugarAcceso: number) {
     return this.http.get<Usuario>(`${this.baseUrl}/legajo/empleado/${nroLegajo}`)
             .pipe(
               tap( usuario => {
-                if( usuario.dni === dni ) {
-                  this._usuario = usuario;
-
-                  this._usuario.empresa = 'ELEA';
-                  
-                  localStorage.setItem('legajo', usuario.nroLegajo);
-                } // ??????????????????????????????????????????????????
-              }),
-              catchError( () => of(null) )
+                this._usuario = usuario;
+                
+                this._usuario.empresa     = 'ELEA';
+                this._usuario.idLugarAcceso = lugarAcceso;
+                console.log("usuario service", this._usuario)
+                
+                this.guardarEnLocalStorage();               
+              })
             );
   }
 
@@ -69,17 +90,24 @@ export class UsuarioService {
   // ingreso visitante
   // -----------------
   crearUsuarioVisitante(form: FormGroup) {
-    this._usuario.dni = form.get('dni').value;
-    this._usuario.nombre = form.get('nombre').value;
-    this._usuario.apellido = form.get('apellido').value;
-    this._usuario.telefono = form.get('telefono').value;
-    this._usuario.empresa = form.get('empresa').value;
-    this._usuario.mail = form.get('email').value
-    this._usuario.lugarAcceso = form.get('lugarAcceso').value;
+    const { dni, nombre, apellido, telefono, empresa, email, lugarAcceso } = form.value;
+    
+    this._usuario = {
+      nroLegajo: '0',
+      dni: dni,
+      nombre: nombre,
+      apellido: apellido,
+      telefono: telefono,
+      empresa: empresa,
+      mail: email,
+      idLugarAcceso: lugarAcceso
+    }
 
-    localStorage.setItem('dni', form.get('dni').value); // DNI PORQ NO TIENE LEGAJO
+    console.log(this.usuario);
+
+    this.guardarEnLocalStorage();
   }
-
+  
 
   // -------------
   // cerrar sesion
@@ -88,4 +116,19 @@ export class UsuarioService {
     // localStorage.clear();
     this._usuario = undefined;
   }
+
+  
+
+  //////////////////////////////////////////////////////////////////
+  private guardarEnLocalStorage() {
+    localStorage.setItem('nroLegajo', String(this._usuario.nroLegajo));
+    localStorage.setItem('dni', String(this._usuario.dni));
+    localStorage.setItem('nombre', this._usuario.nombre);
+    localStorage.setItem('apellido', this._usuario.apellido);
+    localStorage.setItem('telefono', this._usuario.telefono);
+    localStorage.setItem('empresa', this._usuario.empresa);
+    localStorage.setItem('mail', this._usuario.mail);
+    localStorage.setItem('lugarAcceso', String(this._usuario.idLugarAcceso));
+  }
+  //////////////////////////////////////////////////////////////////
 }

@@ -2,7 +2,7 @@ import { Usuario } from './usuario.interface';
 
 export interface Autodiagnostico {
     idAutodiagnostico?    : number;
-    usuario               : Usuario;
+    legajo                : Usuario;
     temperaturaLabel      : string;
     sintomasLabel         : string;
     contactoEstrechoLabel : string;

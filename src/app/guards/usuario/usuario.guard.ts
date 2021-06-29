@@ -17,27 +17,25 @@ export class UsuarioGuard implements CanActivate, CanLoad {
 
   // route: ActivatedRouteSnapshot, state: RouterStateSnapshot
   canActivate(): Observable<boolean> | Promise<boolean> | boolean {
-      return this.empleadoService.verificarAutenticacion()
+      return this.usuarioService.verificarAutenticacion()
                 .pipe(
-                  tap( isAutenticado => {
-                    if (!isAutenticado) {
+                  tap( validado => {
+                    if (!validado) {
                       this.router.navigate(['/ingreso']);
                     }
                   })
                 );
-      // return this.usuarioService.verificarAutenticacion()
-      //           .pipe(
-      //             tap( isAutenticado => {
-      //               if (!isAutenticado) {
-      //                 this.router.navigate(['/ingreso']);
-      //               }
-      //             })
-      //           );
     }
   
   // route: Route, segments: UrlSegment[]
   canLoad(): Observable<boolean> | boolean {
-      return this.empleadoService.verificarAutenticacion();
-      // return this.usuarioService.verificarAutenticacion();
+      return this.usuarioService.verificarAutenticacion()
+                .pipe(
+                  tap( validado => {
+                    if (!validado) {
+                      this.router.navigate(['/ingreso']);
+                    }
+                  })
+                );
   }
 }

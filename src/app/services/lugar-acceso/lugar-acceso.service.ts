@@ -39,4 +39,8 @@ export class LugarAccesoService {
   }
 
   constructor() { }
+
+  getLugarAccesoPorId(id: number): LugarAcceso {
+    return this._lugaresAcceso.filter(lugarAcceso => lugarAcceso.id === id)[0];
+  }
 }
