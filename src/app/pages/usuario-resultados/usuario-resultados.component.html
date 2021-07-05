@@ -1,4 +1,5 @@
-<header class="bg-success">
+<!-- <header class="bg-success"> -->
+<header>
     <div class="header-img">
         <img src="./assets/elea-logo-v2@2x.png" alt="elea-logo">
     </div>
@@ -40,12 +41,18 @@
 
         <div id="datos-resultado" class="font-color-gris">
             <h3 class="txt-fw500">Autodiagnóstico</h3>
-            <span [ngClass]="resultado.resultado ? 'txt-success' : 'txt-danger'">{{ resultado.temperaturaLabel }}</span><br>
+            <!-- <span [ngClass]="resultado.resultado ? 'txt-success' : 'txt-danger'">{{ resultado.temperaturaLabel }}</span><br>
             <span [ngClass]="resultado.resultado ? 'txt-success' : 'txt-danger'">{{ resultado.sintomasLabel }}</span><br>
             <span [ngClass]="resultado.resultado ? 'txt-success' : 'txt-danger'">{{ resultado.contactoEstrechoLabel }}</span><br>
-            <span [ngClass]="resultado.resultado ? 'txt-success' : 'txt-danger'">{{ resultado.antecedentesLabel }}</span>
-            <p>Vence {{ resultado.fecha_hasta_resultado | date }}</p>
-            <p>GENERADO EL {{ resultado.fecha_autodiagnostico | date }}</p>
+            <span [ngClass]="resultado.resultado ? 'txt-success' : 'txt-danger'">{{ resultado.antecedentesLabel }}</span> -->
+            <div class="labels">
+                <span >{{ resultado.temperaturaLabel }}</span><br>
+                <span >{{ resultado.sintomasLabel }}</span><br>
+                <span >{{ resultado.contactoEstrechoLabel }}</span><br>
+                <span >{{ resultado.antecedentesLabel }}</span>
+            </div>
+            <p>Vence {{ resultado.fecha_hasta_resultado | date:'dd/MM/yyyy HH:mm:ss' }}</p>
+            <p>GENERADO EL {{ resultado.fecha_autodiagnostico | date:'dd/MM/yyyy HH:mm:ss' }}</p>
         </div>
 
         <div id="botones" class="div-boton">

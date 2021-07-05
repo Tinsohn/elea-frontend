@@ -1,28 +1,24 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
-import { Empleado } from 'src/app/interfaces/empleado.interface';
-import { EmpleadoService } from '../../services/usuario-ingreso/empleado/empleado.service';
+import { Component, OnInit } from '@angular/core';
 import { AutodiagnosticoService } from '../../services/autodiagnostico/autodiagnostico.service';
+import { ResultadoService } from '../../services/resultado/resultado.service';
 
 @Component({
   selector: 'app-autoevaluacion',
   templateUrl: './autodiagnostico.component.html',
   styleUrls: ['./autodiagnostico.component.css']
 })
-export class AutodiagnosticoComponent implements OnInit, OnDestroy{
+export class AutodiagnosticoComponent implements OnInit {
+  loading: boolean = false;
 
-  get empleado() {
-    return this.empleadoService.empleado;
-  }
-
-  constructor(private empleadoService: EmpleadoService,
-              private autoevaluacionService: AutodiagnosticoService) { }
+  constructor(private autoevaluacionService: AutodiagnosticoService,
+              private resultadoService: ResultadoService) { }
 
   ngOnInit(): void {
     this.autoevaluacionService.reset();
-    localStorage.removeItem('autoevaluacion_grabada');
+    this.resultadoService.limpiarResultadosLocalStorage();
   }
 
-  ngOnDestroy(): void{
-    // localStorage.clear();
+  isLoading(event) {
+    this.loading = event;
   }
 }

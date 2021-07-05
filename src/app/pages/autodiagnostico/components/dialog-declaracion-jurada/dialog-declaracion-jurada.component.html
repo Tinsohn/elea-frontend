@@ -1,6 +1,6 @@
 <h1 mat-dialog-title>COVID19 - Ministerio de salud</h1>
 <div mat-dialog-content>Este formulario tiene carácter de declaración jurada, hacer una falsa declaración es considerada una contravención grave.</div>
 <div mat-dialog-actions>
-    <button mat-button color="primary" mat-dialog-close>Cancelar</button>
-    <button mat-button color="primary" [mat-dialog-close]="true" cdkFocusInitial (click)="grabar()">GRABAR</button>
+    <button mat-button color="primary" [mat-dialog-close]="false" (click)="cancelar()">Cancelar</button>
+    <button mat-button color="primary" [mat-dialog-close]="true" cdkFocusInitial (click)="aceptar()">GRABAR</button>
 </div>

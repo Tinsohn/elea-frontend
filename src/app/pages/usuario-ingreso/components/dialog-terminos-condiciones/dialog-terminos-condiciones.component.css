@@ -1,0 +1,15 @@
+h3 {
+    font-weight: bold;
+    margin: 1em 0 .5em;
+    font-size: 1.1em;
+    line-height: 1.1em;
+}
+
+p {
+    line-height: 1.1em;
+    text-align: justify;
+}
+
+.puntos p {
+    padding-left: 1em;
+}

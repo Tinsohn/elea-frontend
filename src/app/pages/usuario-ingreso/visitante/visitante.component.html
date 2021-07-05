@@ -3,28 +3,27 @@
     <mat-form-field appearance="fill">
         <mat-label>DNI</mat-label>
         <input matInput formControlName="dni" type="text" maxlength="8" required>
-        <!-- <mat-error *ngIf="this.form.get('dni')?.invalid">{{getErrorMessage('dni')}}</mat-error> -->
         <mat-error *ngIf="this.form.get('dni').invalid">{{getErrorMessage('dni')}}</mat-error>
     </mat-form-field>
 
     <!-- NOMBRE -->
     <mat-form-field appearance="fill">
         <mat-label>Nombre</mat-label>
-        <input matInput formControlName="nombre" type="text" required>
+        <input matInput formControlName="nombre" type="text" maxlength="50" required>
         <mat-error *ngIf="this.form.get('nombre').invalid">{{getErrorMessage('nombre')}}</mat-error>
     </mat-form-field>
 
     <!-- APELLIDO -->
     <mat-form-field appearance="fill">
         <mat-label>Apellido</mat-label>
-        <input matInput formControlName="apellido" type="text" required>
+        <input matInput formControlName="apellido" type="text" maxlength="50" required>
         <mat-error *ngIf="this.form.get('apellido').invalid">{{getErrorMessage('apellido')}}</mat-error>
     </mat-form-field>
 
     <!-- TELEFONO -->
     <mat-form-field appearance="fill">
         <mat-label>Teléfono</mat-label>
-        <input matInput formControlName="telefono" type="text" required>
+        <input matInput formControlName="telefono" type="text" maxlength="20" required>
         <mat-error *ngIf="this.form.get('telefono').invalid">{{getErrorMessage('telefono')}}</mat-error>
     </mat-form-field>
 
@@ -53,12 +52,18 @@
     </mat-form-field>
 
     <!-- CAPTCHA -->
-    <ngx-recaptcha2 #captchaElem [siteKey]="siteKey" formControlName="recaptcha" fxFlexAlign="center"></ngx-recaptcha2>
+    <ngx-recaptcha2 #captchaElem [siteKey]="siteKey"
+                                 [type]="type"
+                                 [hl]="lang"
+                                 formControlName="recaptcha"
+                                 fxFlexAlign="center"></ngx-recaptcha2>
 
+    <!-- TERMINOS Y CONDICIONES -->
     <div class="terminos-condiciones font-color-gris">
-        <mat-checkbox formControlName="terminosCondicion">Acepto los <span class="open-dialog" (click)="openDialogTerminosCondiciones()">Términos y Condiciones</span> de la [NOMBRE APLICACION AUTODIAGNOSTICO ELEA] así como a la Política de Privacidad establecida en el punto 5 de los Términos y Condiciones</mat-checkbox>
+        <mat-checkbox formControlName="terminosCondicion">Acepto los <span class="open-dialog" (click)="openDialogTerminosCondiciones()">Términos y Condiciones</span> de la aplicación Autodiagnóstico Elea así como a la Política de Privacidad establecida en el punto 5 de los Términos y Condiciones</mat-checkbox>
     </div>
 
+    <!-- BOTON SUBMIT -->
     <div class="div-boton">
         <button mat-raised-button color="primary" [disabled]="form.invalid" type="submit">SIGUIENTE</button>
     </div>

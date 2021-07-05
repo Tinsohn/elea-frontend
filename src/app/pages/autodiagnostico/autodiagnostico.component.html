@@ -4,7 +4,7 @@
     <h2>Autoevaluación</h2>
   </div>
 
-  <div class="div-stepper-autodiagnostico">
+  <div class="div-stepper-autodiagnostico" [ngClass]="loading ? 'hidden' : ''">
     <mat-horizontal-stepper linear #stepper labelPosition="bottom" color="accent">
       
       <!-- inicio TEMPERATURA -->
@@ -30,10 +30,19 @@
 
       <!-- inicio RESUMEN -->
       <mat-step>
-        <app-resumen [stepper]="stepper"></app-resumen>
+        <app-resumen [stepper]="stepper" (isLoading)="isLoading($event)"></app-resumen>
       </mat-step>
       <!-- fin RESUMEN -->
 
     </mat-horizontal-stepper>
+  </div>
+
+  <!-- SPINNER -->
+  <div [ngClass]="!loading ? 'hidden' : ''">
+      <mat-grid-list cols="1">
+          <mat-grid-tile>
+              <mat-spinner diameter="70" strokeWidth="10"></mat-spinner>
+          </mat-grid-tile>
+      </mat-grid-list>
   </div>
 </div>

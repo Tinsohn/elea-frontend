@@ -14,8 +14,6 @@ import { LugarAccesoService } from '../../services/lugar-acceso/lugar-acceso.ser
 })
 export class UsuarioResultadosComponent {
 
-  isHabilitado: boolean = false;
-
   get usuario(): Usuario {
     return { ...this.usuarioService.usuario }
   }

@@ -7,7 +7,6 @@ import { environment } from 'src/environments/environment';
 
 import { Usuario } from 'src/app/interfaces/usuario.interface';
 import { FormGroup } from '@angular/forms';
-import { LugarAcceso } from '../../interfaces/lugar-acceso.interface';
 
 @Injectable({
   providedIn: 'root'
@@ -27,7 +26,6 @@ export class UsuarioService {
   // para el guard usuario
   // ---------------------
   verificarAutenticacion(): Observable<boolean> {
-
     if (!localStorage.getItem('nroLegajo')
         || !localStorage.getItem('dni')
         || !localStorage.getItem('nombre')
@@ -35,7 +33,7 @@ export class UsuarioService {
         || !localStorage.getItem('telefono')
         || !localStorage.getItem('empresa')
         || !localStorage.getItem('mail')
-        || !localStorage.getItem('lugarAcceso')) {
+        || !localStorage.getItem('idLugarAcceso')) {
       return of(false); 
     }
     
@@ -49,8 +47,9 @@ export class UsuarioService {
         telefono: localStorage.getItem('telefono'),
         empresa: localStorage.getItem('empresa'),
         mail: localStorage.getItem('mail'),
-        idLugarAcceso: Number(localStorage.getItem('lugarAcceso'))
+        idLugarAcceso: Number(localStorage.getItem('idLugarAcceso'))
       }
+
       return of(true); 
     }
 
@@ -60,8 +59,8 @@ export class UsuarioService {
               map( usuario => {
                 this._usuario = usuario;
                 
-                this._usuario.empresa     = 'ELEA';
-                this._usuario.idLugarAcceso = Number(localStorage.getItem('lugarAcceso'));
+                this._usuario.empresa       = 'ELEA';
+                this._usuario.idLugarAcceso = Number(localStorage.getItem('idLugarAcceso'));
                 return true;
               }),
               catchError(() => of(false))
@@ -71,15 +70,14 @@ export class UsuarioService {
   // ----------------
   // ingreso empleado
   // ----------------
-  autenticarUsuarioEmpleado(nroLegajo: string, lugarAcceso: number) {
+  autenticarUsuarioEmpleado(nroLegajo: string, idLugarAcceso: number) {
     return this.http.get<Usuario>(`${this.baseUrl}/legajo/empleado/${nroLegajo}`)
             .pipe(
               tap( usuario => {
                 this._usuario = usuario;
                 
                 this._usuario.empresa     = 'ELEA';
-                this._usuario.idLugarAcceso = lugarAcceso;
-                console.log("usuario service", this._usuario)
+                this._usuario.idLugarAcceso = idLugarAcceso;
                 
                 this.guardarEnLocalStorage();               
               })
@@ -90,7 +88,7 @@ export class UsuarioService {
   // ingreso visitante
   // -----------------
   crearUsuarioVisitante(form: FormGroup) {
-    const { dni, nombre, apellido, telefono, empresa, email, lugarAcceso } = form.value;
+    const { dni, nombre, apellido, telefono, empresa, email, idLugarAcceso } = form.value;
     
     this._usuario = {
       nroLegajo: '0',
@@ -100,10 +98,8 @@ export class UsuarioService {
       telefono: telefono,
       empresa: empresa,
       mail: email,
-      idLugarAcceso: lugarAcceso
+      idLugarAcceso: idLugarAcceso
     }
-
-    console.log(this.usuario);
 
     this.guardarEnLocalStorage();
   }
@@ -128,7 +124,7 @@ export class UsuarioService {
     localStorage.setItem('telefono', this._usuario.telefono);
     localStorage.setItem('empresa', this._usuario.empresa);
     localStorage.setItem('mail', this._usuario.mail);
-    localStorage.setItem('lugarAcceso', String(this._usuario.idLugarAcceso));
+    localStorage.setItem('idLugarAcceso', String(this._usuario.idLugarAcceso));
   }
   //////////////////////////////////////////////////////////////////
 }

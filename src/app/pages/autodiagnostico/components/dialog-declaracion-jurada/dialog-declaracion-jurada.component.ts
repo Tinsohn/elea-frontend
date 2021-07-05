@@ -1,6 +1,8 @@
-import { Component } from '@angular/core';
-import { AutodiagnosticoService } from '../../../../services/autodiagnostico/autodiagnostico.service';
+import { Component, Inject } from '@angular/core';
 import { Router } from '@angular/router';
+
+import { MAT_DIALOG_DATA } from '@angular/material/dialog';
+
 import { ResultadoService } from '../../../../services/resultado/resultado.service';
 
 @Component({
@@ -11,10 +13,28 @@ import { ResultadoService } from '../../../../services/resultado/resultado.servi
 export class DialogDeclaracionJuradaComponent {
 
   constructor(private router: Router,
-              private _resultadoService: ResultadoService) { }
+              private _resultadoService: ResultadoService,
+              @Inject(MAT_DIALOG_DATA) private data: {isAceptado:boolean}) { }
 
-  grabar() {
-    this._resultadoService.grabarResultado();
-    this.router.navigate(['/resultados']);
+  // grabar() {
+  //   this._resultadoService.grabarResultado()
+  //     .subscribe( data => {
+  //       console.log('DECLARACION JUGARADA RECIBIO:', data);
+
+  //       if(data !== false) {
+  //         this.router.navigate(['/resultados']);
+  //       }
+  //     },
+  //     () => alert('hubo un error'));
+
+  //   // this.router.navigate(['/resultados']);
+  // }
+
+  aceptar() {
+    this.data.isAceptado = true;
+  }
+
+  cancelar() {
+    this.data.isAceptado = false;
   }
 }

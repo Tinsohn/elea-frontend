@@ -1,10 +1,14 @@
-import { Component, Input } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { FormArray, FormControl } from '@angular/forms';
 
 import { MatDialog } from '@angular/material/dialog';
 
 import { AutodiagnosticoService } from '../../../services/autodiagnostico/autodiagnostico.service';
 import { DialogDeclaracionJuradaComponent } from '../components/dialog-declaracion-jurada/dialog-declaracion-jurada.component';
+import { logging } from 'protractor';
+import { ResultadoService } from '../../../services/resultado/resultado.service';
+import { Router } from '@angular/router';
+import { DialogMensajeErrorComponent } from 'src/app/shared/dialog-mensaje-error/dialog-mensaje-error.component';
 
 @Component({
   selector: 'app-resumen',
@@ -12,6 +16,8 @@ import { DialogDeclaracionJuradaComponent } from '../components/dialog-declaraci
   styleUrls: ['./resumen.component.css']
 })
 export class ResumenComponent {
+  @Output() isLoading: EventEmitter<boolean> = new EventEmitter();
+  private isAceptado: boolean = false;
 
   @Input() stepper: any;
 
@@ -27,7 +33,9 @@ export class ResumenComponent {
     return this.autoevaluacionService.antecedentes;
   }
 
-  constructor(public dialog: MatDialog,
+  constructor(private router: Router,
+              public dialog: MatDialog,
+              private _resultadoService: ResultadoService,
               private autoevaluacionService: AutodiagnosticoService) { }
 
   reset(stepper: any) {
@@ -36,10 +44,42 @@ export class ResumenComponent {
   }
 
   openDialog() {
-    this.dialog.open(DialogDeclaracionJuradaComponent, {
+    const dialogRef = this.dialog.open(DialogDeclaracionJuradaComponent, {
       width: '90%',
-      maxWidth: '450px'
+      maxWidth: '450px',
+      data: { isAceptado: this.isAceptado }
     });
+
+    dialogRef.afterClosed().subscribe(result => {
+      this.isAceptado = result;
+      
+      // ENVIO DEL RESULTADO
+      if (this.isAceptado) {
+        this.isLoading.emit(true);
+
+        // console.log('se acepto')
+        this._resultadoService.grabarResultado()
+        .subscribe( data => {
+          console.log('DECLARACION JUGARADA RECIBIO:', data);
+          
+          if(data) {
+            this.isLoading.emit(false);
+            
+            this.router.navigate(['/resultados']);
+          }
+        }, () => {
+          this._resultadoService.limpiarResultadosLocalStorage();
+          this.isLoading.emit(false);
+          this.dialog.open(DialogMensajeErrorComponent, {
+            data: { msg: 'Hubo un problema al enviar los resultados del autodiagnóstico' }
+          })
+        });
+      } else {
+        // console.log('NO se acepto');
+      }
+      // TODO: eliminar este router!
+      this.router.navigate(['/resultados']);
+    })
   }
 
 

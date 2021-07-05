@@ -9,6 +9,7 @@ import { AppComponent } from './app.component';
 
 
 import { PagesModule } from './pages/pages.module';
+import { SharedModule } from './shared/shared.module';
 
 
 @NgModule({
@@ -20,7 +21,8 @@ import { PagesModule } from './pages/pages.module';
     AppRoutingModule,
     BrowserAnimationsModule,
     HttpClientModule,
-    PagesModule
+    PagesModule,
+    SharedModule
   ],
   providers: [],
   bootstrap: [AppComponent]

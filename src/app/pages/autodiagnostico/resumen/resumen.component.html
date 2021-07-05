@@ -10,7 +10,7 @@
   <h4 class="font-color-gris step-header">Resumen de autoevaluación</h4>
 
   <ul class="font-color-gris">
-    <li>Mi temperatura es: {{ temperatura.value | number:'1.1-1' }}</li>
+    <li>Mi temperatura es: {{ temperatura.value | number:'1.1-1' }}°</li>
     <li>{{ validarSintomas() ? 'Con' : 'Sin' }} síntomas</li>
     <li>{{ validarContactoEstrecho() ? 'Con' : 'Sin' }} contacto estrecho</li>
     <li>{{ validarAntecedentes() ? 'Con' : 'Sin' }} antecedentes</li>
@@ -25,24 +25,12 @@
   <!-- fin botones resetear - confirmar -->
 
 </div>
-<!-- <hr>
 
-<p>• FORM AUTOEVALUACION - TEMPERATURA</p>
-<pre>{{ temperatura.value | json }}</pre>
-
-<p>• FORM AUTOEVALUACION - SINTOMAS</p>
-<pre>{{ sintomas.value | json }}</pre>
-
-<p>• FORM AUTOEVALUACION - ANTECEDENTES</p>
-<pre>{{ antecedentes.value | json }}</pre>
-
-<hr>
-
-<p>• ESTADO SINTOMAS</p>
-<pre>{{ validarSintomas() }}</pre>
-
-<p>• ESTADO CONTACTO ESTRECHO</p>
-<pre>{{ validarContactoEstrecho() }}</pre>
-
-<p>• ESTADO ANTECEDENTES</p>
-<pre>{{ validarAntecedentes() }}</pre> -->
+<!-- SPINNER -->
+<!-- <div [ngClass]="!loading ? 'hidden' : ''">
+    <mat-grid-list cols="1">
+        <mat-grid-tile>
+            <mat-spinner diameter="70" strokeWidth="10"></mat-spinner>
+        </mat-grid-tile>
+    </mat-grid-list>
+</div> -->

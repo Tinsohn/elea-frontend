@@ -34,9 +34,19 @@ body {
     }
 }
 
+@media screen and (min-width: 1438px) {
+    .contenedor, .rellenador {
+        width: 1221px;
+    }
+}
+
 /* utilities */
 .font-color-gris {
     color: #555;
+}
+
+.hidden {
+    display: none;
 }
 
 

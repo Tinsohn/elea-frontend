@@ -18,18 +18,24 @@
     <mat-form-field appearance="fill">
         <mat-label>Lugar de acceso</mat-label>
         <mat-select formControlName="idLugarAcceso" required>
-          <mat-option *ngFor="let lugarAcceso of lugaresAcceso" value="{{ lugarAcceso.id }}">{{ lugarAcceso.descripcion }}</mat-option>
+        <mat-option *ngFor="let lugarAcceso of lugaresAcceso" value="{{ lugarAcceso.id }}">{{ lugarAcceso.descripcion }}</mat-option>
         </mat-select>
         <mat-error *ngIf="this.form.get('idLugarAcceso').invalid">{{getErrorMessage('idLugarAcceso')}}</mat-error>
     </mat-form-field>
 
     <!-- CAPTCHA -->
-    <ngx-recaptcha2 #captchaElem [siteKey]="siteKey" formControlName="recaptcha" fxFlexAlign="center"></ngx-recaptcha2>
+    <ngx-recaptcha2 #captchaElem [siteKey]="siteKey"
+                                    [type]="type"
+                                    [hl]="lang"
+                                    formControlName="recaptcha"
+                                    fxFlexAlign="center"></ngx-recaptcha2>
 
+    <!-- TERMINOS Y CONDICIONES -->
     <div class="terminos-condiciones font-color-gris">
-        <mat-checkbox formControlName="terminosCondicion" required>Acepto los <span class="open-dialog" (click)="openDialogTerminosCondiciones()">Términos y Condiciones</span> de la [NOMBRE APLICACION AUTODIAGNOSTICO ELEA] así como a la Política de Privacidad establecida en el punto 5 de los Términos y Condiciones</mat-checkbox>
+        <mat-checkbox formControlName="terminosCondicion" required>Acepto los <span class="open-dialog" (click)="openDialogTerminosCondiciones()">Términos y Condiciones</span> de la aplicación Autodiagnóstico Elea así como a la Política de Privacidad establecida en el punto 5 de los Términos y Condiciones</mat-checkbox>
     </div>
 
+    <!-- BOTON SUBMIT -->
     <div class="div-boton">
         <button mat-raised-button color="primary" [disabled]="form.invalid" type="submit">SIGUIENTE</button>
     </div>

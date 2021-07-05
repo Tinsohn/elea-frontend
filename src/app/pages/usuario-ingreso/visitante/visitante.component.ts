@@ -1,16 +1,18 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 
 import { MatDialog } from '@angular/material/dialog';
 
-import { UsuarioService } from '../../../services/usuario/usuario.service';
+import { ReCaptcha2Component } from 'ngx-captcha';
 
+import { environment } from 'src/environments/environment';
+
+import { UsuarioService } from '../../../services/usuario/usuario.service';
 import { LugarAcceso } from 'src/app/interfaces/lugar-acceso.interface';
 import { LugarAccesoService } from 'src/app/services/lugar-acceso/lugar-acceso.service';
 
 import { DialogTerminosCondicionesComponent } from '../components/dialog-terminos-condiciones/dialog-terminos-condiciones.component';
-import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-visitante',
@@ -18,13 +20,15 @@ import { environment } from 'src/environments/environment';
   styleUrls: ['./visitante.component.css']
 })
 export class VisitanteComponent implements OnInit {
-  private _siteKey: string = environment.siteKeyCaptcha;
+  @Output() isLoading: EventEmitter<boolean> = new EventEmitter();
+
+  // Campos Captcha
+  @ViewChild('captchaElem', { static: false }) captchaElem: ReCaptcha2Component;
+  readonly siteKey: string = environment.siteKeyCaptcha;
+  readonly type: string = 'image';
+  readonly lang: string = 'es-419';
 
   form: FormGroup;
-
-  get siteKey(): string {
-    return this._siteKey;
-  }
   
   get lugaresAcceso(): LugarAcceso[] {
     return this._lugaresAccesoService.lugaresAcceso;
@@ -41,15 +45,16 @@ export class VisitanteComponent implements OnInit {
       dni: ['', [Validators.required,
                  Validators.minLength(8), 
                  Validators.maxLength(8), 
-                 Validators.pattern('[0-9]*')]],
+                 Validators.pattern('^(m|M|f|F)?[0-9]{7,8}$')]],
       nombre: ['', Validators.required],
       apellido: ['', Validators.required],
       telefono: ['', [Validators.required, 
-                      Validators.pattern('[0-9]*')]],
+                      Validators.minLength(6), 
+                      Validators.maxLength(20), 
+                      Validators.pattern('^[\+]?[0-9]{6,20}$')]],
       empresa: ['', Validators.required],
       email: ['', [Validators.required, 
-                   Validators.email, 
-                   Validators.pattern('^[_a-z0-9-]+(.[_a-z0-9-]+)*@[a-z0-9-]+(.[a-z0-9-]+)*(.[a-z]{2,4})$')]],
+                   Validators.pattern('^[_a-zA-Z0-9]+(.[_a-zA-Z0-9]+)*@[a-zA-Z0-9]+([\.][a-z0-9]+)*([\.][a-z]{2,4})$')]],
       idLugarAcceso: ['', Validators.required],
       recaptcha: ['', Validators.required],
       terminosCondicion: [null, Validators.required]
@@ -86,8 +91,10 @@ export class VisitanteComponent implements OnInit {
   }
 
   submit() {
+    this.isLoading.emit(true);
     this.usuarioService.crearUsuarioVisitante(this.form);
-
+    
+    this.isLoading.emit(false);
     this.router.navigate(['/autoevaluacion']);
   }
 

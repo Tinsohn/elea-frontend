@@ -1,8 +1,10 @@
-import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 
 import { MatDialog } from '@angular/material/dialog';
+
+import { ReCaptcha2Component } from 'ngx-captcha'
 
 import { environment } from 'src/environments/environment';
 
@@ -13,7 +15,7 @@ import { LugarAcceso } from 'src/app/interfaces/lugar-acceso.interface';
 import { LugarAccesoService } from 'src/app/services/lugar-acceso/lugar-acceso.service';
 
 import { DialogTerminosCondicionesComponent } from '../components/dialog-terminos-condiciones/dialog-terminos-condiciones.component';
-import { DialogMensajeErrorIngresoComponent } from '../components/dialog-mensaje-error-ingreso/dialog-mensaje-error-ingreso.component';
+import { DialogMensajeErrorComponent } from 'src/app/shared/dialog-mensaje-error/dialog-mensaje-error.component';
 
 @Component({
   selector: 'app-empleado',
@@ -21,17 +23,15 @@ import { DialogMensajeErrorIngresoComponent } from '../components/dialog-mensaje
   styleUrls: ['./empleado.component.css']
 })
 export class EmpleadoComponent implements OnInit {
-  // loading: boolean = false;
+  @Output() isLoading: EventEmitter<boolean> = new EventEmitter();
 
-  private _siteKey: string = environment.siteKeyCaptcha;
+  // Campos captcha
+  @ViewChild('captchaElem', { static: false }) captchaElem: ReCaptcha2Component;
+  readonly siteKey: string = environment.siteKeyCaptcha;
+  readonly type: string = 'image';
+  readonly lang: string = 'es-419';
 
   form: FormGroup;
-
-  // usuario!: Usuario;
-
-  get siteKey(): string {
-    return this._siteKey;
-  }
 
   get lugaresAcceso(): LugarAcceso[] {
     return this._lugaresAccesoService.lugaresAcceso;
@@ -48,14 +48,14 @@ export class EmpleadoComponent implements OnInit {
       nroLegajo: ['', [Validators.required,
                        Validators.minLength(8),
                        Validators.maxLength(8), 
-                       Validators.pattern('[0-9]*')]],
+                       Validators.pattern('^[0-9]{8}$')]],
       dni: ['', [Validators.required, 
-                 Validators.minLength(1), // ???
-                 Validators.maxLength(10), 
-                 Validators.pattern('[0-9]*')]],
+                 Validators.minLength(8), // ???
+                 Validators.maxLength(8), 
+                 Validators.pattern('^(m|M|f|F)?[0-9]{7,8}$')]],
       idLugarAcceso: ['', Validators.required],
       recaptcha: ['', Validators.required],
-      terminosCondicion: [null, Validators.required]
+      terminosCondicion: [false, Validators.required]
     });
   }
 
@@ -81,28 +81,31 @@ export class EmpleadoComponent implements OnInit {
   
 
   submit() {
-    // this.loading = true;
+    this.isLoading.emit(true);
 
     const { nroLegajo, dni, idLugarAcceso } = this.form.value;
-    console.log(nroLegajo, dni, idLugarAcceso);
 
     this._usuarioService.autenticarUsuarioEmpleado(nroLegajo, idLugarAcceso)
       .subscribe( empleado => {
         
         if ( empleado.nroLegajo && (empleado.dni === dni) ) {
           this.router.navigate(['/autoevaluacion']);
-          console.log("empleado component", this._usuarioService.usuario)
+          this.isLoading.emit(false);
         } else {
           localStorage.clear();
-          // alert('DNI incorrecto');
-          this.dialog.open(DialogMensajeErrorIngresoComponent, {
+          this.isLoading.emit(false);
+
+          this.reset();
+          this.dialog.open(DialogMensajeErrorComponent, {
             data: { msg: 'El DNI ingresado es incorrecto' }
           });
         }
       },
-      err => {
-        console.log(err);
-        this.dialog.open(DialogMensajeErrorIngresoComponent, {
+      () => {
+        this.isLoading.emit(false);
+
+        this.reset();
+        this.dialog.open(DialogMensajeErrorComponent, {
           data: { msg: `El número de legajo ingresado no existe` }
         });
       });
@@ -113,5 +116,17 @@ export class EmpleadoComponent implements OnInit {
 
   openDialogTerminosCondiciones() {
     this.dialog.open(DialogTerminosCondicionesComponent);
+  }
+
+  private reset() {
+    this.form.reset({
+      nroLegajo: '',
+      dni: '',
+      idLugarAcceso: '',
+      recaptcha: false,
+      terminosCondicion: false
+    });
+    this.captchaElem.resetCaptcha();
+    this.form.markAsUntouched();
   }
 }

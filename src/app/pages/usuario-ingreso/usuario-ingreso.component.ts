@@ -7,8 +7,14 @@ import { Component, OnInit } from '@angular/core';
 })
 export class UsuarioIngresoComponent implements OnInit {
   checked: boolean = true;
+
+  loading: boolean = false;
   
   ngOnInit(): void {
     localStorage.clear();
+  }
+
+  isLoading(event) {
+    this.loading = event;
   }
 }
