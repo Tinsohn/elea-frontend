@@ -79,7 +79,7 @@ header {
     grid-column: 1 / span 1;
 }
 #estado-usuario h3 {
-    font-size: 1.25em;
+    font-size: 1.75em;
     margin-bottom: 0;
 }
 #estado-usuario p {
@@ -92,6 +92,34 @@ header {
     /* grid-area: 'qr-datos'; */
     grid-column: 2 / span 1;
     text-align: center;
+}
+
+#qr-image {
+    width: 120px;
+    height: 120px;
+    position: relative;
+    float: right;
+}
+
+@media screen and (min-width: 360px) {
+    #qr-image {
+        width: 150px;
+        height: 150px;
+    }
+}
+
+@media screen and (min-width: 800px) {
+    #qr-image {
+        position: static;
+        float: center;
+    }
+}
+
+@media screen and (min-width: 900px) {
+    #qr-image {
+        width: 200px;
+        height: 200px;
+    }
 }
 
 #datos-resultado {

@@ -1,9 +1,9 @@
 import { Component, Inject } from '@angular/core';
-import { Router } from '@angular/router';
+// import { Router } from '@ar/router';
 
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 
-import { ResultadoService } from '../../../../services/resultado/resultado.service';
+// import { ResultadoService } from '../../../../services/resultado/resultado.service';
 
 @Component({
   selector: 'app-dialog-declaracion-jurada',
@@ -12,8 +12,8 @@ import { ResultadoService } from '../../../../services/resultado/resultado.servi
 })
 export class DialogDeclaracionJuradaComponent {
 
-  constructor(private router: Router,
-              private _resultadoService: ResultadoService,
+  constructor(/*private router: Router,
+              private _resultadoService: ResultadoService,*/
               @Inject(MAT_DIALOG_DATA) private data: {isAceptado:boolean}) { }
 
   // grabar() {

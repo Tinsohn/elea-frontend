@@ -53,15 +53,15 @@ export class AutodiagnosticoService {
     "¿Tenés dolor muscular?",
   ];
   txtCamposAntecedentes: string[] = [
-    "Trabajo o convivo con una persona que actualmente es caso confirmado de COVID-19",
-    "Pasé en los últimos 14 días al menos 15 minutos cerca de una persona que actualmente es caso confirmado de COVID-19",
-    "Tengo/tuve cáncer",
-    "Tengo diabetes",
-    "Tengo alguna enfermedad hepática",
-    "Tengo enfermedad renal crónica",
-    "Tengo alguna enfermedad respiratoria",
-    "Tengo alguna enfermedad cardiológica",
-    "Tengo alguna condición que baja las defensas"
+    "Trabajo o convivo con una persona que actualmente es caso confirmado o sospechoso de COVID-19.",
+    "Pasé en los últimos 14 días al menos 15 minutos sin barbijo y a menos de 2 metros de distancia de una persona que actualmente es caso confirmado de COVID-19.",
+    "Tengo/tuve cáncer.",
+    "Tengo diabetes.",
+    "Tengo alguna enfermedad hepática.",
+    "Tengo enfermedad renal crónica.",
+    "Tengo alguna enfermedad respiratoria.",
+    "Tengo alguna enfermedad cardiológica.",
+    "Tengo alguna condición que baja las defensas."
   ];
 
   // ---------
@@ -151,8 +151,8 @@ export class AutodiagnosticoService {
   // --------------
   validarSintomasEstado(): void {
     // temperatura
-    if (this.temperaturaValue < 36
-      || this.temperaturaValue > 37.5) {
+    if (this.temperaturaValue <= 35.9
+        || this.temperaturaValue >= 37.5) {
         this._sintomasEstado = true;
       } else {
         // sintomas

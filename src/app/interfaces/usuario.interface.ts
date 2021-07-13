@@ -5,7 +5,8 @@ export interface Usuario {
     nombre        : string;
     apellido      : string;
     telefono      : string;
-    mail          : string;
+    emailLaboral? : string;
+    emailUsuario? : string;
     empresa?      : string;
     idLugarAcceso?: number;
 }

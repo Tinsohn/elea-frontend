@@ -53,8 +53,8 @@ export class VisitanteComponent implements OnInit {
                       Validators.maxLength(20), 
                       Validators.pattern('^[\+]?[0-9]{6,20}$')]],
       empresa: ['', Validators.required],
-      email: ['', [Validators.required, 
-                   Validators.pattern('^[_a-zA-Z0-9]+(.[_a-zA-Z0-9]+)*@[a-zA-Z0-9]+([\.][a-z0-9]+)*([\.][a-z]{2,4})$')]],
+      emailUsuario: ['', [Validators.required, 
+                          Validators.pattern('^[_a-zA-Z0-9]+(.[_a-zA-Z0-9]+)*@[a-zA-Z0-9]+([\.][a-z0-9]+)*([\.][a-z]{2,4})$')]],
       idLugarAcceso: ['', Validators.required],
       recaptcha: ['', Validators.required],
       terminosCondicion: [null, Validators.required]
@@ -81,7 +81,7 @@ export class VisitanteComponent implements OnInit {
       }
     }
 
-    if (campo === 'email') {
+    if (campo === 'emailUsuario') {
       if (this.form.get(campo)?.hasError('pattern')) {
         return 'Debe ingresar un e-mail válido';
       }

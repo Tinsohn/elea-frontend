@@ -12,8 +12,9 @@
     <div class="div-contenedor-resultados">
         <div id="datos-usuario">
             <ul class="txt-fw500">
-                <li>{{ usuario.nombre }} {{ usuario.apellido }}</li>
-                <li>DNI: {{ usuario.dni }}</li>
+                <li>{{ usuario.nombre | titlecase }} {{ usuario.apellido | titlecase }}</li>
+                <li>DNI: {{ usuario.dni | uppercase }}</li>
+                <li *ngIf="usuario.nroLegajo !== '0'">Legajo: {{ usuario.nroLegajo }}</li>
             </ul>
             
             <p class="font-color-gris">Recordá siempre las medidas sanitarias</p>
@@ -30,9 +31,10 @@
             <p *ngIf="!resultado.resultado">Usted no está habilitado para concurrir al trabajo. Por favor, comuníquese con Servicio Médico por teléfono o Whatsapp al 011 3867-3669.</p>
         </div>
 
-        <div id="qr-datos">
-            QR <br>
-            ???
+        <div id="qr-datos" *ngIf="resultado.resultado">
+            <!-- QR <br>
+            ??? -->
+            <img id="qr-image" src="../../../assets/qr-code.png" alt="qr-resultado">
         </div>
         
         <div id="hr-2">
@@ -48,15 +50,15 @@
             <div class="labels">
                 <span >{{ resultado.temperaturaLabel }}</span><br>
                 <span >{{ resultado.sintomasLabel }}</span><br>
-                <span >{{ resultado.contactoEstrechoLabel }}</span><br>
+                <span >{{ resultado.contactosEstrechoLabel }}</span><br>
                 <span >{{ resultado.antecedentesLabel }}</span>
             </div>
-            <p>Vence {{ resultado.fecha_hasta_resultado | date:'dd/MM/yyyy HH:mm:ss' }}</p>
-            <p>GENERADO EL {{ resultado.fecha_autodiagnostico | date:'dd/MM/yyyy HH:mm:ss' }}</p>
+            <p>Generado el {{ resultado.fecha_autodiagnostico | date:'dd/MM/yyyy HH:mm:ss' }}</p>
+            <p>Vence el {{ resultado.fecha_hasta_resultado | date:'dd/MM/yyyy HH:mm:ss' }}</p>
         </div>
 
         <div id="botones" class="div-boton">
-            <button mat-stroked-button color="primary" *ngIf="resultado.resultado">GUARDAR PDF</button>
+            <!-- <button mat-stroked-button color="primary" *ngIf="resultado.resultado">GUARDAR PDF</button> -->
             <button mat-raised-button color="primary" (click)="cerrarSesion()">SALIR</button>
         </div>
     </div>

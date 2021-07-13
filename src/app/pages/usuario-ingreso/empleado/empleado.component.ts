@@ -53,6 +53,8 @@ export class EmpleadoComponent implements OnInit {
                  Validators.minLength(8), // ???
                  Validators.maxLength(8), 
                  Validators.pattern('^(m|M|f|F)?[0-9]{7,8}$')]],
+      emailUsuario: ['', [Validators.required, 
+                          Validators.pattern('^[_a-zA-Z0-9]+(.[_a-zA-Z0-9]+)*@[a-zA-Z0-9]+([\.][a-z0-9]+)*([\.][a-z]{2,4})$')]],
       idLugarAcceso: ['', Validators.required],
       recaptcha: ['', Validators.required],
       terminosCondicion: [false, Validators.required]
@@ -83,10 +85,11 @@ export class EmpleadoComponent implements OnInit {
   submit() {
     this.isLoading.emit(true);
 
-    const { nroLegajo, dni, idLugarAcceso } = this.form.value;
+    const { nroLegajo, dni, emailUsuario, idLugarAcceso } = this.form.value;
 
-    this._usuarioService.autenticarUsuarioEmpleado(nroLegajo, idLugarAcceso)
+    this._usuarioService.autenticarUsuarioEmpleado(nroLegajo, emailUsuario, idLugarAcceso)
       .subscribe( empleado => {
+        // console.log('empleado component', empleado)
         
         if ( empleado.nroLegajo && (empleado.dni === dni) ) {
           this.router.navigate(['/autoevaluacion']);

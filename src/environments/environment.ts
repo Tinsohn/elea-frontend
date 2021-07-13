@@ -4,7 +4,7 @@
 
 export const environment = {
   production: false,
-  baseUrlBE: 'http://localhost:8080',
+  baseUrlBE: 'http://10.30.0.20:8080/Autodiagnostico-1.2',
   siteKeyCaptcha: '6Ld58yUbAAAAACRtuaTZ9cZ9BkynxvoutKphl7s1'
 };
 

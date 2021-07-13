@@ -59,26 +59,28 @@ export class ResumenComponent {
 
         // console.log('se acepto')
         this._resultadoService.grabarResultado()
-        .subscribe( data => {
-          console.log('DECLARACION JUGARADA RECIBIO:', data);
-          
-          if(data) {
-            this.isLoading.emit(false);
+          .subscribe( data => {
+            // ID o respuesta
+            console.log('id autodiagnostico:', data);
             
-            this.router.navigate(['/resultados']);
-          }
-        }, () => {
-          this._resultadoService.limpiarResultadosLocalStorage();
-          this.isLoading.emit(false);
-          this.dialog.open(DialogMensajeErrorComponent, {
-            data: { msg: 'Hubo un problema al enviar los resultados del autodiagnóstico' }
-          })
-        });
+            if(data > 0) {
+              this.isLoading.emit(false);
+              
+              this.router.navigate(['/resultados']);
+            }
+          }, err => {
+            // console.log(err)
+            this._resultadoService.limpiarResultadosLocalStorage();
+            this.isLoading.emit(false);
+            this.dialog.open(DialogMensajeErrorComponent, {
+              data: { msg: 'Hubo un problema al enviar los resultados del autodiagnóstico' }
+            })
+          });
       } else {
         // console.log('NO se acepto');
       }
       // TODO: eliminar este router!
-      this.router.navigate(['/resultados']);
+      // this.router.navigate(['/resultados']);
     })
   }
 

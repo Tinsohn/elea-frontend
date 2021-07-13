@@ -32,7 +32,8 @@ export class UsuarioService {
         || !localStorage.getItem('apellido')
         || !localStorage.getItem('telefono')
         || !localStorage.getItem('empresa')
-        || !localStorage.getItem('mail')
+        || !localStorage.getItem('emailL')
+        || !localStorage.getItem('emailU')
         || !localStorage.getItem('idLugarAcceso')) {
       return of(false); 
     }
@@ -46,7 +47,8 @@ export class UsuarioService {
         apellido: localStorage.getItem('apellido'),
         telefono: localStorage.getItem('telefono'),
         empresa: localStorage.getItem('empresa'),
-        mail: localStorage.getItem('mail'),
+        emailLaboral: localStorage.getItem('emailL'),
+        emailUsuario: localStorage.getItem('emailU'),
         idLugarAcceso: Number(localStorage.getItem('idLugarAcceso'))
       }
 
@@ -59,8 +61,12 @@ export class UsuarioService {
               map( usuario => {
                 this._usuario = usuario;
                 
+                this._usuario.emailUsuario  = localStorage.getItem('emailU').toLowerCase();
                 this._usuario.empresa       = 'ELEA';
                 this._usuario.idLugarAcceso = Number(localStorage.getItem('idLugarAcceso'));
+
+                // console.log(this._usuario)
+
                 return true;
               }),
               catchError(() => of(false))
@@ -70,14 +76,18 @@ export class UsuarioService {
   // ----------------
   // ingreso empleado
   // ----------------
-  autenticarUsuarioEmpleado(nroLegajo: string, idLugarAcceso: number) {
+  autenticarUsuarioEmpleado(nroLegajo: string, emailUsuario: string, idLugarAcceso: number) {
     return this.http.get<Usuario>(`${this.baseUrl}/legajo/empleado/${nroLegajo}`)
             .pipe(
               tap( usuario => {
                 this._usuario = usuario;
                 
-                this._usuario.empresa     = 'ELEA';
+                this._usuario.emailUsuario  = emailUsuario.toLowerCase();
+                this._usuario.empresa       = 'ELEA';
                 this._usuario.idLugarAcceso = idLugarAcceso;
+
+                // console.log('empleado recibido', usuario)
+                // console.log('usuario-empleado creado', this._usuario)
                 
                 this.guardarEnLocalStorage();               
               })
@@ -88,16 +98,17 @@ export class UsuarioService {
   // ingreso visitante
   // -----------------
   crearUsuarioVisitante(form: FormGroup) {
-    const { dni, nombre, apellido, telefono, empresa, email, idLugarAcceso } = form.value;
+    const { dni, nombre, apellido, telefono, empresa, emailUsuario, idLugarAcceso } = form.value;
     
     this._usuario = {
       nroLegajo: '0',
-      dni: dni,
+      dni: String(dni).toUpperCase(),
       nombre: nombre,
       apellido: apellido,
       telefono: telefono,
       empresa: empresa,
-      mail: email,
+      emailLaboral: null,
+      emailUsuario: String(emailUsuario).toLowerCase(),
       idLugarAcceso: idLugarAcceso
     }
 
@@ -118,12 +129,13 @@ export class UsuarioService {
   //////////////////////////////////////////////////////////////////
   private guardarEnLocalStorage() {
     localStorage.setItem('nroLegajo', String(this._usuario.nroLegajo));
-    localStorage.setItem('dni', String(this._usuario.dni));
+    localStorage.setItem('dni', String(this._usuario.dni).toUpperCase());
     localStorage.setItem('nombre', this._usuario.nombre);
     localStorage.setItem('apellido', this._usuario.apellido);
     localStorage.setItem('telefono', this._usuario.telefono);
     localStorage.setItem('empresa', this._usuario.empresa);
-    localStorage.setItem('mail', this._usuario.mail);
+    localStorage.setItem('emailL', this._usuario.emailLaboral);
+    localStorage.setItem('emailU', this._usuario.emailUsuario);
     localStorage.setItem('idLugarAcceso', String(this._usuario.idLugarAcceso));
   }
   //////////////////////////////////////////////////////////////////

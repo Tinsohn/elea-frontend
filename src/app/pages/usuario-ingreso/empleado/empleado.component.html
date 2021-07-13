@@ -12,6 +12,14 @@
         <input matInput formControlName="dni" type="text" maxlength="8" required>
         <mat-error *ngIf="this.form.get('dni').invalid">{{getErrorMessage('dni')}}</mat-error>
     </mat-form-field>
+
+    <!-- EMAIL -->
+    <mat-form-field appearance="fill">
+        <mat-label>E-mail</mat-label>
+        <input matInput formControlName="emailUsuario" type="text" required>
+        <mat-hint>Este e-mail nos proporcionará un medio para enviarle los resultados de su autodiagnóstico</mat-hint>
+        <mat-error *ngIf="this.form.get('emailUsuario').invalid">{{getErrorMessage('emailUsuario')}}</mat-error>
+    </mat-form-field>
     <br>
 
     <!-- LUGAR DE ACCESO -->
