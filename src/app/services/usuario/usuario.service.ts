@@ -1,18 +1,17 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { FormGroup } from '@angular/forms';
 import { Observable, of } from 'rxjs';
 import { catchError, map, tap } from 'rxjs/operators';
 
-import { environment } from 'src/environments/environment';
-
 import { Usuario } from 'src/app/interfaces/usuario.interface';
-import { FormGroup } from '@angular/forms';
+import { PropertiesService } from '../properties/properties.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class UsuarioService {
-  private baseUrl: string = environment.baseUrlBE;
+  private _autodiagnostico_backend: string;
 
   private _usuario: Usuario | undefined;
 
@@ -20,7 +19,10 @@ export class UsuarioService {
     return { ...this._usuario };
   }
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient,
+              private _propertiesService: PropertiesService) { 
+                  this._autodiagnostico_backend = this._propertiesService.properties.autodiagnostico_backend;
+              }
 
   // ---------------------
   // para el guard usuario
@@ -56,7 +58,7 @@ export class UsuarioService {
     }
 
     // empleado
-    return this.http.get<Usuario>(`${this.baseUrl}/legajo/empleado/${localStorage.getItem('nroLegajo')}`)
+    return this.http.get<Usuario>(`${this._autodiagnostico_backend}/legajo/empleado/${localStorage.getItem('nroLegajo')}`)
             .pipe(
               map( usuario => {
                 this._usuario = usuario;
@@ -77,7 +79,7 @@ export class UsuarioService {
   // ingreso empleado
   // ----------------
   autenticarUsuarioEmpleado(nroLegajo: string, emailUsuario: string, idLugarAcceso: number) {
-    return this.http.get<Usuario>(`${this.baseUrl}/legajo/empleado/${nroLegajo}`)
+    return this.http.get<Usuario>(`${this._autodiagnostico_backend}/legajo/empleado/${nroLegajo}`)
             .pipe(
               tap( usuario => {
                 this._usuario = usuario;

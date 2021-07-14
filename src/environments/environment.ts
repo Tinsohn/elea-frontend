@@ -4,7 +4,10 @@
 
 export const environment = {
   production: false,
-  baseUrlBE: 'http://10.30.0.20:8080/Autodiagnostico-1.2',
+  // autodiagnostico_backend: 'http://localhost:8080',
+  // urlProperties: 'assets/autodiagnostico-front.json',
+  // urlProperties: 'http://34.239.14.244:8080/autodiagnostico/autodiagnostico-front.json',
+  // urlProperties: '/autodiagnostico/autodiagnostico-front.json',
   siteKeyCaptcha: '6Ld58yUbAAAAACRtuaTZ9cZ9BkynxvoutKphl7s1'
 };
 

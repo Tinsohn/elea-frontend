@@ -3,10 +3,9 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { of } from 'rxjs';
 import { tap, catchError } from 'rxjs/operators';
 
-import { environment } from 'src/environments/environment';
-
 import { Resultado } from '../../interfaces/resultado.interface';
 
+import { PropertiesService } from '../properties/properties.service';
 import { UsuarioService } from '../usuario/usuario.service';
 import { AutodiagnosticoService } from '../autodiagnostico/autodiagnostico.service';
 
@@ -14,7 +13,7 @@ import { AutodiagnosticoService } from '../autodiagnostico/autodiagnostico.servi
   providedIn: 'root'
 })
 export class ResultadoService {
-  private baseUrl: string = environment.baseUrlBE
+  private _autodiagnostico_backend: string;
 
   private _resultado!: Resultado;
 
@@ -23,8 +22,11 @@ export class ResultadoService {
   }
 
   constructor(private http: HttpClient,
+              private _propertiesService: PropertiesService,
               private _usuarioService: UsuarioService,
-              private _autodiagnosticoService: AutodiagnosticoService) { }
+              private _autodiagnosticoService: AutodiagnosticoService) {
+                  this._autodiagnostico_backend = this._propertiesService.properties.autodiagnostico_backend;
+              }
 
 
   // -----------------------------
@@ -64,7 +66,7 @@ export class ResultadoService {
     
     this.guardarEnLocalStorage();
 
-    return this.http.post(`${this.baseUrl}/legajo/autodiagnostico`, this._resultado, {
+    return this.http.post(`${this._autodiagnostico_backend}/legajo/autodiagnostico`, this._resultado, {
       headers: new HttpHeaders({
         'Content-Type': 'application/json'
       })
