@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
+
 import { Properties } from '../../interfaces/properties.interface';
-import { HttpClient } from '@angular/common/http';
 
 import properties from '/autodiagnostico/autodiagnostico-front.json';
 
@@ -14,7 +14,7 @@ export class PropertiesService {
     return this._properties;
   }
 
-  constructor(private http: HttpClient) { 
+  constructor() { 
     this._properties = properties;
   }
 }
