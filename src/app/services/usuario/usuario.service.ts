@@ -6,6 +6,7 @@ import { catchError, map, tap } from 'rxjs/operators';
 
 import { Usuario } from 'src/app/interfaces/usuario.interface';
 import { PropertiesService } from '../properties/properties.service';
+import { environment } from '../../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
@@ -21,7 +22,20 @@ export class UsuarioService {
 
   constructor(private http: HttpClient,
               private _propertiesService: PropertiesService) { 
-                  this._autodiagnostico_backend = this._propertiesService.properties.autodiagnostico_backend;
+                  // this._autodiagnostico_backend = this._propertiesService.properties.autodiagnostico_backend;
+                  
+                  // this._propertiesService.cargarProperties()
+                  //   .subscribe(
+                    //     isPropsCargadas => {
+                      //       console.log('PROPERTIES JSON ', this._propertiesService.properties)
+                      //       if (isPropsCargadas == true) {
+                  //         this._autodiagnostico_backend = this._propertiesService.properties.autodiagnostico_backend;
+                  //       }
+                  //       console.log('PROPERTIES ', this._autodiagnostico_backend)
+                  //     }
+                  //   );
+                  
+                  this._autodiagnostico_backend = environment.autodiagnostico_backend;
               }
 
   // ---------------------

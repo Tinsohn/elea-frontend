@@ -61,7 +61,7 @@ export class ResumenComponent {
         this._resultadoService.grabarResultado()
           .subscribe( data => {
             // ID o respuesta
-            console.log('id autodiagnostico:', data);
+            // console.log('id autodiagnostico:', data);
             
             if(data > 0) {
               this.isLoading.emit(false);

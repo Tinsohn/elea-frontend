@@ -8,7 +8,8 @@ export const environment = {
   // urlProperties: 'assets/autodiagnostico-front.json',
   // urlProperties: 'http://34.239.14.244:8080/autodiagnostico/autodiagnostico-front.json',
   // urlProperties: '/autodiagnostico/autodiagnostico-front.json',
-  siteKeyCaptcha: '6Ld58yUbAAAAACRtuaTZ9cZ9BkynxvoutKphl7s1'
+  siteKeyCaptcha: '6Ld58yUbAAAAACRtuaTZ9cZ9BkynxvoutKphl7s1',
+  autodiagnostico_backend: 'http://localhost:8080/autodiagnostico'
 };
 
 /*

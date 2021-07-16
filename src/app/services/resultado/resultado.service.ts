@@ -1,13 +1,14 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { of } from 'rxjs';
-import { tap, catchError } from 'rxjs/operators';
+import { tap } from 'rxjs/operators';
 
 import { Resultado } from '../../interfaces/resultado.interface';
 
 import { PropertiesService } from '../properties/properties.service';
 import { UsuarioService } from '../usuario/usuario.service';
 import { AutodiagnosticoService } from '../autodiagnostico/autodiagnostico.service';
+import { environment } from '../../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
@@ -25,7 +26,7 @@ export class ResultadoService {
               private _propertiesService: PropertiesService,
               private _usuarioService: UsuarioService,
               private _autodiagnosticoService: AutodiagnosticoService) {
-                  this._autodiagnostico_backend = this._propertiesService.properties.autodiagnostico_backend;
+                  this._autodiagnostico_backend = environment.autodiagnostico_backend;
               }
 
 

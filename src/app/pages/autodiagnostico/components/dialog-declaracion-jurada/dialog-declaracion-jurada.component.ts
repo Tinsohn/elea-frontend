@@ -1,9 +1,6 @@
 import { Component, Inject } from '@angular/core';
-// import { Router } from '@ar/router';
 
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
-
-// import { ResultadoService } from '../../../../services/resultado/resultado.service';
 
 @Component({
   selector: 'app-dialog-declaracion-jurada',
@@ -12,23 +9,7 @@ import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 })
 export class DialogDeclaracionJuradaComponent {
 
-  constructor(/*private router: Router,
-              private _resultadoService: ResultadoService,*/
-              @Inject(MAT_DIALOG_DATA) private data: {isAceptado:boolean}) { }
-
-  // grabar() {
-  //   this._resultadoService.grabarResultado()
-  //     .subscribe( data => {
-  //       console.log('DECLARACION JUGARADA RECIBIO:', data);
-
-  //       if(data !== false) {
-  //         this.router.navigate(['/resultados']);
-  //       }
-  //     },
-  //     () => alert('hubo un error'));
-
-  //   // this.router.navigate(['/resultados']);
-  // }
+  constructor(@Inject(MAT_DIALOG_DATA) private data: {isAceptado:boolean}) { }
 
   aceptar() {
     this.data.isAceptado = true;
