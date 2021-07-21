@@ -1,4 +1,4 @@
 export interface LugarAcceso {
-    id: number;
-    descripcion: string;
+    idLugarAcceso: number;
+    descripcionLugarAcceso: string;
 }

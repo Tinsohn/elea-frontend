@@ -35,6 +35,7 @@ export class EmpleadoComponent implements OnInit {
   get lugaresAcceso(): LugarAcceso[] {
     return this._lugaresAccesoService.lugaresAcceso;
   }
+  // lugaresAcceso: LugarAcceso[] = []
 
   constructor(private fb: FormBuilder,
               private router: Router,

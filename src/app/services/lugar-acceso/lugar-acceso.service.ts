@@ -1,5 +1,10 @@
 import { Injectable } from '@angular/core';
 
+import { HttpClient } from '@angular/common/http';
+import { Observable } from 'rxjs';
+
+import { environment } from 'src/environments/environment';
+
 import { LugarAcceso } from 'src/app/interfaces/lugar-acceso.interface';
 
 @Injectable({
@@ -9,38 +14,53 @@ export class LugarAccesoService {
   // TODO: consumir servicio q provee los lugares de acceso (ahora esta hardcodeado)
   private _lugaresAcceso: LugarAcceso[] = [
     {
-      id: 1,
-      descripcion: "Planta VDM"
+      idLugarAcceso: 1,
+      descripcionLugarAcceso: "Planta VDM"
     },
     { 
-      id: 2,
-      descripcion: "Planta Disprofarma"
+      idLugarAcceso: 2,
+      descripcionLugarAcceso: "Planta Disprofarma"
     },
     { 
-      id: 3,
-      descripcion: "Planta Pilar"
+      idLugarAcceso: 3,
+      descripcionLugarAcceso: "Planta Pilar"
     },
     {
-      id: 4,
-      descripcion: "Planta Humahuaca"
+      idLugarAcceso: 4,
+      descripcionLugarAcceso: "Planta Humahuaca"
     },
     { 
-      id: 5,
-      descripcion: "Fuerza de Venta"
+      idLugarAcceso: 5,
+      descripcionLugarAcceso: "Fuerza de Venta"
     },
     { 
-      id: 6,
-      descripcion: "Home Office"
+      idLugarAcceso: 6,
+      descripcionLugarAcceso: "Home Office"
     }
   ]
+  // private _lugaresAcceso: LugarAcceso[] = [];
 
   get lugaresAcceso(): LugarAcceso[] {
     return this._lugaresAcceso;
   }
 
-  constructor() { }
-
-  getLugarAccesoPorId(id: number): LugarAcceso {
-    return this._lugaresAcceso.filter(lugarAcceso => lugarAcceso.id === id)[0];
+  constructor(private http: HttpClient) {
+    // this.recuperarLugaresDeAcceso()
+    // .subscribe(lugaresAcceso => {
+    //   this._lugaresAcceso = lugaresAcceso as LugarAcceso[];
+    //   console.log(this._lugaresAcceso)
+    // });
   }
+
+  getLugarAccesoPorId(idLugarAcceso: number): LugarAcceso {
+    return this._lugaresAcceso.filter(lugarAcceso => lugarAcceso.idLugarAcceso === idLugarAcceso)[0];
+  }
+  
+  // getLugarAccesoPorIdBE(idLugarAcceso: number): Observable<string> {
+  //   return this.http.get<string>(`${environment.autodiagnostico_backend}/lugaracceso/id/${idLugarAcceso}`);
+  // }
+
+  // private recuperarLugaresDeAcceso() {
+  //   return this.http.get(`${environment.autodiagnostico_backend}/lugaracceso/lista`);
+  // }
 }
