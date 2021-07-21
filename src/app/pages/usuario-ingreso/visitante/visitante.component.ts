@@ -12,7 +12,7 @@ import { UsuarioService } from '../../../services/usuario/usuario.service';
 import { LugarAcceso } from 'src/app/interfaces/lugar-acceso.interface';
 import { LugarAccesoService } from 'src/app/services/lugar-acceso/lugar-acceso.service';
 
-import { DialogTerminosCondicionesComponent } from '../components/dialog-terminos-condiciones/dialog-terminos-condiciones.component';
+// import { DialogTerminosCondicionesComponent } from '../components/dialog-terminos-condiciones/dialog-terminos-condiciones.component';
 
 @Component({
   selector: 'app-visitante',
@@ -45,7 +45,7 @@ export class VisitanteComponent implements OnInit {
       dni: ['', [Validators.required,
                  Validators.minLength(8), 
                  Validators.maxLength(8), 
-                 Validators.pattern('^(m|M|f|F)?[0-9]{7,8}$')]],
+                 Validators.pattern('^(m|M|f|F)?[1-9]{1}[0-9]{6,7}$')]],
       nombre: ['', Validators.required],
       apellido: ['', Validators.required],
       telefono: ['', [Validators.required, 
@@ -56,8 +56,8 @@ export class VisitanteComponent implements OnInit {
       emailUsuario: ['', [Validators.required, 
                           Validators.pattern('^[_a-zA-Z0-9]+(.[_a-zA-Z0-9]+)*@[a-zA-Z0-9]+([\.][a-z0-9]+)*([\.][a-z]{2,4})$')]],
       idLugarAcceso: ['', Validators.required],
-      recaptcha: ['', Validators.required],
-      terminosCondicion: [null, Validators.required]
+      recaptcha: ['', Validators.required]
+      // terminosCondicion: ['', Validators.required]
     });
   }
 
@@ -98,7 +98,7 @@ export class VisitanteComponent implements OnInit {
     this.router.navigate(['/autoevaluacion']);
   }
 
-  openDialogTerminosCondiciones() {
-    this.dialog.open(DialogTerminosCondicionesComponent);
-  }
+  // openDialogTerminosCondiciones() {
+  //   this.dialog.open(DialogTerminosCondicionesComponent);
+  // }
 }

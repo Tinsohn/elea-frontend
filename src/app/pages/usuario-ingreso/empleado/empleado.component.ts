@@ -8,13 +8,12 @@ import { ReCaptcha2Component } from 'ngx-captcha'
 
 import { environment } from 'src/environments/environment';
 
-// import { Usuario } from 'src/app/interfaces/usuario.interface';
 import { UsuarioService } from '../../../services/usuario/usuario.service';
 
 import { LugarAcceso } from 'src/app/interfaces/lugar-acceso.interface';
 import { LugarAccesoService } from 'src/app/services/lugar-acceso/lugar-acceso.service';
 
-import { DialogTerminosCondicionesComponent } from '../components/dialog-terminos-condiciones/dialog-terminos-condiciones.component';
+// import { DialogTerminosCondicionesComponent } from '../components/dialog-terminos-condiciones/dialog-terminos-condiciones.component';
 import { DialogMensajeErrorComponent } from 'src/app/shared/dialog-mensaje-error/dialog-mensaje-error.component';
 
 @Component({
@@ -46,18 +45,20 @@ export class EmpleadoComponent implements OnInit {
   ngOnInit(): void {
     this.form = this.fb.group({
       nroLegajo: ['', [Validators.required,
-                       Validators.minLength(8),
-                       Validators.maxLength(8), 
-                       Validators.pattern('^[0-9]{8}$')]],
+                      //  Validators.minLength(4),
+                      //  Validators.maxLength(6), 
+                      //  Validators.pattern('^[0-9]{5,6}$')]],
+                       Validators.min(1000),
+                       Validators.max(999999)]],
       dni: ['', [Validators.required, 
                  Validators.minLength(8), // ???
                  Validators.maxLength(8), 
-                 Validators.pattern('^(m|M|f|F)?[0-9]{7,8}$')]],
+                 Validators.pattern('^(m|M|f|F)?[1-9]{1}[0-9]{6,7}$')]],
       emailUsuario: ['', [Validators.required, 
                           Validators.pattern('^[_a-zA-Z0-9]+(.[_a-zA-Z0-9]+)*@[a-zA-Z0-9]+([\.][a-z0-9]+)*([\.][a-z]{2,4})$')]],
       idLugarAcceso: ['', Validators.required],
-      recaptcha: ['', Validators.required],
-      terminosCondicion: [false, Validators.required]
+      recaptcha: ['', Validators.required]
+      // terminosCondicion: [false, Validators.required]
     });
   }
 
@@ -67,7 +68,12 @@ export class EmpleadoComponent implements OnInit {
       return 'Campo requerido';
     }
     if (campo === 'nroLegajo') {
-      if (this.form.get(campo)?.hasError('maxLength') || this.form.get(campo)?.hasError('pattern')) {
+      // if (this.form.get(campo)?.hasError('maxLength') 
+      //     || this.form.get(campo)?.hasError('pattern')) {
+      //   return 'Debe ingresar un número de legajo válido';
+      // }
+      if (this.form.get(campo)?.hasError('min') 
+          || this.form.get(campo)?.hasError('max')) {
         return 'Debe ingresar un número de legajo válido';
       }
     }
@@ -117,17 +123,17 @@ export class EmpleadoComponent implements OnInit {
       // this.router.navigate(['/autoevaluacion']);
   }
 
-  openDialogTerminosCondiciones() {
-    this.dialog.open(DialogTerminosCondicionesComponent);
-  }
+  // openDialogTerminosCondiciones() {
+  //   this.dialog.open(DialogTerminosCondicionesComponent);
+  // }
 
   private reset() {
     this.form.reset({
       nroLegajo: '',
       dni: '',
       idLugarAcceso: '',
-      recaptcha: false,
-      terminosCondicion: false
+      recaptcha: false
+      // terminosCondicion: false
     });
     this.captchaElem.resetCaptcha();
     this.form.markAsUntouched();

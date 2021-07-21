@@ -2,7 +2,7 @@
     <!-- NUMERO LEGAJO -->
     <mat-form-field appearance="fill">
         <mat-label>Número de legajo</mat-label>
-        <input matInput formControlName="nroLegajo" type="text" maxlength="8" required>
+        <input matInput formControlName="nroLegajo" type="number" required>
         <mat-error *ngIf="this.form.get('nroLegajo').invalid">{{getErrorMessage('nroLegajo')}}</mat-error>
     </mat-form-field>
 
@@ -39,9 +39,9 @@
                                     fxFlexAlign="center"></ngx-recaptcha2>
 
     <!-- TERMINOS Y CONDICIONES -->
-    <div class="terminos-condiciones font-color-gris">
+    <!-- <div class="terminos-condiciones font-color-gris">
         <mat-checkbox formControlName="terminosCondicion" required>Acepto los <span class="open-dialog" (click)="openDialogTerminosCondiciones()">Términos y Condiciones</span> de la aplicación Autodiagnóstico Elea así como a la Política de Privacidad establecida en el punto 5 de los Términos y Condiciones</mat-checkbox>
-    </div>
+    </div> -->
 
     <!-- BOTON SUBMIT -->
     <div class="div-boton">
