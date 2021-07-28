@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
 
 import { HttpClient } from '@angular/common/http';
-import { map, catchError } from 'rxjs/operators';
+import { map } from 'rxjs/operators';
 
-import { Properties } from '../../interfaces/properties.interface';
+// import { Properties } from '../../interfaces/properties.interface';
 import { of } from 'rxjs';
 
 // let propertiesJson = require('file:///C:/autodiagnostico/autodiagnostico-front.json');
@@ -14,7 +14,7 @@ import { of } from 'rxjs';
   providedIn: 'root'
 })
 export class PropertiesService {
-  private _properties: Properties;
+  private _properties: any;
 
   get properties() {
     return this._properties;
@@ -27,7 +27,7 @@ export class PropertiesService {
   }
 
   cargarProperties() {
-    return this.http.get<Properties>('C:/autodiagnostico/autodiagnostico-front.json')
+    return this.http.get<any>('C:/autodiagnostico/autodiagnostico-front.json')
       .pipe(
         map(
           propertiesJson => {

@@ -5,7 +5,8 @@
 export const environment = {
   production: false,
   siteKeyCaptcha: '6Ld58yUbAAAAACRtuaTZ9cZ9BkynxvoutKphl7s1',
-  autodiagnostico_backend: 'http://localhost:8080'
+  // autodiagnostico_backend: 'http://localhost:8080'
+  autodiagnostico_backend: 'http://34.239.14.244:8080/autodiagnostico'
   // autodiagnostico_backend: 'http://localhost:8080',
   // urlProperties: 'assets/autodiagnostico-front.json',
   // urlProperties: 'http://34.239.14.244:8080/autodiagnostico/autodiagnostico-front.json',

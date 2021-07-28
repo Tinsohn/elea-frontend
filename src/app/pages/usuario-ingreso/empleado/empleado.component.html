@@ -26,7 +26,7 @@
     <mat-form-field appearance="fill">
         <mat-label>Lugar de acceso</mat-label>
         <mat-select formControlName="idLugarAcceso" required>
-        <mat-option *ngFor="let lugarAcceso of lugaresAcceso" value="{{ lugarAcceso.idLugarAcceso }}">{{ lugarAcceso.descripcionLugarAcceso }}</mat-option>
+            <mat-option *ngFor="let lugarAcceso of lugaresAcceso" value="{{ lugarAcceso.idLugarAcceso }}">{{ lugarAcceso.descripcionLugarAcceso }}</mat-option>
         </mat-select>
         <mat-error *ngIf="this.form.get('idLugarAcceso').invalid">{{getErrorMessage('idLugarAcceso')}}</mat-error>
     </mat-form-field>

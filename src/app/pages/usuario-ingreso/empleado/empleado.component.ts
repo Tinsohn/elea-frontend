@@ -49,8 +49,8 @@ export class EmpleadoComponent implements OnInit {
                       //  Validators.minLength(4),
                       //  Validators.maxLength(6), 
                       //  Validators.pattern('^[0-9]{5,6}$')]],
-                       Validators.min(1000),
-                       Validators.max(999999)]],
+                       Validators.min(1),
+                       Validators.max(99999999)]],
       dni: ['', [Validators.required, 
                  Validators.minLength(8), // ???
                  Validators.maxLength(8), 
@@ -94,7 +94,7 @@ export class EmpleadoComponent implements OnInit {
 
     const { nroLegajo, dni, emailUsuario, idLugarAcceso } = this.form.value;
 
-    this._usuarioService.autenticarUsuarioEmpleado(nroLegajo, emailUsuario, idLugarAcceso)
+    this._usuarioService.autenticarUsuarioEmpleado(String(nroLegajo), emailUsuario, idLugarAcceso)
       .subscribe( empleado => {
         // console.log('empleado component', empleado)
         

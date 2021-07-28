@@ -7,7 +7,6 @@ import { HttpClientModule } from '@angular/common/http';
 
 import { AppComponent } from './app.component';
 
-
 import { PagesModule } from './pages/pages.module';
 import { SharedModule } from './shared/shared.module';
 
