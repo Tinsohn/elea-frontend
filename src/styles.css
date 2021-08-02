@@ -166,3 +166,9 @@ h4.step-header {
 /* ----------- */
 /* fin stepper */
 /* ----------- */
+
+.centrado {
+    width: fit-content;
+    height: fit-content;
+    margin: 0 auto;
+}
