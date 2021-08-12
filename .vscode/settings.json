@@ -1,0 +1,19 @@
+{
+    "sqltools.connections": [
+        {
+            "mssqlOptions": {
+                "appName": "SQLTools",
+                "useUTC": true,
+                "encrypt": true
+            },
+            "previewLimit": 50,
+            "server": "34.239.14.244",
+            "port": 14334,
+            "driver": "MSSQL",
+            "name": "ELEA_AUTODIAGNOSTICO",
+            "username": "sa",
+            "database": "ELEA_AUTODIAGNOSTICO",
+            "password": "test_ag_tb1z"
+        }
+    ]
+}

@@ -48,7 +48,7 @@ export class UsuarioService {
         || !localStorage.getItem('apellido')
         || !localStorage.getItem('telefono')
         || !localStorage.getItem('empresa')
-        || !localStorage.getItem('emailL')
+        // || !localStorage.getItem('emailL')
         || !localStorage.getItem('emailU')
         || !localStorage.getItem('idLugarAcceso')) {
       return of(false); 
