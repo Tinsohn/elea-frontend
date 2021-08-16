@@ -21,22 +21,9 @@ export class UsuarioService {
   }
 
   constructor(private http: HttpClient,
-              private _propertiesService: PropertiesService) { 
-                  // this._autodiagnostico_backend = this._propertiesService.properties.autodiagnostico_backend;
-                  
-                  // this._propertiesService.cargarProperties()
-                  //   .subscribe(
-                    //     isPropsCargadas => {
-                      //       console.log('PROPERTIES JSON ', this._propertiesService.properties)
-                      //       if (isPropsCargadas == true) {
-                  //         this._autodiagnostico_backend = this._propertiesService.properties.autodiagnostico_backend;
-                  //       }
-                  //       console.log('PROPERTIES ', this._autodiagnostico_backend)
-                  //     }
-                  //   );
-                  
-                  this._autodiagnostico_backend = environment.autodiagnostico_backend;
-              }
+              private _propertiesService: PropertiesService) {
+      this._autodiagnostico_backend = environment.autodiagnostico_backend;
+  }
 
   // ---------------------
   // para el guard usuario
@@ -92,21 +79,51 @@ export class UsuarioService {
   // ----------------
   // ingreso empleado
   // ----------------
-  autenticarUsuarioEmpleado(nroLegajo: string, emailUsuario: string, idLugarAcceso: number) {
+  autenticarUsuarioEmpleado(nroLegajo: string, dni: string, emailUsuario: string, idLugarAcceso: number) {
     return this.http.get<Usuario>(`${this._autodiagnostico_backend}/legajo/empleado/${nroLegajo}`)
             .pipe(
               tap( usuario => {
-                this._usuario = usuario;
-                
-                this._usuario.emailUsuario  = emailUsuario.toLowerCase();
-                this._usuario.empresa       = 'ELEA';
-                this._usuario.idLugarAcceso = idLugarAcceso;
+                if ( usuario ) {
+                  this._usuario = usuario;
+                  
+                  this._usuario.emailUsuario  = emailUsuario.toLowerCase();
+                  this._usuario.empresa       = 'ELEA';
+                  this._usuario.idLugarAcceso = idLugarAcceso;
+  
+                  // console.log('empleado recibido', usuario)
+                  // console.log('usuario-empleado creado', this._usuario)
+                  
+                  // this.guardarEnLocalStorage();
+                }
+              }),
+              map( usuario => {
+                // Si no se encontro empleado con nroLegajo dado
+                if ( !usuario ) {
+                  return {
+                    ok: false,
+                    message: 'El número de legajo ingresado no existe'
+                  };
+                }
 
-                // console.log('empleado recibido', usuario)
-                // console.log('usuario-empleado creado', this._usuario)
-                
-                this.guardarEnLocalStorage();               
-              })
+                // Si el empleado encontrado con nroLegajo dado no coincide con el dni q se dio
+                if ( usuario.dni !== dni ) {
+                  return {
+                    ok: false,
+                    message: 'El DNI ingresado es incorrecto'
+                  };
+                }
+
+                // Si se encontro empleado con nroLegajo y dni dados
+                this.guardarEnLocalStorage();
+                return {
+                  ok: true,
+                  message: '¡Número de legajo y DNI correctos!'
+                };
+              }),
+              catchError(err => of({
+                ok: false,
+                message: 'Ocurrió un error inesperado'
+              }))
             );
   }
 

@@ -15,6 +15,8 @@ import { LugarAccesoService } from 'src/app/services/lugar-acceso/lugar-acceso.s
 
 // import { DialogTerminosCondicionesComponent } from '../components/dialog-terminos-condiciones/dialog-terminos-condiciones.component';
 import { DialogMensajeErrorComponent } from 'src/app/shared/dialog-mensaje-error/dialog-mensaje-error.component';
+import { Observer, Subscription } from 'rxjs';
+import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
   selector: 'app-empleado',
@@ -31,6 +33,8 @@ export class EmpleadoComponent implements OnInit {
   readonly lang: string = 'es-419';
 
   form: FormGroup;
+
+  private autenticarUsuarioSubscription: Subscription;
 
   get lugaresAcceso(): LugarAcceso[] {
     return this._lugaresAccesoService.lugaresAcceso;
@@ -61,6 +65,11 @@ export class EmpleadoComponent implements OnInit {
       recaptcha: ['', Validators.required]
       // terminosCondicion: [false, Validators.required]
     });
+  }
+
+  ngOnDestroy(): void {
+    if (this.autenticarUsuarioSubscription)
+      this.autenticarUsuarioSubscription.unsubscribe();
   }
 
   getErrorMessage(campo: string) {
@@ -94,31 +103,65 @@ export class EmpleadoComponent implements OnInit {
 
     const { nroLegajo, dni, emailUsuario, idLugarAcceso } = this.form.value;
 
-    this._usuarioService.autenticarUsuarioEmpleado(String(nroLegajo), emailUsuario, idLugarAcceso)
-      .subscribe( empleado => {
-        // console.log('empleado component', empleado)
+    this.autenticarUsuarioSubscription = this._usuarioService.autenticarUsuarioEmpleado(String(nroLegajo), dni, emailUsuario, idLugarAcceso)
+      .subscribe( resp => {
+        // console.log('RESPUESTA', resp);
         
-        if ( empleado.nroLegajo && (empleado.dni === dni) ) {
-          this.router.navigate(['/autoevaluacion']);
-          this.isLoading.emit(false);
-        } else {
-          localStorage.clear();
-          this.isLoading.emit(false);
-
+        if ( !resp.ok ) {
           this.reset();
           this.dialog.open(DialogMensajeErrorComponent, {
-            data: { msg: 'El DNI ingresado es incorrecto' }
+            data: { msg: resp.message }
+          });
+        } else {
+          this.router.navigate(['/autoevaluacion']);
+        }
+        this.isLoading.emit(false);
+      });
+      /*.subscribe( empleado => {
+        // console.log('empleado component', empleado)
+        
+        // Si me devuelve un empleado
+        if ( empleado ) {
+          if ( empleado.nroLegajo && (empleado.dni === dni) ) {
+            this.router.navigate(['/autoevaluacion']);
+            // this.isLoading.emit(false);
+          } else {
+            localStorage.clear();
+            // this.isLoading.emit(false);
+  
+            this.reset();
+            this.dialog.open(DialogMensajeErrorComponent, {
+              data: { msg: 'El DNI ingresado es incorrecto' }
+            });
+          }
+        } else { // Si no me devuelve ningun empleado ()
+          this.reset();
+          this.dialog.open(DialogMensajeErrorComponent, {
+            data: { msg: `El número de legajo ingresado no existe` }
+          });
+        }
+      },
+      error => {
+        this.isLoading.emit(false);
+        // console.error('ERROR', error);
+        // console.error('TIPO DE DATO - ERROR', error instanceof HttpErrorResponse);
+        
+        if ( error instanceof HttpErrorResponse ) {
+          this.reset();
+          this.dialog.open(DialogMensajeErrorComponent, {
+            data: { msg: 'Hubo un problema con el servidor' }
           });
         }
       },
       () => {
         this.isLoading.emit(false);
 
-        this.reset();
-        this.dialog.open(DialogMensajeErrorComponent, {
-          data: { msg: `El número de legajo ingresado no existe` }
-        });
-      });
+        // this.reset();
+        // this.dialog.open(DialogMensajeErrorComponent, {
+        //   data: { msg: `El número de legajo ingresado no existe` }
+        // });
+      }
+      );*/
     
     
       // this.router.navigate(['/autoevaluacion']);
