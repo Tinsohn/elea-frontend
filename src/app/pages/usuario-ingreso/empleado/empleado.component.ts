@@ -135,7 +135,7 @@ export class EmpleadoComponent implements OnInit {
                   this.dialog.open(DialogMensajeErrorComponent, {
                     data: {
                       title: 'Usuario bloqueado',
-                      msg: 'Ud. no está apto para concurrir a la platan seleccionada. Por favor contacte con el consultorio médico.'
+                      msg: 'Estimado usuario, usted ya cuenta con un autodiagnóstico no habilitado activo. Por favor, vuelva cuando este autodiagnóstico expire o consulte en el consultorio médico de ELEA por su situación.'
                     }
                   });
                 }
