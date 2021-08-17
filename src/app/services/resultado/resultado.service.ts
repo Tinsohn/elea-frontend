@@ -1,14 +1,14 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { of } from 'rxjs';
-import { tap } from 'rxjs/operators';
+import { tap, map, catchError } from 'rxjs/operators';
 
 import { Resultado } from '../../interfaces/resultado.interface';
 
-import { PropertiesService } from '../properties/properties.service';
 import { UsuarioService } from '../usuario/usuario.service';
 import { AutodiagnosticoService } from '../autodiagnostico/autodiagnostico.service';
 import { environment } from '../../../environments/environment';
+import { Autodiagnostico } from 'src/app/interfaces/autodiagnostico.interface';
 
 @Injectable({
   providedIn: 'root'
@@ -23,7 +23,6 @@ export class ResultadoService {
   }
 
   constructor(private http: HttpClient,
-              private _propertiesService: PropertiesService,
               private _usuarioService: UsuarioService,
               private _autodiagnosticoService: AutodiagnosticoService) {
                   this._autodiagnostico_backend = environment.autodiagnostico_backend;
@@ -56,6 +55,64 @@ export class ResultadoService {
     }
     
     return of(true);
+  }
+
+
+  // -----------------------------------------------
+  //  Obtener autodiagnostico de usuario ingresante
+  // -----------------------------------------------
+  obtenerAutodiagnostico(nroLegajo: string, dni: string) {
+    return this.http.get<Autodiagnostico[]>(`${this._autodiagnostico_backend}/buscar?nroLegajo=${nroLegajo}&dni=${dni}&pagina=1`)
+      .pipe(
+        tap(listaAutodiagnosticos => {
+          if ( listaAutodiagnosticos.length ) {
+            // console.log(listaAutodiagnosticos);
+            const autodiagnostico: Autodiagnostico = listaAutodiagnosticos[0];
+  
+            // console.log(autodiagnostico);
+  
+            this._resultado = {
+              legajo: this._usuarioService.usuario,
+              temperaturaLabel: '!!! no se recibe !!!', // no tengo la temp aca
+              sintomasLabel: `${autodiagnostico.estadoSintomas === 0 ? 'Sin' : 'Con'} síntomas`,
+              contactosEstrechoLabel:  `${autodiagnostico.estadoContactoEstrecho === 0 ? 'Sin' : 'Con'} contacto estrecho`,
+              antecedentesLabel:  `${autodiagnostico.estadoAntecedentes === 0 ? 'Sin' : 'Con'} antecedentes`,
+              resultado: (autodiagnostico.resultado === 0) ? false : true,
+              fecha_autodiagnostico: this.formatearFecha(new Date(autodiagnostico.fecha_autodiagnostico)),
+              fecha_hasta_resultado: this.formatearFecha(new Date(autodiagnostico.fecha_hasta_resultado))
+            }
+            // this.guardarEnLocalStorage();
+          }
+        }),
+        map(listaAutodiagnosticos => {
+          if ( listaAutodiagnosticos.length ) {
+            const bloqueado: boolean = !this._resultado.resultado && 
+                                       (new Date(this._resultado.fecha_hasta_resultado).getTime() >= new Date().getTime());
+            if ( !bloqueado ) {
+              // this.guardarEnLocalStorage();
+            }
+            return {
+              ok: true,
+              message: 'Se encontraron autodiagnosticos realizados',
+              isAutodiagnostico: true,
+              isBloqueado: bloqueado
+            }
+          } else {
+            return {
+              ok: true,
+              message: 'No se encontraron autodiagnósticos realizados',
+              isAutodiagnostico: false,
+              isBloqueado: false
+            }
+          }
+        }),
+        catchError(err => of({
+          ok: false,
+          message: 'Ocurrió un error inesperado',
+          isAutodiagnostico: false,
+          isBloqueado: false
+        }))
+      );
   }
 
   // --------
@@ -98,9 +155,9 @@ export class ResultadoService {
    * PRIVADOS
   */
 
-  // ---------------------
-  //  Crear obj Resultado
-  // ---------------------
+  // ---------------------------------------------------
+  //  Crear obj Resultado al realizar un autodiagnostico
+  // ---------------------------------------------------
   private crearResultado() {
     this._resultado = {
       legajo: this._usuarioService.usuario,
@@ -205,4 +262,11 @@ export class ResultadoService {
     localStorage.setItem('fecha_autodiagnostico', this._resultado.fecha_autodiagnostico);
     localStorage.setItem('fecha_hasta_resultado', this._resultado.fecha_hasta_resultado);
   }
+
+  // // --------------------------
+  // //  BLOQUEO: Calcular fechas
+  // // --------------------------
+  // private calcularFechas(fecha_hasta_resultado: Date) {
+  //   return
+  // }
 }

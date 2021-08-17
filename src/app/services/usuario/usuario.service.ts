@@ -5,7 +5,6 @@ import { Observable, of } from 'rxjs';
 import { catchError, map, tap } from 'rxjs/operators';
 
 import { Usuario } from 'src/app/interfaces/usuario.interface';
-import { PropertiesService } from '../properties/properties.service';
 import { environment } from '../../../environments/environment';
 
 @Injectable({
@@ -20,8 +19,7 @@ export class UsuarioService {
     return { ...this._usuario };
   }
 
-  constructor(private http: HttpClient,
-              private _propertiesService: PropertiesService) {
+  constructor(private http: HttpClient) {
       this._autodiagnostico_backend = environment.autodiagnostico_backend;
   }
 

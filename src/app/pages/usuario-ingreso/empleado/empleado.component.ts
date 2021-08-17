@@ -1,6 +1,8 @@
 import { Component, EventEmitter, OnInit, Output, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+// import { HttpErrorResponse } from '@angular/common/http';
+import { Subscription } from 'rxjs';
 
 import { MatDialog } from '@angular/material/dialog';
 
@@ -10,13 +12,13 @@ import { environment } from 'src/environments/environment';
 
 import { UsuarioService } from '../../../services/usuario/usuario.service';
 
+import { ResultadoService } from '../../../services/resultado/resultado.service';
+
 import { LugarAcceso } from 'src/app/interfaces/lugar-acceso.interface';
 import { LugarAccesoService } from 'src/app/services/lugar-acceso/lugar-acceso.service';
 
 // import { DialogTerminosCondicionesComponent } from '../components/dialog-terminos-condiciones/dialog-terminos-condiciones.component';
 import { DialogMensajeErrorComponent } from 'src/app/shared/dialog-mensaje-error/dialog-mensaje-error.component';
-import { Observer, Subscription } from 'rxjs';
-import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
   selector: 'app-empleado',
@@ -34,7 +36,8 @@ export class EmpleadoComponent implements OnInit {
 
   form: FormGroup;
 
-  private autenticarUsuarioSubscription: Subscription;
+  private _autenticarUsuarioSubscription: Subscription;
+  private _resultadoAutodiagSubscription: Subscription;
 
   get lugaresAcceso(): LugarAcceso[] {
     return this._lugaresAccesoService.lugaresAcceso;
@@ -45,6 +48,7 @@ export class EmpleadoComponent implements OnInit {
               private router: Router,
               private dialog: MatDialog,
               private _usuarioService: UsuarioService,
+              private _resultadoService: ResultadoService,
               private _lugaresAccesoService: LugarAccesoService) { }
 
   ngOnInit(): void {
@@ -68,8 +72,12 @@ export class EmpleadoComponent implements OnInit {
   }
 
   ngOnDestroy(): void {
-    if (this.autenticarUsuarioSubscription)
-      this.autenticarUsuarioSubscription.unsubscribe();
+    if (this._autenticarUsuarioSubscription){
+      this._autenticarUsuarioSubscription.unsubscribe();
+    }
+    if (this._resultadoAutodiagSubscription) {
+      this._resultadoAutodiagSubscription.unsubscribe();
+    }
   }
 
   getErrorMessage(campo: string) {
@@ -103,7 +111,7 @@ export class EmpleadoComponent implements OnInit {
 
     const { nroLegajo, dni, emailUsuario, idLugarAcceso } = this.form.value;
 
-    this.autenticarUsuarioSubscription = this._usuarioService.autenticarUsuarioEmpleado(String(nroLegajo), dni, emailUsuario, idLugarAcceso)
+    this._autenticarUsuarioSubscription = this._usuarioService.autenticarUsuarioEmpleado(String(nroLegajo), dni, emailUsuario, idLugarAcceso)
       .subscribe( resp => {
         // console.log('RESPUESTA', resp);
         
@@ -112,10 +120,33 @@ export class EmpleadoComponent implements OnInit {
           this.dialog.open(DialogMensajeErrorComponent, {
             data: { msg: resp.message }
           });
+          this.isLoading.emit(false);
         } else {
-          this.router.navigate(['/autoevaluacion']);
+          // this.router.navigate(['/autoevaluacion']);
+          this._resultadoAutodiagSubscription = this._resultadoService.obtenerAutodiagnostico(String(nroLegajo), dni)
+            .subscribe(resp => {
+              if ( resp.ok ) {
+                if ( !resp.isAutodiagnostico || !resp.isBloqueado) {
+                  // console.log('Usted NO realizo un autodiagnostico o NO esta bloqueado');
+                  this.router.navigate(['/autoevaluacion']);
+                } else if ( resp.isBloqueado ) {
+                  // console.warn('Usted esta bloqueado');
+                  // this.reset();
+                  this.dialog.open(DialogMensajeErrorComponent, {
+                    data: {
+                      title: 'Usuario bloqueado',
+                      msg: 'Ud. no está apto para concurrir a la platan seleccionada. Por favor contacte con el consultorio médico.'
+                    }
+                  });
+                }
+              } else {
+                this.dialog.open(DialogMensajeErrorComponent, {
+                  data: { msg: resp.message }
+                });
+              }
+              this.isLoading.emit(false);
+            });
         }
-        this.isLoading.emit(false);
       });
       /*.subscribe( empleado => {
         // console.log('empleado component', empleado)

@@ -21,3 +21,8 @@ export interface Resultado {
 	modificadoPor?         : number;
 	modificadoEn?          : Date;
 }
+/**
+ * USOS:
+ * - Guardar datos del ultimo autodiagnostico realizado por el usuario q esta ingresando (los autodiagnosticos q se reciben son de tipo Autodiagnostico)
+ * - Enviar los datos del autodiagnostico q acaba de realizar el usuario
+ */
