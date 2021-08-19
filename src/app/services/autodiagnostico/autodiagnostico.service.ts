@@ -1,10 +1,17 @@
-import { Injectable } from '@angular/core';
+import { Injectable, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, FormArray, FormControl } from '@angular/forms';
+import { HttpClient } from '@angular/common/http';
+import { environment } from '../../../environments/environment';
+import { ParametrosService } from '../parametros/parametros.service';
 
 @Injectable({
   providedIn: 'root'
 })
-export class AutodiagnosticoService {
+export class AutodiagnosticoService implements OnInit {
+  private autodiagnostico_backend: string = environment.autodiagnostico_backend;
+  private tempMin: number;
+  private tempMax: number;
+
   // --------
   //  CAMPOS
   // --------
@@ -101,7 +108,13 @@ export class AutodiagnosticoService {
   }
 
 
-  constructor(private fb: FormBuilder) {}
+  constructor(private fb: FormBuilder,
+              private http: HttpClient,
+              private parametrosService: ParametrosService) {}
+
+  ngOnInit(): void {
+    this.obtenerRangoTemperatura();
+  }
 
   // ----------
   //  Resetear
@@ -151,8 +164,10 @@ export class AutodiagnosticoService {
   // --------------
   validarSintomasEstado(): void {
     // temperatura
-    if (this.temperaturaValue <= 35.9
-        || this.temperaturaValue >= 37.5) {
+    // if (this.temperaturaValue <= 35.9
+    //     || this.temperaturaValue >= 37.5) {
+    if (this.temperaturaValue < this.tempMin
+        || this.temperaturaValue > this.tempMax) {
         this._sintomasEstado = true;
       } else {
         // sintomas
@@ -206,5 +221,13 @@ export class AutodiagnosticoService {
 
     this._formAutoevaluacion.get('temperatura').setValue(temperaturaValue);
     // this.temperaturaValue = temperaturaValue;
+  }
+
+  obtenerRangoTemperatura() {
+    this.parametrosService.getParametros()
+      .subscribe(parametros => {
+        this.tempMin = Number(parametros[0].valorParametro);
+        this.tempMax = Number(parametros[1].valorParametro);
+      })
   }
 }

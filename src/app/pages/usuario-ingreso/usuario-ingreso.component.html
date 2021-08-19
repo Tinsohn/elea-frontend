@@ -17,8 +17,8 @@
                     Tu información está protegida por la ley y es para uso exclusivo de las autoridades sanitarias.
                 </p>
             </div>
-            <app-empleado (isLoading)="isLoading($event)" class="formulario-usuario" *ngIf="checked"></app-empleado>
-            <app-visitante (isLoading)="isLoading($event)" class="formulario-usuario" *ngIf="!checked"></app-visitante>
+            <app-empleado (isLoading)="isLoading($event)" [lugaresAcceso]="lugaresAcceso" class="formulario-usuario" *ngIf="checked"></app-empleado>
+            <app-visitante (isLoading)="isLoading($event)" [lugaresAcceso]="lugaresAcceso" class="formulario-usuario" *ngIf="!checked"></app-visitante>
         </div>
 
         <!-- SPINNER -->

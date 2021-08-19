@@ -87,7 +87,7 @@ export class ResultadoService {
         map(listaAutodiagnosticos => {
           if ( listaAutodiagnosticos.length ) {
             const bloqueado: boolean = !this._resultado.resultado && 
-                                       (new Date(this._resultado.fecha_hasta_resultado).getTime() >= new Date().getTime());
+                                       (new Date(this._resultado.fecha_hasta_resultado).getTime() > new Date().getTime());
             if ( !bloqueado ) {
               // this.guardarEnLocalStorage();
             }

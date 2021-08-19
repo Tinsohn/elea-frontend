@@ -10,11 +10,12 @@ import { ResultadoService } from '../../services/resultado/resultado.service';
 export class AutodiagnosticoComponent implements OnInit {
   loading: boolean = false;
 
-  constructor(private autoevaluacionService: AutodiagnosticoService,
+  constructor(private autodiagnosticoService: AutodiagnosticoService,
               private resultadoService: ResultadoService) { }
 
   ngOnInit(): void {
-    this.autoevaluacionService.reset();
+    this.autodiagnosticoService.obtenerRangoTemperatura();
+    this.autodiagnosticoService.reset();
     this.resultadoService.limpiarResultadosLocalStorage();
   }
 

@@ -1,4 +1,4 @@
-import { Component, EventEmitter, OnInit, Output, ViewChild } from '@angular/core';
+import { Component, EventEmitter, OnInit, OnDestroy, Output, ViewChild, Input } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 // import { HttpErrorResponse } from '@angular/common/http';
@@ -25,8 +25,9 @@ import { DialogMensajeErrorComponent } from 'src/app/shared/dialog-mensaje-error
   templateUrl: './empleado.component.html',
   styleUrls: ['./empleado.component.css']
 })
-export class EmpleadoComponent implements OnInit {
+export class EmpleadoComponent implements OnInit, OnDestroy {
   @Output() isLoading: EventEmitter<boolean> = new EventEmitter();
+  @Input() lugaresAcceso: LugarAcceso[] = [];
 
   // Campos captcha
   @ViewChild('captchaElem', { static: false }) captchaElem: ReCaptcha2Component;
@@ -39,17 +40,11 @@ export class EmpleadoComponent implements OnInit {
   private _autenticarUsuarioSubscription: Subscription;
   private _resultadoAutodiagSubscription: Subscription;
 
-  get lugaresAcceso(): LugarAcceso[] {
-    return this._lugaresAccesoService.lugaresAcceso;
-  }
-  // lugaresAcceso: LugarAcceso[] = []
-
   constructor(private fb: FormBuilder,
               private router: Router,
               private dialog: MatDialog,
               private _usuarioService: UsuarioService,
-              private _resultadoService: ResultadoService,
-              private _lugaresAccesoService: LugarAccesoService) { }
+              private _resultadoService: ResultadoService) { }
 
   ngOnInit(): void {
     this.form = this.fb.group({

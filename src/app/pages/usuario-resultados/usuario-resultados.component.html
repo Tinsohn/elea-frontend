@@ -26,9 +26,12 @@
 
         <div id="estado-usuario" [ngClass]="resultado.resultado ? 'txt-success' : 'txt-danger'">
             <h3 class="txt-fw500" >{{ resultado.resultado ? 'Habilitado' : 'No habilitado' }}</h3>
-            <span class="txt-fw500">[{{ lugarAccesoService.getLugarAccesoPorId(usuario.idLugarAcceso).descripcionLugarAcceso }}]</span>
+            <!-- TODO: recuperar lugar de acceso -->
+            <!-- <span class="txt-fw500">[{{ lugarAccesoService.getLugarAccesoPorId(usuario.idLugarAcceso).descripcionLugarAcceso }}]</span> -->
+            <span class="txt-fw500">[{{ nombreLugarAcceso }}]</span>
 
-            <p *ngIf="!resultado.resultado">Usted no está habilitado para concurrir al trabajo. Por favor, comuníquese con Servicio Médico por teléfono o Whatsapp al 011 3867-3669.</p>
+            <!-- <p *ngIf="!resultado.resultado">Usted no está habilitado para concurrir al trabajo. Por favor, comuníquese con Servicio Médico por teléfono o Whatsapp al 011 3867-3669.</p> -->
+            <p *ngIf="!resultado.resultado">{{ msjNoHabilitado }}</p>
         </div>
 
         <div id="qr-datos" *ngIf="resultado.resultado">

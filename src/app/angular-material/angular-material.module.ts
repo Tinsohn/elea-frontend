@@ -12,6 +12,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatRadioModule } from '@angular/material/radio';
 import { MatSelectModule } from '@angular/material/select';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatStepperModule } from '@angular/material/stepper';
 
 const MATERIAL_MODULES = [
@@ -25,6 +26,7 @@ const MATERIAL_MODULES = [
   MatProgressSpinnerModule,
   MatRadioModule,
   MatSelectModule,
+  MatSnackBarModule,
   MatStepperModule
 ];
 
