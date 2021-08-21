@@ -1,0 +1,27 @@
+<form [formGroup]="formAutoevaluacion" class="contenido-stepper">
+    
+    <!-- boton paso anterior -->
+    <div class="btn-autodiagnostico-atras">
+        <button mat-button type="button" matStepperPrevious>
+            <mat-icon>arrow_back</mat-icon>
+            <!-- <span>Atrás</span> -->
+        </button>
+    </div>
+    <!-- fin boton paso anterior -->
+
+
+    <h4 class="font-color-gris step-header">Si tuvo algún contacto estrecho con persona/s con COVID-19 positivo, seleccioná las que correspondan</h4>
+
+    <div *ngFor="let campoContactoEstrecho of txtCamposContactoEstrecho; let i=index" class="campo-checkbox" fxLayout fxLayoutAlign="start center" fxLayoutGap="16px" formArrayName="contactoEstrecho">
+        <mat-checkbox class="font-color-gris" [formControlName]="i">{{ campoContactoEstrecho }}</mat-checkbox>
+    </div>
+    <!-- fin campos -->
+
+    <!-- boton paso siguiente -->
+    <!-- <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutAlign="center center" fxLayoutGap="10px" fxFill="100" fxFill.gt-sm="50"> -->
+    <div class="div-boton">
+      <button mat-raised-button color="primary" type="button" matStepperNext>SIGUIENTE</button>
+    </div>
+    <!-- fin boton paso siguiente -->
+
+</form>

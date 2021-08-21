@@ -1,14 +1,14 @@
 import { Injectable, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, FormArray, FormControl } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
-import { environment } from '../../../environments/environment';
+// import { environment } from '../../../environments/environment';
 import { ParametrosService } from '../parametros/parametros.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AutodiagnosticoService implements OnInit {
-  private autodiagnostico_backend: string = environment.autodiagnostico_backend;
+  // private autodiagnostico_backend: string = environment.autodiagnostico_backend;
   private tempMin: number;
   private tempMax: number;
 
@@ -29,9 +29,13 @@ export class AutodiagnosticoService implements OnInit {
       ['no'],
       ['no']
     ]),
-    antecedentes: this.fb.array([
+    contactoEstrecho: this.fb.array([
       [false],
-      [false],
+      [false]
+    ]),
+    antecedentes: this.fb.array([// TODO: eliminar dos q son los de contacto estrecho
+      // [false],
+      // [false],
       [false],
       [false],
       [false],
@@ -40,6 +44,7 @@ export class AutodiagnosticoService implements OnInit {
       [false],
       [false]
     ])
+    // TODO: crear uno nuevo de vacunacion o agregar un formArray nuevo?
   });
 
   // Campos: Estados
@@ -59,9 +64,13 @@ export class AutodiagnosticoService implements OnInit {
     "¿Tenés vómitos?",
     "¿Tenés dolor muscular?",
   ];
-  txtCamposAntecedentes: string[] = [
+  txtCamposContactoEstrecho: string [] = [
     "Trabajo o convivo con una persona que actualmente es caso confirmado o sospechoso de COVID-19.",
-    "Pasé en los últimos 14 días al menos 15 minutos sin barbijo y a menos de 2 metros de distancia de una persona que actualmente es caso confirmado de COVID-19.",
+    "Pasé en los últimos 14 días al menos 15 minutos sin barbijo y a menos de 2 metros de distancia de una persona que actualmente es caso confirmado de COVID-19."
+  ]
+  txtCamposAntecedentes: string[] = [ // TODO: eliminar los dos ultimos q son de contacto estrecho
+    // "Trabajo o convivo con una persona que actualmente es caso confirmado o sospechoso de COVID-19.",
+    // "Pasé en los últimos 14 días al menos 15 minutos sin barbijo y a menos de 2 metros de distancia de una persona que actualmente es caso confirmado de COVID-19.",
     "Tengo/tuve cáncer.",
     "Tengo diabetes.",
     "Tengo alguna enfermedad hepática.",
@@ -84,6 +93,9 @@ export class AutodiagnosticoService implements OnInit {
   }
   get sintomas(): FormArray {
     return this._formAutoevaluacion.get('sintomas') as FormArray;
+  }
+  get contactoEstrecho(): FormArray {
+    return this._formAutoevaluacion.get('contactoEstrecho') as FormArray;
   }
   get antecedentes(): FormArray {
     return this._formAutoevaluacion.get('antecedentes') as FormArray;
@@ -122,6 +134,7 @@ export class AutodiagnosticoService implements OnInit {
   reset(): void {
     this.resetTemperatura();
     this.resetSintomas();
+    this.resetContactoEstrecho();
     this.resetAntecedentes();
 
     this._sintomasEstado         = false;
@@ -145,10 +158,16 @@ export class AutodiagnosticoService implements OnInit {
       'no'
     ])
   }
-  private resetAntecedentes() {
+  private resetContactoEstrecho() {
+    this.contactoEstrecho.reset([
+      false,
+      false
+    ])
+  }
+  private resetAntecedentes() { // TODO: quitar contactoEstrecho
     this.antecedentes.reset([
-      false,
-      false,
+      // false,
+      // false,
       false,
       false,
       false,
@@ -183,24 +202,20 @@ export class AutodiagnosticoService implements OnInit {
       }
   }
 
-  validarContactoEstrechoEstado(): void {
-    let antecedentesFormArr = this.antecedentes.value as Array<boolean>;
-    // console.log(antecedentesArr)
-    
-    let contactoEstrechoArr: boolean[] = antecedentesFormArr.slice(0, 2);
-    // console.log(contactoEstrechoArr);
-
-    this._contactoEstrechoEstado = contactoEstrechoArr.includes(true);
+  validarContactoEstrechoEstado(): void { // TODO: usar formArray contacto estrecho
+    const contactoEstrechoFormArr = this.contactoEstrecho.value as Array<boolean>;
+    this._contactoEstrechoEstado = contactoEstrechoFormArr.includes(true);
     // console.log(this._contactoEstrechoEstado);
   }
 
-  validarAntecedentesEstado(): void {
+  validarAntecedentesEstado(): void { // TODO: sacar el slice
     let antecedentesFormArr = this.antecedentes.value as Array<boolean>;
 
-    let antecedentesArr: boolean[] = antecedentesFormArr.slice(2, antecedentesFormArr.length);
+    // let antecedentesArr: boolean[] = antecedentesFormArr.slice(2, antecedentesFormArr.length);
     // console.log(antecedentesArr);
 
-    this._antecedentesEstado = antecedentesArr.includes(true);
+    // this._antecedentesEstado = antecedentesArr.includes(true);
+    this._antecedentesEstado = antecedentesFormArr.includes(true);
     // console.log(this._antecedentesEstado);
   }
 

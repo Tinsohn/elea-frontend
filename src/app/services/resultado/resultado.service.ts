@@ -167,6 +167,7 @@ export class ResultadoService {
       antecedentesLabel: `${(this._autodiagnosticoService.antecedentesEstado) ? 'Con' : 'Sin'} antecedentes`,
       temperatura: String(this._autodiagnosticoService.temperaturaValue),
       sintomas: this.stringTokenizadoSintomas(),
+      contactoEstrecho: this.stringTokenizadoContactoEstrecho(),
       antecedentes: this.stringTokenizadoAntecedentes(),
       estadoSintomas: this._autodiagnosticoService.sintomasEstado,
       estadoContactoEstrecho: this._autodiagnosticoService.contactoEstrechoEstado,
@@ -192,8 +193,26 @@ export class ResultadoService {
     const sintomasArray = this._autodiagnosticoService.sintomas.value as Array<string>;
     let stringTokenizer = '@@';
 
+    const numIdEmpiezaSintomas = 2;
+
     for (let i=0; i < sintomasArray.length; i++) {
-      stringTokenizer += `${i+2},${(sintomasArray[i] === 'no') ? '0' : '1'}@@`;
+      stringTokenizer += `${i+numIdEmpiezaSintomas},${(sintomasArray[i] === 'no') ? '0' : '1'}@@`;
+    }
+
+    return stringTokenizer;
+  }
+
+  // -----------------------------
+  //  Tokenizar contacto estrecho
+  // -----------------------------
+  private stringTokenizadoContactoEstrecho() {
+    const contactoEstrechoArray = this._autodiagnosticoService.contactoEstrecho.value as Array<string>;
+    let stringTokenizer = '@@';
+
+    const numIdEmpiezaContactoEstrecho = 11;
+
+    for (let i=0; i < contactoEstrechoArray.length; i++) {
+      stringTokenizer += `${i+numIdEmpiezaContactoEstrecho},${(!contactoEstrechoArray[i]) ? '0' : '1'}@@`;
     }
 
     return stringTokenizer;
@@ -206,8 +225,10 @@ export class ResultadoService {
     const antecedentesArray = this._autodiagnosticoService.antecedentes.value as Array<string>;
     let stringTokenizer = '@@';
 
+    const numIdEmpiezaAntecedentes = 13;
+
     for (let i=0; i < antecedentesArray.length; i++) {
-      stringTokenizer += `${i+11},${(!antecedentesArray[i]) ? '0' : '1'}@@`;
+      stringTokenizer += `${i+numIdEmpiezaAntecedentes},${(!antecedentesArray[i]) ? '0' : '1'}@@`;
     }
 
     return stringTokenizer;

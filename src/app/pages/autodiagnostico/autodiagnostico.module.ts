@@ -12,6 +12,7 @@ import { SintomasComponent } from './sintomas/sintomas.component';
 import { AntecedentesComponent } from './antecedentes/antecedentes.component';
 import { ResumenComponent } from './resumen/resumen.component';
 import { DialogDeclaracionJuradaComponent } from './components/dialog-declaracion-jurada/dialog-declaracion-jurada.component';
+import { ContactoEstrechoComponent } from './contacto-estrecho/contacto-estrecho.component';
 
 
 @NgModule({
@@ -21,7 +22,8 @@ import { DialogDeclaracionJuradaComponent } from './components/dialog-declaracio
     SintomasComponent,
     AntecedentesComponent,
     ResumenComponent,
-    DialogDeclaracionJuradaComponent
+    DialogDeclaracionJuradaComponent,
+    ContactoEstrechoComponent
   ],
   imports: [
     CommonModule,

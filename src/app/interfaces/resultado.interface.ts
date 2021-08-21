@@ -9,6 +9,7 @@ export interface Resultado {
     antecedentesLabel      : string;
     temperatura?           : string;
     sintomas?              : string;
+    contactoEstrecho?      : string; // TODO: separado
     antecedentes?          : string;
     estadoSintomas?        : boolean;
     estadoContactoEstrecho?: boolean;

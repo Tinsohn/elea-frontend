@@ -17,7 +17,7 @@
         <mat-checkbox class="font-color-gris" formControlName="antecedente_{{i}}">{{ campoAntecedente }}</mat-checkbox>
     </div> -->
 
-    <div *ngFor="let campoAntecedente of txtCamposAntecedentes; let i=index" class="campo-antecedente" fxLayout fxLayoutAlign="start center" fxLayoutGap="16px" formArrayName="antecedentes">
+    <div *ngFor="let campoAntecedente of txtCamposAntecedentes; let i=index" class="campo-checkbox" fxLayout fxLayoutAlign="start center" fxLayoutGap="16px" formArrayName="antecedentes">
         <mat-checkbox class="font-color-gris" [formControlName]="i">{{ campoAntecedente }}</mat-checkbox>
     </div>
     <!-- fin campos -->
