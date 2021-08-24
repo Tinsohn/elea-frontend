@@ -9,19 +9,19 @@ import { AutodiagnosticoService } from '../../../services/autodiagnostico/autodi
 })
 export class ContactoEstrechoComponent implements OnInit {
 
-  get txtCamposContactoEstrecho(): string[] {
-    return this.autodiagnosticoService.txtCamposContactoEstrecho;
+  get txtPreguntasContactoEstrecho(): string[] {
+    return this._autodiagnosticoService.txtPreguntasContactoEstrecho;
   }
 
-  get formAutoevaluacion(): FormGroup {
-    return this.autodiagnosticoService.formAutoevaluacion;
+  get formAutodiagnostico(): FormGroup {
+    return this._autodiagnosticoService.formAutodiagnostico;
   }
 
   get contactoEstrecho(): FormArray {
-    return this.formAutoevaluacion.get('contactoEstrecho') as FormArray;
+    return this.formAutodiagnostico.get('contactoEstrecho') as FormArray;
   }
 
-  constructor(private autodiagnosticoService: AutodiagnosticoService) { }
+  constructor(private _autodiagnosticoService: AutodiagnosticoService) { }
 
   ngOnInit(): void {
   }

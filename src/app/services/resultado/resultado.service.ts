@@ -37,6 +37,8 @@ export class ResultadoService {
         || !localStorage.getItem('sintomasLabel')
         || !localStorage.getItem('contactosEstrechoLabel')
         || !localStorage.getItem('antecedentesLabel')
+        // || !localStorage.getItem('dosisUnoLabel')
+        // || !localStorage.getItem('dosisDosLabel')
         || !localStorage.getItem('resultado')
         || !localStorage.getItem('fecha_autodiagnostico')
         || !localStorage.getItem('fecha_hasta_resultado')) {
@@ -49,6 +51,8 @@ export class ResultadoService {
       sintomasLabel: localStorage.getItem('sintomasLabel'),
       contactosEstrechoLabel: localStorage.getItem('contactosEstrechoLabel'),
       antecedentesLabel: localStorage.getItem('antecedentesLabel'),
+      // dosisUnoLabel: localStorage.getItem('dosisUnoLabel'),
+      // dosisDosLabel: localStorage.getItem('dosisDosLabel'),
       resultado: (localStorage.getItem('resultado') === 'true') ? true : false,
       fecha_autodiagnostico: localStorage.getItem('fecha_autodiagnostico'),
       fecha_hasta_resultado: localStorage.getItem('fecha_hasta_resultado')
@@ -146,6 +150,8 @@ export class ResultadoService {
     localStorage.removeItem('sintomasLabel');
     localStorage.removeItem('contactosEstrechoLabel');
     localStorage.removeItem('antecedentesLabel');
+    // localStorage.removeItem('dosisUnoLabel');
+    // localStorage.removeItem('dosisDosLabel');
     localStorage.removeItem('resultado');
     localStorage.removeItem('fecha_autodiagnostico');
     localStorage.removeItem('fecha_hasta_resultado');
@@ -161,14 +167,18 @@ export class ResultadoService {
   private crearResultado() {
     this._resultado = {
       legajo: this._usuarioService.usuario,
-      temperaturaLabel: `Mi temperatura es: ${this._autodiagnosticoService.temperaturaValue}°`,
+      temperaturaLabel: `Mi temperatura es: ${this._autodiagnosticoService.temperaturaValue}°C`,
       sintomasLabel: `${(this._autodiagnosticoService.sintomasEstado) ? 'Con' : 'Sin'} síntomas`,
       contactosEstrechoLabel: `${(this._autodiagnosticoService.contactoEstrechoEstado) ? 'Con' : 'Sin'} contacto estrecho`,
       antecedentesLabel: `${(this._autodiagnosticoService.antecedentesEstado) ? 'Con' : 'Sin'} antecedentes`,
-      temperatura: String(this._autodiagnosticoService.temperaturaValue),
+      // dosisUnoLabel: `${this._autodiagnosticoService.formVacunas.get('dosis1').value}`,
+      // dosisDosLabel: `${this._autodiagnosticoService.formVacunas.get('dosis2').value}`,
+      // temperatura: String(this._autodiagnosticoService.temperaturaValue),
+      temperatura: `${this._autodiagnosticoService.temperaturaValue}°C`,
       sintomas: this.stringTokenizadoSintomas(),
       contactoEstrecho: this.stringTokenizadoContactoEstrecho(),
       antecedentes: this.stringTokenizadoAntecedentes(),
+      vacunas: this.stringTokenizadoVacunas(),
       estadoSintomas: this._autodiagnosticoService.sintomasEstado,
       estadoContactoEstrecho: this._autodiagnosticoService.contactoEstrechoEstado,
       estadoAntecedentes: this._autodiagnosticoService.antecedentesEstado,
@@ -226,10 +236,26 @@ export class ResultadoService {
     let stringTokenizer = '@@';
 
     const numIdEmpiezaAntecedentes = 13;
+    let idRespuesta: number;
 
     for (let i=0; i < antecedentesArray.length; i++) {
-      stringTokenizer += `${i+numIdEmpiezaAntecedentes},${(!antecedentesArray[i]) ? '0' : '1'}@@`;
+      idRespuesta = i+numIdEmpiezaAntecedentes;
+      stringTokenizer += `${idRespuesta},${(!antecedentesArray[i]) ? '0' : '1'}@@`;
     }
+
+    return stringTokenizer;
+  }
+
+  private stringTokenizadoVacunas() {
+    let {dosisUno, dosisDos} = this._autodiagnosticoService.formVacunas.value;
+    let stringTokenizer = '@@';
+
+    if (dosisUno === '0' || dosisUno === 0) {
+      dosisDos = '0';
+    }
+
+    stringTokenizer += `${20},${this._autodiagnosticoService.getDescripcionVacunaPorId(Number(dosisUno))}@@`;
+    stringTokenizer += `${21},${this._autodiagnosticoService.getDescripcionVacunaPorId(Number(dosisDos))}@@`;
 
     return stringTokenizer;
   }
@@ -279,6 +305,8 @@ export class ResultadoService {
     localStorage.setItem('sintomasLabel', this._resultado.sintomasLabel);
     localStorage.setItem('contactosEstrechoLabel', this._resultado.contactosEstrechoLabel);
     localStorage.setItem('antecedentesLabel', this._resultado.antecedentesLabel);
+    // localStorage.setItem('dosisUnoLabel', this._resultado.dosisUnoLabel);
+    // localStorage.setItem('dosisDosLabel', this._resultado.dosisDosLabel);
     localStorage.setItem('resultado', `${this._resultado.resultado}`);
     localStorage.setItem('fecha_autodiagnostico', this._resultado.fecha_autodiagnostico);
     localStorage.setItem('fecha_hasta_resultado', this._resultado.fecha_hasta_resultado);

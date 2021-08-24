@@ -7,10 +7,15 @@ export interface Resultado {
     sintomasLabel          : string;
     contactosEstrechoLabel : string;
     antecedentesLabel      : string;
+    // dosisUnoLabel?         : string;
+    // dosisDosLabel?         : string;
+
     temperatura?           : string;
     sintomas?              : string;
     contactoEstrecho?      : string; // TODO: separado
     antecedentes?          : string;
+    vacunas?               : string;
+    
     estadoSintomas?        : boolean;
     estadoContactoEstrecho?: boolean;
     estadoAntecedentes?    : boolean;

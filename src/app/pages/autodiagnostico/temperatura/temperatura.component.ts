@@ -11,12 +11,16 @@ import { UsuarioService } from 'src/app/services/usuario/usuario.service';
 })
 export class TemperaturaComponent {
 
+  get txtPreguntaTemperatura() {
+    return this._autodiagnosticoService.txtPreguntaTemperatura;
+  }
+
   get temperaturaGrados(): number {
-    return this._autoevaluacionService.temperaturaValue;
+    return this._autodiagnosticoService.temperaturaValue;
   }
 
   constructor(private router: Router,
-              private _autoevaluacionService: AutodiagnosticoService,
+              private _autodiagnosticoService: AutodiagnosticoService,
               private _usuarioService: UsuarioService) {}
 
   volverIngreso() {
@@ -25,7 +29,7 @@ export class TemperaturaComponent {
   }
   
   cambiarTemp(valor: number) {
-    this._autoevaluacionService.cambiarTemp(valor);
+    this._autodiagnosticoService.cambiarTemp(valor);
     // console.log(this.autodiagnosticoService.temperaturaGrados);
   }
 

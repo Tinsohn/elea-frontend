@@ -1,4 +1,4 @@
-<form [formGroup]="formAutoevaluacion" class="contenido-stepper">
+<form [formGroup]="formAutodiagnostico" class="contenido-stepper">
     
     <!-- boton paso anterior -->
     <div class="btn-autodiagnostico-atras">
@@ -12,8 +12,8 @@
 
     <h4 class="font-color-gris step-header">Si tuvo algún contacto estrecho con persona/s con COVID-19 positivo, seleccioná las que correspondan</h4>
 
-    <div *ngFor="let campoContactoEstrecho of txtCamposContactoEstrecho; let i=index" class="campo-checkbox" fxLayout fxLayoutAlign="start center" fxLayoutGap="16px" formArrayName="contactoEstrecho">
-        <mat-checkbox class="font-color-gris" [formControlName]="i">{{ campoContactoEstrecho }}</mat-checkbox>
+    <div *ngFor="let preguntaContactoEstrecho of txtPreguntasContactoEstrecho; let i=index" class="campo-checkbox" fxLayout fxLayoutAlign="start center" fxLayoutGap="16px" formArrayName="contactoEstrecho">
+        <mat-checkbox class="font-color-gris" [formControlName]="i">{{ preguntaContactoEstrecho }}</mat-checkbox>
     </div>
     <!-- fin campos -->
 

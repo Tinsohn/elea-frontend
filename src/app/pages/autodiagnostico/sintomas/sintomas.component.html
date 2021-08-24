@@ -1,4 +1,4 @@
-<form [formGroup]="formAutoevaluacion" class="contenido-stepper">
+<form [formGroup]="formAutodiagnostico" class="contenido-stepper">
 
     <!-- boton paso anterior -->
     <!-- <div class="sticky"> -->
@@ -13,9 +13,9 @@
 
 
     <!-- campos -->
-    <div *ngFor="let campoSintoma of txtCamposSintomas; let i=index"
+    <div *ngFor="let preguntaSintoma of txtPreguntasSintomas; let i=index"
           fxLayout="column" formArrayName="sintomas">
-        <mat-label class="font-color-gris step-header">{{ campoSintoma }}</mat-label>
+        <mat-label class="font-color-gris step-header">{{ preguntaSintoma }}</mat-label>
         <mat-radio-group [formControlName]="i" fxLayout="column" required>
             <mat-radio-button value="si"><span class="txt-radio-button">SI</span></mat-radio-button>
             <mat-radio-button value="no"><span class="txt-radio-button">NO</span></mat-radio-button>

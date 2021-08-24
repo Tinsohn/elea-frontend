@@ -1,22 +1,28 @@
 import { Injectable, OnInit } from '@angular/core';
-import { FormGroup, FormBuilder, FormArray, FormControl } from '@angular/forms';
+import { FormGroup, FormBuilder, FormArray, FormControl, AbstractControl, ValidationErrors } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
-// import { environment } from '../../../environments/environment';
+import { tap } from 'rxjs/operators';
+
+import { environment } from '../../../environments/environment';
+
 import { ParametrosService } from '../parametros/parametros.service';
+import { Pregunta } from 'src/app/interfaces/pregunta.interface';
+import { Vacuna } from 'src/app/interfaces/vacuna.interface';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AutodiagnosticoService implements OnInit {
-  // private autodiagnostico_backend: string = environment.autodiagnostico_backend;
-  private tempMin: number;
-  private tempMax: number;
+  private autodiagnostico_backend: string = environment.autodiagnostico_backend;
+  private _tempMin: number;
+  private _tempMax: number;
+  private _vacunas: Vacuna[] = [];
 
   // --------
   //  CAMPOS
   // --------
   // Campos: Form
-  private _formAutoevaluacion: FormGroup = this.fb.group({
+  private _formAutodiagnostico: FormGroup = this.fb.group({
     temperatura: [37],
     sintomas: this.fb.array([
       ['no'],
@@ -33,9 +39,7 @@ export class AutodiagnosticoService implements OnInit {
       [false],
       [false]
     ]),
-    antecedentes: this.fb.array([// TODO: eliminar dos q son los de contacto estrecho
-      // [false],
-      // [false],
+    antecedentes: this.fb.array([
       [false],
       [false],
       [false],
@@ -43,8 +47,14 @@ export class AutodiagnosticoService implements OnInit {
       [false],
       [false],
       [false]
-    ])
-    // TODO: crear uno nuevo de vacunacion o agregar un formArray nuevo?
+    ]),
+  });
+
+  private _formVacunas: FormGroup = this.fb.group({
+    dosisUno: [ '0' ],
+    dosisDos: [ '0' ]
+  }, {
+    validators: [ this.fechaDesdeMenorAHasta('dosisUno', 'dosisDos') ]
   });
 
   // Campos: Estados
@@ -52,57 +62,63 @@ export class AutodiagnosticoService implements OnInit {
   private _contactoEstrechoEstado: boolean = false;
   private _antecedentesEstado    : boolean = false;
 
-  // Campos: Leyendas sintomas y antecedentes
-  txtCamposSintomas: string[] = [
-    "¿Percibiste una marcada pérdida del olfato de manera repentina?",
-    "¿Percibiste una marcada pérdida del gusto (sabor de los alimentos) de manera repentina?",
-    "¿Tenés tos?",
-    "¿Tenés dolor de garganta?",
-    "¿Tenés dificultad respiratoria o falta de aire?",
-    "¿Tenés dolor de cabeza?",
-    "¿Tenés diarrea?",
-    "¿Tenés vómitos?",
-    "¿Tenés dolor muscular?",
+  // Preguntas: Leyendas sintomas y antecedentes
+  txtPreguntaTemperatura: string = '¿Cuál es tu temperatura corporal actual?';
+  txtPreguntasSintomas: string[] = [
+    // "¿Percibiste una marcada pérdida del olfato de manera repentina?",
+    // "¿Percibiste una marcada pérdida del gusto (sabor de los alimentos) de manera repentina?",
+    // "¿Tenés tos?",
+    // "¿Tenés dolor de garganta?",
+    // "¿Tenés dificultad respiratoria o falta de aire?",
+    // "¿Tenés dolor de cabeza?",
+    // "¿Tenés diarrea?",
+    // "¿Tenés vómitos?",
+    // "¿Tenés dolor muscular?",
   ];
-  txtCamposContactoEstrecho: string [] = [
-    "Trabajo o convivo con una persona que actualmente es caso confirmado o sospechoso de COVID-19.",
-    "Pasé en los últimos 14 días al menos 15 minutos sin barbijo y a menos de 2 metros de distancia de una persona que actualmente es caso confirmado de COVID-19."
-  ]
-  txtCamposAntecedentes: string[] = [ // TODO: eliminar los dos ultimos q son de contacto estrecho
+  txtPreguntasContactoEstrecho: string [] = [
     // "Trabajo o convivo con una persona que actualmente es caso confirmado o sospechoso de COVID-19.",
-    // "Pasé en los últimos 14 días al menos 15 minutos sin barbijo y a menos de 2 metros de distancia de una persona que actualmente es caso confirmado de COVID-19.",
-    "Tengo/tuve cáncer.",
-    "Tengo diabetes.",
-    "Tengo alguna enfermedad hepática.",
-    "Tengo enfermedad renal crónica.",
-    "Tengo alguna enfermedad respiratoria.",
-    "Tengo alguna enfermedad cardiológica.",
-    "Tengo alguna condición que baja las defensas."
+    // "Pasé en los últimos 14 días al menos 15 minutos sin barbijo y a menos de 2 metros de distancia de una persona que actualmente es caso confirmado de COVID-19."
+  ]
+  txtPreguntasAntecedentes: string[] = [
+    // "Tengo/tuve cáncer.",
+    // "Tengo diabetes.",
+    // "Tengo alguna enfermedad hepática.",
+    // "Tengo enfermedad renal crónica.",
+    // "Tengo alguna enfermedad respiratoria.",
+    // "Tengo alguna enfermedad cardiológica.",
+    // "Tengo alguna condición que baja las defensas."
   ];
+  txtPreguntasVacunacion: string[] = [
+    // "Tengo aplicada la vacuna del COVID-19 1era dosis.",
+    // "Tengo aplicada la vacuna del COVID-19 2da dosis."
+  ]
 
   // ---------
   //  GETTERS
   // ---------
   // Getters: Form
-  get formAutoevaluacion(): FormGroup {
-    return this._formAutoevaluacion;
+  get formAutodiagnostico(): FormGroup {
+    return this._formAutodiagnostico;
+  }
+  get formVacunas(): FormGroup {
+    return this._formVacunas;
   }
 
   get temperatura(): FormControl {
-    return this._formAutoevaluacion.get('temperatura') as FormControl;
+    return this._formAutodiagnostico.get('temperatura') as FormControl;
   }
   get sintomas(): FormArray {
-    return this._formAutoevaluacion.get('sintomas') as FormArray;
+    return this._formAutodiagnostico.get('sintomas') as FormArray;
   }
   get contactoEstrecho(): FormArray {
-    return this._formAutoevaluacion.get('contactoEstrecho') as FormArray;
+    return this._formAutodiagnostico.get('contactoEstrecho') as FormArray;
   }
   get antecedentes(): FormArray {
-    return this._formAutoevaluacion.get('antecedentes') as FormArray;
+    return this._formAutodiagnostico.get('antecedentes') as FormArray;
   }
   // Getter y setter: valores de temperatura
   get temperaturaValue(): number {
-    return this._formAutoevaluacion.get('temperatura').value;
+    return this._formAutodiagnostico.get('temperatura').value;
   }
   // set temperaturaValue(temperaturaValue: number) {
   //   this._formAutoevaluacion.get('temperatura').setValue(temperaturaValue);
@@ -119,13 +135,66 @@ export class AutodiagnosticoService implements OnInit {
     return this._antecedentesEstado;
   }
 
+  get vacunas(): Vacuna[] {
+    return this._vacunas;
+  }
 
   constructor(private fb: FormBuilder,
               private http: HttpClient,
               private parametrosService: ParametrosService) {}
 
   ngOnInit(): void {
-    this.obtenerRangoTemperatura();
+    // this.obtenerRangoTemperatura();
+  }
+
+  obtenerPreguntas() {
+    this.txtPreguntasSintomas = [];
+    this.txtPreguntasContactoEstrecho = [];
+    this.txtPreguntasAntecedentes = [];
+    this.txtPreguntasVacunacion = [];
+
+    return this.http.get<Pregunta[]>(`${this.autodiagnostico_backend}/pregunta`)
+      .pipe(
+        tap(preguntas => {
+          preguntas.forEach(pregunta => {
+            switch (pregunta.idPantalla) {
+              case 1:
+                this.txtPreguntaTemperatura = pregunta.descripcionPregunta;
+                break;
+              case 2:
+                this.txtPreguntasSintomas.push(pregunta.descripcionPregunta);
+                break;
+              case 3:
+                this.txtPreguntasContactoEstrecho.push(pregunta.descripcionPregunta);
+                break;
+              case 4:
+                if (pregunta.idOrdenEnPantalla === 7 || pregunta.idOrdenEnPantalla === 8) {
+                  this.txtPreguntasVacunacion.push(pregunta.descripcionPregunta)
+                } else {
+                  this.txtPreguntasAntecedentes.push(pregunta.descripcionPregunta);
+                }
+                break;
+            }
+          })
+        })
+      );
+  }
+
+  obtenerVacunas() {
+    // return this.http.get(`${this.autodiagnostico_backend}/vacunas`);
+    return this.http.get<Vacuna[]>(`${this.autodiagnostico_backend}/vacuna/`)
+      .pipe(
+        tap(vacunas => {
+          this._vacunas = vacunas;
+        })
+      );
+  }
+
+  getDescripcionVacunaPorId(idVacuna: number): string {
+    if (idVacuna === 0) {
+      return 'Ninguna';
+    }
+    return this._vacunas.filter(vacuna => vacuna.idVacuna === idVacuna)[0].descripcionVacuna;
   }
 
   // ----------
@@ -164,10 +233,10 @@ export class AutodiagnosticoService implements OnInit {
       false
     ])
   }
-  private resetAntecedentes() { // TODO: quitar contactoEstrecho
+  private resetAntecedentes() { // TODO: resetear por los valores tomados del ult autodiagnostico
     this.antecedentes.reset([
-      // false,
-      // false,
+      false,
+      false,
       false,
       false,
       false,
@@ -183,38 +252,27 @@ export class AutodiagnosticoService implements OnInit {
   // --------------
   validarSintomasEstado(): void {
     // temperatura
-    // if (this.temperaturaValue <= 35.9
-    //     || this.temperaturaValue >= 37.5) {
-    if (this.temperaturaValue < this.tempMin
-        || this.temperaturaValue > this.tempMax) {
+    if (this.temperaturaValue < this._tempMin
+        || this.temperaturaValue > this._tempMax) {
         this._sintomasEstado = true;
       } else {
         // sintomas
         let sintomasArray = this.sintomas.value as Array<string>;
 
         this._sintomasEstado = sintomasArray.includes('si');
-        // if(sintomasArray.includes('si')) {
-        //   this._sintomasEstado = true;
-        // } else {
-        //   this._sintomasEstado = false;
-        // }
-
       }
   }
 
-  validarContactoEstrechoEstado(): void { // TODO: usar formArray contacto estrecho
+  validarContactoEstrechoEstado(): void {
     const contactoEstrechoFormArr = this.contactoEstrecho.value as Array<boolean>;
+
     this._contactoEstrechoEstado = contactoEstrechoFormArr.includes(true);
     // console.log(this._contactoEstrechoEstado);
   }
 
-  validarAntecedentesEstado(): void { // TODO: sacar el slice
+  validarAntecedentesEstado(): void {
     let antecedentesFormArr = this.antecedentes.value as Array<boolean>;
 
-    // let antecedentesArr: boolean[] = antecedentesFormArr.slice(2, antecedentesFormArr.length);
-    // console.log(antecedentesArr);
-
-    // this._antecedentesEstado = antecedentesArr.includes(true);
     this._antecedentesEstado = antecedentesFormArr.includes(true);
     // console.log(this._antecedentesEstado);
   }
@@ -234,15 +292,34 @@ export class AutodiagnosticoService implements OnInit {
     temperaturaValue = Math.ceil(temperaturaValue);
     temperaturaValue /= 10;
 
-    this._formAutoevaluacion.get('temperatura').setValue(temperaturaValue);
+    this._formAutodiagnostico.get('temperatura').setValue(temperaturaValue);
     // this.temperaturaValue = temperaturaValue;
   }
 
   obtenerRangoTemperatura() {
-    this.parametrosService.getParametros()
+    return this.parametrosService.getParametros()
       .subscribe(parametros => {
-        this.tempMin = Number(parametros[0].valorParametro);
-        this.tempMax = Number(parametros[1].valorParametro);
+        this._tempMin = Number(parametros[0].valorParametro);
+        this._tempMax = Number(parametros[1].valorParametro);
       })
+  }
+
+
+  /**
+   * Validacion vacunas
+   */
+  private fechaDesdeMenorAHasta( dosisUno: string, dosisDos: string ) {
+    return ( formGroup: AbstractControl ): ValidationErrors | null => {
+      const dosisUnoValue = formGroup.get(dosisUno)?.value;
+      const dosisDosValue = formGroup.get(dosisDos)?.value;
+      
+      if (dosisUnoValue === '0' && dosisDosValue !== '0') {
+        return {
+          sinDosisUno: true
+        }
+      }
+
+      return null;
+    }
   }
 }
