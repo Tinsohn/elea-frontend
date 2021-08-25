@@ -29,6 +29,9 @@
             <!-- TODO: recuperar lugar de acceso -->
             <!-- <span class="txt-fw500">[{{ lugarAccesoService.getLugarAccesoPorId(usuario.idLugarAcceso).descripcionLugarAcceso }}]</span> -->
             <span class="txt-fw500">[{{ nombreLugarAcceso }}]</span>
+            
+            <p>Generado el {{ resultado.fecha_autodiagnostico | date:'dd/MM/yyyy HH:mm:ss' }}</p>
+            <p>Vence el {{ resultado.fecha_hasta_resultado | date:'dd/MM/yyyy HH:mm:ss' }}</p>
 
             <!-- <p *ngIf="!resultado.resultado">Usted no está habilitado para concurrir al trabajo. Por favor, comuníquese con Servicio Médico por teléfono o Whatsapp al 011 3867-3669.</p> -->
             <p *ngIf="!resultado.resultado">{{ msjNoHabilitado }}</p>
@@ -56,8 +59,6 @@
                 <span >{{ resultado.contactosEstrechoLabel }}</span><br>
                 <span >{{ resultado.antecedentesLabel }}</span>
             </div>
-            <p>Generado el {{ resultado.fecha_autodiagnostico | date:'dd/MM/yyyy HH:mm:ss' }}</p>
-            <p>Vence el {{ resultado.fecha_hasta_resultado | date:'dd/MM/yyyy HH:mm:ss' }}</p>
         </div>
 
         <div id="botones" class="div-boton">

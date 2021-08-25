@@ -66,7 +66,14 @@ export class ResultadoService {
   //  Obtener autodiagnostico de usuario ingresante
   // -----------------------------------------------
   obtenerAutodiagnostico(nroLegajo: string, dni: string) {
-    return this.http.get<Autodiagnostico[]>(`${this._autodiagnostico_backend}/buscar?nroLegajo=${nroLegajo}&dni=${dni}&pagina=1`)
+    let busqueda = '';
+
+    if(nroLegajo) {
+      busqueda += `nroLegajo=${nroLegajo}&`;
+    }
+    busqueda += `dni=${dni}`;
+
+    return this.http.get<Autodiagnostico[]>(`${this._autodiagnostico_backend}/buscar?${busqueda}&pagina=1`)
       .pipe(
         tap(listaAutodiagnosticos => {
           if ( listaAutodiagnosticos.length ) {

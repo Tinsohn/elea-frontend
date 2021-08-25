@@ -57,7 +57,8 @@ export class UsuarioService {
     }
 
     // empleado
-    return this.http.get<Usuario>(`${this._autodiagnostico_backend}/legajo/empleado/${localStorage.getItem('nroLegajo')}`)
+    // return this.http.get<Usuario>(`${this._autodiagnostico_backend}/legajo/empleado/${localStorage.getItem('nroLegajo')}`)
+    return this.http.get<Usuario>(`${this._autodiagnostico_backend}/legajo/empleado/?dni=${localStorage.getItem('dni')}`)
             .pipe(
               map( usuario => {
                 this._usuario = usuario;
@@ -77,8 +78,8 @@ export class UsuarioService {
   // ----------------
   // ingreso empleado
   // ----------------
-  autenticarUsuarioEmpleado(nroLegajo: string, dni: string, emailUsuario: string, idLugarAcceso: number) {
-    return this.http.get<Usuario>(`${this._autodiagnostico_backend}/legajo/empleado/${nroLegajo}`)
+  autenticarUsuarioEmpleadoPorDni(dni: string, nroLegajo: string, emailUsuario: string, idLugarAcceso: number) {
+    return this.http.get<Usuario>(`${this._autodiagnostico_backend}/legajo/empleado/?dni=${dni}`)
             .pipe(
               tap( usuario => {
                 if ( usuario ) {
@@ -95,27 +96,27 @@ export class UsuarioService {
                 }
               }),
               map( usuario => {
-                // Si no se encontro empleado con nroLegajo dado
+                // Si no se encontro empleado con DNI dado
                 if ( !usuario ) {
-                  return {
-                    ok: false,
-                    message: 'El número de legajo ingresado no existe'
-                  };
-                }
-
-                // Si el empleado encontrado con nroLegajo dado no coincide con el dni q se dio
-                if ( usuario.dni !== dni ) {
                   return {
                     ok: false,
                     message: 'El DNI ingresado es incorrecto'
                   };
                 }
+                
+                // Si el empleado encontrado con DNI dado no coincide con el nroLegajo q se dio (si se dio uno)
+                if ( nroLegajo && usuario.nroLegajo !== nroLegajo ) {
+                  return {
+                    ok: false,
+                    message: 'La combinación de DNI y número de legajo no coincide, por favor inténtelo de nuevo'
+                  };
+                }
 
-                // Si se encontro empleado con nroLegajo y dni dados
+                // Si se encontro empleado con DNI (y nroLegajo) dado(/s)
                 this.guardarEnLocalStorage();
                 return {
                   ok: true,
-                  message: '¡Número de legajo y DNI correctos!'
+                  message: '¡Número de DNI correcto!'
                 };
               }),
               catchError(err => of({
@@ -124,6 +125,53 @@ export class UsuarioService {
               }))
             );
   }
+  // autenticarUsuarioEmpleadoPorNroLegajo(dni: string, nroLegajo: string, emailUsuario: string, idLugarAcceso: number) {
+  //   return this.http.get<Usuario>(`${this._autodiagnostico_backend}/legajo/empleado/${nroLegajo}`)
+  //           .pipe(
+  //             tap( usuario => {
+  //               if ( usuario ) {
+  //                 this._usuario = usuario;
+                  
+  //                 this._usuario.emailUsuario  = emailUsuario.toLowerCase();
+  //                 this._usuario.empresa       = 'ELEA';
+  //                 this._usuario.idLugarAcceso = idLugarAcceso;
+  
+  //                 // console.log('empleado recibido', usuario)
+  //                 // console.log('usuario-empleado creado', this._usuario)
+                  
+  //                 // this.guardarEnLocalStorage();
+  //               }
+  //             }),
+  //             map( usuario => {
+  //               // Si no se encontro empleado con nroLegajo dado
+  //               if ( !usuario ) {
+  //                 return {
+  //                   ok: false,
+  //                   message: 'El número de legajo ingresado no existe'
+  //                 };
+  //               }
+
+  //               // Si el empleado encontrado con nroLegajo dado no coincide con el dni q se dio
+  //               if ( usuario.dni !== dni ) {
+  //                 return {
+  //                   ok: false,
+  //                   message: 'El DNI ingresado es incorrecto'
+  //                 };
+  //               }
+
+  //               // Si se encontro empleado con nroLegajo y dni dados
+  //               this.guardarEnLocalStorage();
+  //               return {
+  //                 ok: true,
+  //                 message: '¡Número de legajo y DNI correctos!'
+  //               };
+  //             }),
+  //             catchError(err => of({
+  //               ok: false,
+  //               message: 'Ocurrió un error inesperado'
+  //             }))
+  //           );
+  // }
 
   // -----------------
   // ingreso visitante

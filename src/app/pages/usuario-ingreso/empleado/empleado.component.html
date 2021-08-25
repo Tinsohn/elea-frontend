@@ -1,16 +1,16 @@
 <form [formGroup]="form" (ngSubmit)="submit()" fxLayout="column" fxLayoutAlign="space-between stretch" autocomplete="on">
-    <!-- NUMERO LEGAJO -->
-    <mat-form-field appearance="fill">
-        <mat-label>Número de legajo</mat-label>
-        <input matInput formControlName="nroLegajo" type="number" required>
-        <mat-error *ngIf="this.form.get('nroLegajo').invalid">{{getErrorMessage('nroLegajo')}}</mat-error>
-    </mat-form-field>
-
     <!-- DNI -->
     <mat-form-field appearance="fill">
         <mat-label>DNI</mat-label>
         <input matInput formControlName="dni" type="text" maxlength="8" required>
         <mat-error *ngIf="this.form.get('dni').invalid">{{getErrorMessage('dni')}}</mat-error>
+    </mat-form-field>
+
+    <!-- NUMERO LEGAJO -->
+    <mat-form-field appearance="fill">
+        <mat-label>Número de legajo</mat-label>
+        <input matInput formControlName="nroLegajo" type="number">
+        <mat-error *ngIf="this.form.get('nroLegajo').invalid">{{getErrorMessage('nroLegajo')}}</mat-error>
     </mat-form-field>
 
     <!-- EMAIL -->

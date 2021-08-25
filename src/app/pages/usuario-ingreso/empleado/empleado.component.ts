@@ -48,18 +48,23 @@ export class EmpleadoComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.form = this.fb.group({
-      nroLegajo: ['', [Validators.required,
-                      //  Validators.minLength(4),
-                      //  Validators.maxLength(6), 
-                      //  Validators.pattern('^[0-9]{5,6}$')]],
-                       Validators.min(1),
-                       Validators.max(99999999)]],
-      dni: ['', [Validators.required, 
-                 Validators.minLength(8), // ???
-                 Validators.maxLength(8), 
-                 Validators.pattern('^(m|M|f|F)?[1-9]{1}[0-9]{6,7}$')]],
-      emailUsuario: ['', [Validators.required, 
-                          Validators.pattern('^[_a-zA-Z0-9]+(.[_a-zA-Z0-9]+)*@[a-zA-Z0-9]+([\.][a-z0-9]+)*([\.][a-z]{2,4})$')]],
+      nroLegajo: ['', [
+                        Validators.min(1),
+                        Validators.max(99999999)
+                        // Validators.minLength(4),
+                        // Validators.maxLength(6), 
+                        // Validators.pattern('^[0-9]{5,6}$')
+                      ]],
+      dni: ['', [
+                  Validators.required, 
+                  Validators.minLength(8), // ???
+                  Validators.maxLength(8), 
+                  Validators.pattern('^(m|M|f|F)?[1-9]{1}[0-9]{6,7}$')
+                ]],
+      emailUsuario: ['', [
+                          Validators.required, 
+                          Validators.pattern('^[_a-zA-Z0-9]+(.[_a-zA-Z0-9]+)*@[a-zA-Z0-9]+([\.][a-z0-9]+)*([\.][a-z]{2,4})$')
+                        ]],
       idLugarAcceso: ['', Validators.required],
       recaptcha: ['', Validators.required]
       // terminosCondicion: [false, Validators.required]
@@ -106,7 +111,7 @@ export class EmpleadoComponent implements OnInit, OnDestroy {
 
     const { nroLegajo, dni, emailUsuario, idLugarAcceso } = this.form.value;
 
-    this._autenticarUsuarioSubscription = this._usuarioService.autenticarUsuarioEmpleado(String(nroLegajo), dni, emailUsuario, idLugarAcceso)
+    this._autenticarUsuarioSubscription = this._usuarioService.autenticarUsuarioEmpleadoPorDni(dni, String(nroLegajo), emailUsuario, idLugarAcceso)
       .subscribe( resp => {
         // console.log('RESPUESTA', resp);
         

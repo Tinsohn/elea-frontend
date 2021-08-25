@@ -181,11 +181,17 @@ export class AutodiagnosticoService implements OnInit {
   }
 
   obtenerVacunas() {
-    // return this.http.get(`${this.autodiagnostico_backend}/vacunas`);
+    this._vacunas = [];
+    
     return this.http.get<Vacuna[]>(`${this.autodiagnostico_backend}/vacuna/`)
       .pipe(
         tap(vacunas => {
-          this._vacunas = vacunas;
+          vacunas.forEach(vacuna => {
+            if (vacuna.estadoLogico === 1) {
+              this._vacunas.push(vacuna);
+            }
+          });
+          // this._vacunas = vacunas;
         })
       );
   }
