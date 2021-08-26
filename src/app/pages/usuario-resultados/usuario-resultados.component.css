@@ -88,6 +88,15 @@ header {
     margin-top: 1em;
 }
 
+#estado-usuario .fechas-autodiag {
+    margin: 0;
+    font-size: 1.2em;
+    line-height: 1.25em;
+}
+#estado-usuario .fechas-margin {
+    margin-left: .75rem;
+}
+
 #qr-datos {
     /* grid-area: 'qr-datos'; */
     grid-column: 2 / span 1;
@@ -140,12 +149,6 @@ header {
     /* line-height: .1em; */
     font-weight: 500;
     color: #3f51b5;
-}
-/* #datos-resultado p { */
-#estado-usuario p {
-    margin: 0;
-    font-size: .85em;
-    line-height: 1.25em;
 }
 
 #botones {

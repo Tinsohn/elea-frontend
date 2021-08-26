@@ -105,7 +105,7 @@ export class UsuarioService {
                 }
                 
                 // Si el empleado encontrado con DNI dado no coincide con el nroLegajo q se dio (si se dio uno)
-                if ( nroLegajo && usuario.nroLegajo !== nroLegajo ) {
+                if ( nroLegajo !== 'null' && nroLegajo !== '' && usuario.nroLegajo !== nroLegajo ) {
                   return {
                     ok: false,
                     message: 'La combinación de DNI y número de legajo no coincide, por favor inténtelo de nuevo'

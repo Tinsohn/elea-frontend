@@ -26,12 +26,16 @@
 
         <div id="estado-usuario" [ngClass]="resultado.resultado ? 'txt-success' : 'txt-danger'">
             <h3 class="txt-fw500" >{{ resultado.resultado ? 'Habilitado' : 'No habilitado' }}</h3>
-            <!-- TODO: recuperar lugar de acceso -->
+            
             <!-- <span class="txt-fw500">[{{ lugarAccesoService.getLugarAccesoPorId(usuario.idLugarAcceso).descripcionLugarAcceso }}]</span> -->
             <span class="txt-fw500">[{{ nombreLugarAcceso }}]</span>
-            
-            <p>Generado el {{ resultado.fecha_autodiagnostico | date:'dd/MM/yyyy HH:mm:ss' }}</p>
-            <p>Vence el {{ resultado.fecha_hasta_resultado | date:'dd/MM/yyyy HH:mm:ss' }}</p>
+
+            <div class="font-color-gris txt-fw500">
+                <p class="fechas-autodiag">Generado el:</p>
+                <p class="fechas-autodiag fechas-margin">{{ resultado.fecha_autodiagnostico | date:'dd/MM/yyyy HH:mm:ss' }}</p>
+                <p class="fechas-autodiag">Vence el:</p>
+                <p class="fechas-autodiag fechas-margin">{{ resultado.fecha_hasta_resultado | date:'dd/MM/yyyy HH:mm:ss' }}</p>
+            </div>
 
             <!-- <p *ngIf="!resultado.resultado">Usted no está habilitado para concurrir al trabajo. Por favor, comuníquese con Servicio Médico por teléfono o Whatsapp al 011 3867-3669.</p> -->
             <p *ngIf="!resultado.resultado">{{ msjNoHabilitado }}</p>
