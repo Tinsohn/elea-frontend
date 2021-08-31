@@ -78,7 +78,8 @@ export class UsuarioService {
   // ----------------
   // ingreso empleado
   // ----------------
-  autenticarUsuarioEmpleadoPorDni(dni: string, nroLegajo: string, emailUsuario: string, idLugarAcceso: number) {
+  // autenticarUsuarioEmpleadoPorDni(dni: string, nroLegajo: string, emailUsuario: string, idLugarAcceso: number) {
+  autenticarUsuarioEmpleadoPorDni(dni: string, emailUsuario: string, idLugarAcceso: number) {
     return this.http.get<Usuario>(`${this._autodiagnostico_backend}/legajo/empleado/?dni=${dni}`)
             .pipe(
               tap( usuario => {
@@ -105,12 +106,12 @@ export class UsuarioService {
                 }
                 
                 // Si el empleado encontrado con DNI dado no coincide con el nroLegajo q se dio (si se dio uno)
-                if ( nroLegajo !== 'null' && nroLegajo !== '' && usuario.nroLegajo !== nroLegajo ) {
-                  return {
-                    ok: false,
-                    message: 'La combinación de DNI y número de legajo no coincide, por favor inténtelo de nuevo'
-                  };
-                }
+                // if ( nroLegajo !== 'null' && nroLegajo !== '' && usuario.nroLegajo !== nroLegajo ) {
+                //   return {
+                //     ok: false,
+                //     message: 'La combinación de DNI y número de legajo no coincide, por favor inténtelo de nuevo'
+                //   };
+                // }
 
                 // Si se encontro empleado con DNI (y nroLegajo) dado(/s)
                 this.guardarEnLocalStorage();
