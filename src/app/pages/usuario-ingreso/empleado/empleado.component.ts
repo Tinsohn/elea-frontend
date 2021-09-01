@@ -48,13 +48,13 @@ export class EmpleadoComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.form = this.fb.group({
-      // nroLegajo: ['', [
-      //                   Validators.min(1),
-      //                   Validators.max(99999999)
-      //                   // Validators.minLength(4),
-      //                   // Validators.maxLength(6), 
-      //                   // Validators.pattern('^[0-9]{5,6}$')
-      //                 ]],
+      nroLegajo: ['', [
+                        Validators.min(1),
+                        Validators.max(99999999)
+                        // Validators.minLength(4),
+                        // Validators.maxLength(6), 
+                        // Validators.pattern('^[0-9]{5,6}$')
+                      ]],
       dni: ['', [
                   Validators.required, 
                   Validators.minLength(8), // ???
@@ -85,16 +85,16 @@ export class EmpleadoComponent implements OnInit, OnDestroy {
     if (this.form.get(campo)?.hasError('required')) {
       return 'Campo requerido';
     }
-    // if (campo === 'nroLegajo') {
-    //   // if (this.form.get(campo)?.hasError('maxLength') 
-    //   //     || this.form.get(campo)?.hasError('pattern')) {
-    //   //   return 'Debe ingresar un número de legajo válido';
-    //   // }
-    //   if (this.form.get(campo)?.hasError('min') 
-    //       || this.form.get(campo)?.hasError('max')) {
-    //     return 'Debe ingresar un número de legajo válido';
-    //   }
-    // }
+    if (campo === 'nroLegajo') {
+      // if (this.form.get(campo)?.hasError('maxLength') 
+      //     || this.form.get(campo)?.hasError('pattern')) {
+      //   return 'Debe ingresar un número de legajo válido';
+      // }
+      if (this.form.get(campo)?.hasError('min') 
+          || this.form.get(campo)?.hasError('max')) {
+        return 'Debe ingresar un número de legajo válido';
+      }
+    }
 
     if (campo === 'dni') {
       if (this.form.get(campo)?.hasError('maxLength') || this.form.get(campo)?.hasError('pattern')) {
@@ -109,11 +109,11 @@ export class EmpleadoComponent implements OnInit, OnDestroy {
   submit() {
     this.isLoading.emit(true);
 
-    // const { nroLegajo, dni, emailUsuario, idLugarAcceso } = this.form.value;
-    const { dni, emailUsuario, idLugarAcceso } = this.form.value;
+    const { nroLegajo, dni, emailUsuario, idLugarAcceso } = this.form.value;
+    // const { dni, emailUsuario, idLugarAcceso } = this.form.value;
 
-    // this._autenticarUsuarioSubscription = this._usuarioService.autenticarUsuarioEmpleadoPorDni(dni, String(nroLegajo), emailUsuario, idLugarAcceso)
-    this._autenticarUsuarioSubscription = this._usuarioService.autenticarUsuarioEmpleadoPorDni(dni, emailUsuario, idLugarAcceso)
+    this._autenticarUsuarioSubscription = this._usuarioService.autenticarUsuarioEmpleadoPorDni(dni, String(nroLegajo), emailUsuario, idLugarAcceso)
+    // this._autenticarUsuarioSubscription = this._usuarioService.autenticarUsuarioEmpleadoPorDni(dni, emailUsuario, idLugarAcceso)
       .subscribe( resp => {
         // console.log('RESPUESTA', resp);
         
@@ -125,8 +125,8 @@ export class EmpleadoComponent implements OnInit, OnDestroy {
           this.isLoading.emit(false);
         } else {
           // this.router.navigate(['/autoevaluacion']);
-          // this._resultadoAutodiagSubscription = this._resultadoService.obtenerAutodiagnostico(String(nroLegajo), dni)
-          this._resultadoAutodiagSubscription = this._resultadoService.obtenerAutodiagnostico(this._usuarioService.usuario.nroLegajo, dni)
+          this._resultadoAutodiagSubscription = this._resultadoService.obtenerAutodiagnostico(String(nroLegajo), dni)
+          // this._resultadoAutodiagSubscription = this._resultadoService.obtenerAutodiagnostico(this._usuarioService.usuario.nroLegajo, dni)
             .subscribe(resp => {
               if ( resp.ok ) {
                 if ( !resp.isAutodiagnostico || !resp.isBloqueado) {
@@ -207,7 +207,7 @@ export class EmpleadoComponent implements OnInit, OnDestroy {
 
   private reset() {
     this.form.reset({
-      // nroLegajo: '',
+      nroLegajo: '',
       dni: '',
       idLugarAcceso: '',
       recaptcha: false
