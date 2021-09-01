@@ -39,6 +39,8 @@ export class ResultadoService {
         || !localStorage.getItem('antecedentesLabel')
         // || !localStorage.getItem('dosisUnoLabel')
         // || !localStorage.getItem('dosisDosLabel')
+        || !localStorage.getItem('dosisUno')
+        || !localStorage.getItem('dosisDos')
         || !localStorage.getItem('resultado')
         || !localStorage.getItem('fecha_autodiagnostico')
         || !localStorage.getItem('fecha_hasta_resultado')) {
@@ -53,6 +55,8 @@ export class ResultadoService {
       antecedentesLabel: localStorage.getItem('antecedentesLabel'),
       // dosisUnoLabel: localStorage.getItem('dosisUnoLabel'),
       // dosisDosLabel: localStorage.getItem('dosisDosLabel'),
+      dosisUno: localStorage.getItem('dosisUno'),
+      dosisDos: localStorage.getItem('dosisDos'),
       resultado: (localStorage.getItem('resultado') === 'true') ? true : false,
       fecha_autodiagnostico: localStorage.getItem('fecha_autodiagnostico'),
       fecha_hasta_resultado: localStorage.getItem('fecha_hasta_resultado')
@@ -159,6 +163,8 @@ export class ResultadoService {
     localStorage.removeItem('antecedentesLabel');
     // localStorage.removeItem('dosisUnoLabel');
     // localStorage.removeItem('dosisDosLabel');
+    localStorage.removeItem('dosisUno');
+    localStorage.removeItem('dosisDos');
     localStorage.removeItem('resultado');
     localStorage.removeItem('fecha_autodiagnostico');
     localStorage.removeItem('fecha_hasta_resultado');
@@ -199,7 +205,10 @@ export class ResultadoService {
       // fecha_hasta_resultado: this.calcularFechaVencimiento().toISOString(),
       comentario: null,
       modificadoPor: null,
-      modificadoEn: null
+      modificadoEn: null,
+
+      dosisUno: this._autodiagnosticoService.getDescripcionVacunaPorId(Number(this._autodiagnosticoService.formVacunas.get('dosisUno')?.value)),
+      dosisDos: this._autodiagnosticoService.getDescripcionVacunaPorId(Number(this._autodiagnosticoService.formVacunas.get('dosisDos')?.value))
     }
   }
 
@@ -257,7 +266,8 @@ export class ResultadoService {
     let {dosisUno, dosisDos} = this._autodiagnosticoService.formVacunas.value;
     let stringTokenizer = '@@';
 
-    if (dosisUno === '0' || dosisUno === 0) {
+    // if (dosisUno === '0' || dosisUno === 0) {
+    if (dosisUno === 0) {
       dosisDos = '0';
     }
 
@@ -314,6 +324,8 @@ export class ResultadoService {
     localStorage.setItem('antecedentesLabel', this._resultado.antecedentesLabel);
     // localStorage.setItem('dosisUnoLabel', this._resultado.dosisUnoLabel);
     // localStorage.setItem('dosisDosLabel', this._resultado.dosisDosLabel);
+    localStorage.setItem('dosisUno', this._resultado.dosisUno);
+    localStorage.setItem('dosisDos', this._resultado.dosisDos);
     localStorage.setItem('resultado', `${this._resultado.resultado}`);
     localStorage.setItem('fecha_autodiagnostico', this._resultado.fecha_autodiagnostico);
     localStorage.setItem('fecha_hasta_resultado', this._resultado.fecha_hasta_resultado);

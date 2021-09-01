@@ -56,6 +56,7 @@ export class UsuarioResultadosComponent implements OnInit, OnDestroy {
     if(this._parametrosSubscription) {
       this._parametrosSubscription.unsubscribe();
     }
+    localStorage.clear();
   }
 
   cerrarSesion() {

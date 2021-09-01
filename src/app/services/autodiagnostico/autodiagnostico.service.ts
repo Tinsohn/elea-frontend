@@ -197,7 +197,7 @@ export class AutodiagnosticoService implements OnInit {
   }
 
   getDescripcionVacunaPorId(idVacuna: number): string {
-    if (idVacuna === 0) {
+    if (idVacuna === 0 || this.formVacunas.get('dosisUno')?.value === '0') {
       return 'Ninguna';
     }
     return this._vacunas.filter(vacuna => vacuna.idVacuna === idVacuna)[0].descripcionVacuna;
@@ -211,6 +211,7 @@ export class AutodiagnosticoService implements OnInit {
     this.resetSintomas();
     this.resetContactoEstrecho();
     this.resetAntecedentes();
+    this.resetVacunas();
 
     this._sintomasEstado         = false;
     this._contactoEstrechoEstado = false;
@@ -251,6 +252,12 @@ export class AutodiagnosticoService implements OnInit {
       false,
       false
     ]);
+  }
+  private resetVacunas() {
+    this.formVacunas.reset({
+      dosisUno: '0',
+      dosisDos: '0'
+    });
   }
   
   // --------------

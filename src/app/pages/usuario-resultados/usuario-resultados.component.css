@@ -144,11 +144,16 @@ header {
     margin-left: 1em;
     margin-bottom: 1px;
 }
-#datos-resultado span {
+#datos-resultado span, #datos-resultado .info-vacunas {
     /* font-size: 1.1em; */
     /* line-height: .1em; */
     font-weight: 500;
     color: #3f51b5;
+}
+#datos-resultado .info-vacunas {
+    margin: 0 0 0 1em;
+    padding: 0;
+    list-style: none;
 }
 
 #botones {

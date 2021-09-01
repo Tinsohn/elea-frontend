@@ -1,14 +1,14 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { FormArray, FormControl } from '@angular/forms';
+import { FormArray, FormControl, FormGroup } from '@angular/forms';
+import { Router } from '@angular/router';
 
 import { MatDialog } from '@angular/material/dialog';
 
-import { AutodiagnosticoService } from '../../../services/autodiagnostico/autodiagnostico.service';
 import { DialogDeclaracionJuradaComponent } from '../components/dialog-declaracion-jurada/dialog-declaracion-jurada.component';
-import { logging } from 'protractor';
-import { ResultadoService } from '../../../services/resultado/resultado.service';
-import { Router } from '@angular/router';
 import { DialogMensajeErrorComponent } from 'src/app/shared/dialog-mensaje-error/dialog-mensaje-error.component';
+
+import { AutodiagnosticoService } from '../../../services/autodiagnostico/autodiagnostico.service';
+import { ResultadoService } from '../../../services/resultado/resultado.service';
 
 @Component({
   selector: 'app-resumen',
@@ -22,25 +22,30 @@ export class ResumenComponent {
   @Input() stepper: any;
 
   get temperatura(): FormControl {
-    return this.autoevaluacionService.temperatura;
+    return this._autodiagnosticoService.temperatura;
   }
 
   get sintomas(): FormArray {
-    return this.autoevaluacionService.sintomas;
+    return this._autodiagnosticoService.sintomas;
   }
 
   get antecedentes(): FormArray {
-    return this.autoevaluacionService.antecedentes;
+    return this._autodiagnosticoService.antecedentes;
+  }
+
+  
+  get formVacunas(): FormGroup {
+    return this._autodiagnosticoService.formVacunas;
   }
 
   constructor(private router: Router,
               public dialog: MatDialog,
               private _resultadoService: ResultadoService,
-              private autoevaluacionService: AutodiagnosticoService) { }
+              private _autodiagnosticoService: AutodiagnosticoService) { }
 
   reset(stepper: any) {
     stepper.reset();
-    this.autoevaluacionService.reset();
+    this._autodiagnosticoService.reset();
   }
 
   openDialog() {
@@ -86,17 +91,21 @@ export class ResumenComponent {
 
 
   validarSintomas() {
-    this.autoevaluacionService.validarSintomasEstado();
-    return this.autoevaluacionService.sintomasEstado;
+    this._autodiagnosticoService.validarSintomasEstado();
+    return this._autodiagnosticoService.sintomasEstado;
   }
 
   validarContactoEstrecho() {
-    this.autoevaluacionService.validarContactoEstrechoEstado();
-    return this.autoevaluacionService.contactoEstrechoEstado;
+    this._autodiagnosticoService.validarContactoEstrechoEstado();
+    return this._autodiagnosticoService.contactoEstrechoEstado;
   }
 
   validarAntecedentes() {
-    this.autoevaluacionService.validarAntecedentesEstado();
-    return this.autoevaluacionService.antecedentesEstado;
+    this._autodiagnosticoService.validarAntecedentesEstado();
+    return this._autodiagnosticoService.antecedentesEstado;
+  }
+
+  getDescripcionVacunaPorId(idVacuna: string): string {
+    return this._autodiagnosticoService.getDescripcionVacunaPorId(Number(idVacuna));
   }
 }

@@ -15,6 +15,9 @@ export interface Resultado {
     contactoEstrecho?      : string; // TODO: separado
     antecedentes?          : string;
     vacunas?               : string;
+
+    dosisUno?              : string;
+    dosisDos?              : string;
     
     estadoSintomas?        : boolean;
     estadoContactoEstrecho?: boolean;
