@@ -15,5 +15,5 @@ export const environment = {
   autodiagnostico_backend: 'https://autodiagnosticotest.elea.com:8443/autodiagnostico'
   // -------- BACKEND: Ambiente Elea PROD
   //// autodiagnostico_backend: 'https://10.30.0.21:8080/autodiagnostico'
-  // autodiagnostico_backend: 'https://autodiagnostico.elea.com:8443/autodiagnostico'
+  // autodiagnostico_backend: 'https://autodiagnostico.elea.com:9443/autodiagnostico'
 };
