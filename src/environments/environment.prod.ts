@@ -1,6 +1,8 @@
 export const environment = {
   production: true,
 
+
+  //TODO: autodiagnosticoqas.elea.com:3810
   // -------- CAPTCHA: Ambiente Technolobiz
   // siteKeyCaptcha: '6Le7KGQbAAAAADkZprqUuDknnc8xQ3dNwRuwwWct',
   // -------- CAPTCHA: Ambiente Elea PREPROD
@@ -12,7 +14,8 @@ export const environment = {
   // autodiagnostico_backend: 'http://34.239.14.244:8080/autodiagnostico'
   // -------- BACKEND: Ambiente Elea PREPROD
   //// autodiagnostico_backend: 'https://10.30.0.20:8080/autodiagnostico'
-  autodiagnostico_backend: 'https://autodiagnosticotest.elea.com:8443/autodiagnostico'
+  // autodiagnostico_backend: 'https://autodiagnosticotest.elea.com:8443/autodiagnostico'
+  autodiagnostico_backend: 'https://autodiagnosticoqas.elea.com:8443/autodiagnostico'
   // -------- BACKEND: Ambiente Elea PROD
   //// autodiagnostico_backend: 'https://10.30.0.21:8080/autodiagnostico'
   // autodiagnostico_backend: 'https://autodiagnostico.elea.com:9443/autodiagnostico'

@@ -22,18 +22,19 @@ export class AutodiagnosticoService implements OnInit {
   //  CAMPOS
   // --------
   // Campos: Form
+  // private _formAutodiagnostico: FormGroup;
   private _formAutodiagnostico: FormGroup = this.fb.group({
     temperatura: [37],
     sintomas: this.fb.array([
       ['no'],
-      ['no'],
-      ['no'],
-      ['no'],
-      ['no'],
-      ['no'],
-      ['no'],
-      ['no'],
-      ['no']
+      // ['no'],
+      // ['no'],
+      // ['no'],
+      // ['no'],
+      // ['no'],
+      // ['no'],
+      // ['no'],
+      // ['no']
     ]),
     contactoEstrecho: this.fb.array([
       [false],
@@ -41,14 +42,18 @@ export class AutodiagnosticoService implements OnInit {
     ]),
     antecedentes: this.fb.array([
       [false],
-      [false],
-      [false],
-      [false],
-      [false],
-      [false],
-      [false]
+      // [false],
+      // [false],
+      // [false],
+      // [false],
+      // [false],
+      // [false]
     ]),
   });
+
+  private arrSintomas        : string[] = [];
+  private arrContactoEstrecho: boolean[] = [];
+  private arrAntecedentes    : boolean[] = [];
 
   private _formVacunas: FormGroup = this.fb.group({
     dosisUno: [ '0' ],
@@ -63,7 +68,9 @@ export class AutodiagnosticoService implements OnInit {
   private _antecedentesEstado    : boolean = false;
 
   // Preguntas: Leyendas sintomas y antecedentes
+  preguntaTemperatura!: Pregunta;
   txtPreguntaTemperatura: string = '¿Cuál es tu temperatura corporal actual?';
+  preguntasSintomas: Pregunta[] = [];
   txtPreguntasSintomas: string[] = [
     // "¿Percibiste una marcada pérdida del olfato de manera repentina?",
     // "¿Percibiste una marcada pérdida del gusto (sabor de los alimentos) de manera repentina?",
@@ -75,10 +82,12 @@ export class AutodiagnosticoService implements OnInit {
     // "¿Tenés vómitos?",
     // "¿Tenés dolor muscular?",
   ];
+  preguntasContactoEstrecho: Pregunta[] = [];
   txtPreguntasContactoEstrecho: string [] = [
     // "Trabajo o convivo con una persona que actualmente es caso confirmado o sospechoso de COVID-19.",
     // "Pasé en los últimos 14 días al menos 15 minutos sin barbijo y a menos de 2 metros de distancia de una persona que actualmente es caso confirmado de COVID-19."
   ]
+  preguntasAntecedentes: Pregunta[] = [];
   txtPreguntasAntecedentes: string[] = [
     // "Tengo/tuve cáncer.",
     // "Tengo diabetes.",
@@ -88,6 +97,7 @@ export class AutodiagnosticoService implements OnInit {
     // "Tengo alguna enfermedad cardiológica.",
     // "Tengo alguna condición que baja las defensas."
   ];
+  preguntasVacunacion: Pregunta[] = [];
   txtPreguntasVacunacion: string[] = [
     // "Tengo aplicada la vacuna del COVID-19 1era dosis.",
     // "Tengo aplicada la vacuna del COVID-19 2da dosis."
@@ -118,7 +128,7 @@ export class AutodiagnosticoService implements OnInit {
   }
   // Getter y setter: valores de temperatura
   get temperaturaValue(): number {
-    return this._formAutodiagnostico.get('temperatura').value;
+    return this._formAutodiagnostico.get('temperatura')?.value;
   }
   // set temperaturaValue(temperaturaValue: number) {
   //   this._formAutoevaluacion.get('temperatura').setValue(temperaturaValue);
@@ -156,26 +166,54 @@ export class AutodiagnosticoService implements OnInit {
     return this.http.get<Pregunta[]>(`${this.autodiagnostico_backend}/pregunta`)
       .pipe(
         tap(preguntas => {
+
+          // let arrSintomas: string[] = [];
+          // let arrContactoEstrecho: boolean[] = [];
+          // let arrAntecedentes: boolean[] = [];
+          this.arrSintomas = [];
+          this.arrContactoEstrecho = [];
+          this.arrAntecedentes = [];
+
           preguntas.forEach(pregunta => {
             switch (pregunta.idPantalla) {
               case 1:
+                // this.preguntaTemperatura = pregunta;
                 this.txtPreguntaTemperatura = pregunta.descripcionPregunta;
                 break;
               case 2:
-                this.txtPreguntasSintomas.push(pregunta.descripcionPregunta);
+                  // this.preguntasSintomas.push(pregunta);
+                  this.txtPreguntasSintomas.push(pregunta.descripcionPregunta);
+                  this.arrSintomas.push('no');
                 break;
               case 3:
+                // this.preguntasContactoEstrecho.push(pregunta);
                 this.txtPreguntasContactoEstrecho.push(pregunta.descripcionPregunta);
+                this.arrContactoEstrecho.push(false);
                 break;
               case 4:
                 if (pregunta.idOrdenEnPantalla === 7 || pregunta.idOrdenEnPantalla === 8) {
+                  // this.preguntasVacunacion.push(pregunta);
                   this.txtPreguntasVacunacion.push(pregunta.descripcionPregunta)
                 } else {
+                  // this.preguntasAntecedentes.push(pregunta);
                   this.txtPreguntasAntecedentes.push(pregunta.descripcionPregunta);
+                  this.arrAntecedentes.push(false);
                 }
-                break;
+                // this.preguntasAntecedentes.push(pregunta);
+                // this.arrAntecedentes.push(false);
+              break;
+              // case 5:
+              //   this.preguntasVacunacion.push(pregunta);
+              //   break;
             }
           })
+
+          this._formAutodiagnostico = this.fb.group({
+            temperatura: [37],
+            sintomas: this.fb.array(this.arrSintomas),
+            contactoEstrecho: this.fb.array(this.arrContactoEstrecho),
+            antecedentes: this.fb.array(this.arrAntecedentes),
+          });
         })
       );
   }
@@ -222,36 +260,39 @@ export class AutodiagnosticoService implements OnInit {
     this.temperatura.reset(37)
   }
   private resetSintomas() {
-    this.sintomas.reset([
-      'no',
-      'no',
-      'no',
-      'no',
-      'no',
-      'no',
-      'no',
-      'no',
-      'no'
-    ])
+    // this.sintomas.reset([
+    //   'no',
+    //   'no',
+    //   'no',
+    //   'no',
+    //   'no',
+    //   'no',
+    //   'no',
+    //   'no',
+    //   'no'
+    // ]);
+    this.sintomas.reset(this.arrSintomas);
   }
   private resetContactoEstrecho() {
-    this.contactoEstrecho.reset([
-      false,
-      false
-    ])
+    // this.contactoEstrecho.reset([
+    //   false,
+    //   false
+    // ]);
+    this.contactoEstrecho.reset(this.arrContactoEstrecho)
   }
   private resetAntecedentes() { // TODO: resetear por los valores tomados del ult autodiagnostico
-    this.antecedentes.reset([
-      false,
-      false,
-      false,
-      false,
-      false,
-      false,
-      false,
-      false,
-      false
-    ]);
+    // this.antecedentes.reset([
+    //   false,
+    //   false,
+    //   false,
+    //   false,
+    //   false,
+    //   false,
+    //   false,
+    //   false,
+    //   false
+    // ]);
+    this.antecedentes.reset(this.arrAntecedentes);
   }
   private resetVacunas() {
     this.formVacunas.reset({
