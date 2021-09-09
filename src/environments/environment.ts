@@ -5,13 +5,16 @@
 export const environment = {
   production: false,
   siteKeyCaptcha: '6Ld58yUbAAAAACRtuaTZ9cZ9BkynxvoutKphl7s1',
-  autodiagnostico_backend: 'http://localhost:8080'
+  autodiagnostico_backend: 'http://localhost:8080',
   // autodiagnostico_backend: 'http://34.239.14.244:8080/autodiagnostico'
   // urlProperties: 'assets/autodiagnostico-front.json',
   // urlProperties: 'http://34.239.14.244:8080/autodiagnostico/autodiagnostico-front.json',
   // urlProperties: '/autodiagnostico/autodiagnostico-front.json',
-};
 
+  // filePath: '/aplicaciones/autodiagnostico/config.properties.json'
+  // filePath: '../app/config/config.properties.json'
+  filePath: '../assets/properties.json'
+};
 /*
  * For easier debugging in development mode, you can import the following file
  * to ignore zone related error stack frames such as `zone.run`, `zoneDelegate.invokeTask`.
