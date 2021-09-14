@@ -32,11 +32,11 @@
     </mat-form-field>
 
     <!-- CAPTCHA -->
-    <ngx-recaptcha2 #captchaElem [siteKey]="siteKey"
-                                    [type]="type"
-                                    [hl]="lang"
-                                    formControlName="recaptcha"
-                                    fxFlexAlign="center"></ngx-recaptcha2>
+    <ngx-recaptcha2 *ngIf="siteKey" #captchaElem [siteKey]="siteKey"
+                                                 [type]="type"
+                                                 [hl]="lang"
+                                                 formControlName="recaptcha"
+                                                 fxFlexAlign="center"></ngx-recaptcha2>
 
     <!-- TERMINOS Y CONDICIONES -->
     <!-- <div class="terminos-condiciones font-color-gris">
@@ -44,12 +44,12 @@
     </div> -->
 
     <!-- BOTON SUBMIT -->
-    <div class="div-boton">
+    <!-- <div class="div-boton">
         <button mat-stroked-button color="primary" [disabled]="form.invalid" type="submit">EDITAR PERFIL</button>
-    </div>
+    </div> -->
     <!-- BOTON SUBMIT -->
     <div class="div-boton">
         <!-- <button mat-raised-button color="primary" [disabled]="form.invalid" type="submit">SIGUIENTE</button> -->
-        <button mat-raised-button color="primary" [disabled]="form.invalid" type="submit">EMPEZAR AUTODIAGNÓSTICO</button>
+        <button mat-raised-button color="primary" [disabled]="form.invalid" type="submit">COMENZAR AUTODIAGNÓSTICO</button>
     </div>
 </form>

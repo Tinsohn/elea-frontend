@@ -1,10 +1,10 @@
 import { Injectable, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, FormArray, FormControl, AbstractControl, ValidationErrors } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
-import { tap } from 'rxjs/operators';
+import { switchMap, tap } from 'rxjs/operators';
 
-import { environment } from '../../../environments/environment';
 
+import { PropertiesService } from '../properties/properties.service';
 import { ParametrosService } from '../parametros/parametros.service';
 import { Pregunta } from 'src/app/interfaces/pregunta.interface';
 import { Vacuna } from 'src/app/interfaces/vacuna.interface';
@@ -13,7 +13,7 @@ import { Vacuna } from 'src/app/interfaces/vacuna.interface';
   providedIn: 'root'
 })
 export class AutodiagnosticoService implements OnInit {
-  private autodiagnostico_backend: string = environment.autodiagnostico_backend;
+  // private autodiagnostico_backend: string = environment.autodiagnostico_backend;
   private _tempMin: number;
   private _tempMax: number;
   private _vacunas: Vacuna[] = [];
@@ -151,7 +151,8 @@ export class AutodiagnosticoService implements OnInit {
 
   constructor(private fb: FormBuilder,
               private http: HttpClient,
-              private parametrosService: ParametrosService) {}
+              private _propertiesService: PropertiesService,
+              private _parametrosService: ParametrosService) {}
 
   ngOnInit(): void {
     // this.obtenerRangoTemperatura();
@@ -163,8 +164,10 @@ export class AutodiagnosticoService implements OnInit {
     this.txtPreguntasAntecedentes = [];
     this.txtPreguntasVacunacion = [];
 
-    return this.http.get<Pregunta[]>(`${this.autodiagnostico_backend}/pregunta`)
+    // return this.http.get<Pregunta[]>(`${this.autodiagnostico_backend}/pregunta`)
+    return this._propertiesService.obtenerProperties()
       .pipe(
+        switchMap(properties => this.http.get<Pregunta[]>(`${properties.autodiagnostico_backend}/pregunta`)),
         tap(preguntas => {
 
           // let arrSintomas: string[] = [];
@@ -221,8 +224,10 @@ export class AutodiagnosticoService implements OnInit {
   obtenerVacunas() {
     this._vacunas = [];
     
-    return this.http.get<Vacuna[]>(`${this.autodiagnostico_backend}/vacuna/`)
+    // return this.http.get<Vacuna[]>(`${this.autodiagnostico_backend}/vacuna/`)
+    return this._propertiesService.obtenerProperties()
       .pipe(
+        switchMap(properties => this.http.get<Vacuna[]>(`${properties.autodiagnostico_backend}/vacuna/`)),
         tap(vacunas => {
           vacunas.forEach(vacuna => {
             if (vacuna.estadoLogico === 1) {
@@ -351,7 +356,7 @@ export class AutodiagnosticoService implements OnInit {
   }
 
   obtenerRangoTemperatura() {
-    return this.parametrosService.getParametros()
+    return this._parametrosService.getParametros()
       .subscribe(parametros => {
         this._tempMin = Number(parametros[0].valorParametro);
         this._tempMax = Number(parametros[1].valorParametro);

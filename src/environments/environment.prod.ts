@@ -22,5 +22,5 @@ export const environment = {
 
   // filePath: '/aplicaciones/autodiagnostico/config.properties.json'
   // filePath: '../app/config/config.properties.json'
-  filePath: '../assets/properties.json'
+  propertiesFilePath: '../properties.json'
 };

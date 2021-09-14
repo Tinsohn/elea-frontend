@@ -2,16 +2,16 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { FormGroup } from '@angular/forms';
 import { Observable, of } from 'rxjs';
-import { catchError, map, tap } from 'rxjs/operators';
+import { catchError, map, switchMap, tap } from 'rxjs/operators';
 
+import { PropertiesService } from '../properties/properties.service';
 import { Usuario } from 'src/app/interfaces/usuario.interface';
-import { environment } from '../../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class UsuarioService {
-  private _autodiagnostico_backend: string;
+  // private _autodiagnostico_backend: string;
 
   private _usuario: Usuario | undefined;
 
@@ -19,8 +19,9 @@ export class UsuarioService {
     return { ...this._usuario };
   }
 
-  constructor(private http: HttpClient) {
-      this._autodiagnostico_backend = environment.autodiagnostico_backend;
+  constructor(private http: HttpClient,
+              private _propertiesService: PropertiesService) {
+      // this._autodiagnostico_backend = environment.autodiagnostico_backend;
   }
 
   // ---------------------
@@ -58,8 +59,10 @@ export class UsuarioService {
 
     // empleado
     // return this.http.get<Usuario>(`${this._autodiagnostico_backend}/legajo/empleado/${localStorage.getItem('nroLegajo')}`)
-    return this.http.get<Usuario>(`${this._autodiagnostico_backend}/legajo/empleado/?dni=${localStorage.getItem('dni')}`)
+    // return this.http.get<Usuario>(`${this._autodiagnostico_backend}/legajo/empleado/?dni=${localStorage.getItem('dni')}`)
+    return this._propertiesService.obtenerProperties()
             .pipe(
+              switchMap(properties => this.http.get<Usuario>(`${properties.autodiagnostico_backend}/legajo/empleado/?dni=${localStorage.getItem('dni')}`)),
               map( usuario => {
                 this._usuario = usuario;
                 
@@ -80,8 +83,10 @@ export class UsuarioService {
   // ----------------
   // autenticarUsuarioEmpleadoPorDni(dni: string, nroLegajo: string, emailUsuario: string, idLugarAcceso: number) {
   autenticarUsuarioEmpleadoPorDni(dni: string, emailUsuario: string, idLugarAcceso: number) {
-    return this.http.get<Usuario>(`${this._autodiagnostico_backend}/legajo/empleado/?dni=${dni}`)
+    // return this.http.get<Usuario>(`${this._autodiagnostico_backend}/legajo/empleado/?dni=${dni}`)
+    return this._propertiesService.obtenerProperties()
             .pipe(
+              switchMap(properties => this.http.get<Usuario>(`${properties.autodiagnostico_backend}/legajo/empleado/?dni=${dni}`)),
               tap( usuario => {
                 if ( usuario ) {
                   this._usuario = usuario;

@@ -52,11 +52,11 @@
     </mat-form-field>
 
     <!-- CAPTCHA -->
-    <ngx-recaptcha2 #captchaElem [siteKey]="siteKey"
-                                 [type]="type"
-                                 [hl]="lang"
-                                 formControlName="recaptcha"
-                                 fxFlexAlign="center"></ngx-recaptcha2>
+    <ngx-recaptcha2 *ngIf="siteKey" #captchaElem [siteKey]="siteKey"
+                                                 [type]="type"
+                                                 [hl]="lang"
+                                                 formControlName="recaptcha"
+                                                 fxFlexAlign="center"></ngx-recaptcha2>
 
     <!-- TERMINOS Y CONDICIONES -->
     <!-- <div class="terminos-condiciones font-color-gris">

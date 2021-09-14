@@ -1,20 +1,20 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { of } from 'rxjs';
-import { tap, map, catchError } from 'rxjs/operators';
+import { tap, map, catchError, switchMap } from 'rxjs/operators';
 
+import { Autodiagnostico } from 'src/app/interfaces/autodiagnostico.interface';
 import { Resultado } from '../../interfaces/resultado.interface';
 
+import { PropertiesService } from '../properties/properties.service';
 import { UsuarioService } from '../usuario/usuario.service';
 import { AutodiagnosticoService } from '../autodiagnostico/autodiagnostico.service';
-import { environment } from '../../../environments/environment';
-import { Autodiagnostico } from 'src/app/interfaces/autodiagnostico.interface';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ResultadoService {
-  private _autodiagnostico_backend: string;
+  // private _autodiagnostico_backend: string;
 
   private _resultado!: Resultado;
 
@@ -23,9 +23,10 @@ export class ResultadoService {
   }
 
   constructor(private http: HttpClient,
+              private _propertiesService: PropertiesService,
               private _usuarioService: UsuarioService,
               private _autodiagnosticoService: AutodiagnosticoService) {
-                  this._autodiagnostico_backend = environment.autodiagnostico_backend;
+                  // this._autodiagnostico_backend = environment.autodiagnostico_backend;
               }
 
 
@@ -77,8 +78,10 @@ export class ResultadoService {
     }
     busqueda += `dni=${dni}`;
 
-    return this.http.get<Autodiagnostico[]>(`${this._autodiagnostico_backend}/buscar?${busqueda}&pagina=1`)
+    // return this.http.get<Autodiagnostico[]>(`${this._autodiagnostico_backend}/buscar?${busqueda}&pagina=1`)
+    return this._propertiesService.obtenerProperties()
       .pipe(
+        switchMap(properties => this.http.get<Autodiagnostico[]>(`${properties.autodiagnostico_backend}/buscar?${busqueda}&pagina=1`)),
         tap(listaAutodiagnosticos => {
           if ( listaAutodiagnosticos.length ) {
             // console.log(listaAutodiagnosticos);
@@ -139,17 +142,30 @@ export class ResultadoService {
     
     this.guardarEnLocalStorage();
 
-    return this.http.post(`${this._autodiagnostico_backend}/legajo/autodiagnostico`, this._resultado, {
-      headers: new HttpHeaders({
-        'Content-Type': 'application/json'
-      })
-    }).pipe(
-      tap( idAutodiagnostico => {
-        this.guardarEnLocalStorage();
-        return of(idAutodiagnostico)
-      })
-      // , catchError(err => of(err))
-    );
+    // return this.http.post(`${this._autodiagnostico_backend}/legajo/autodiagnostico`, this._resultado, {
+    //   headers: new HttpHeaders({
+    //     'Content-Type': 'application/json'
+    //   })
+    // }).pipe(
+    //   tap( idAutodiagnostico => {
+    //     this.guardarEnLocalStorage();
+    //     return of(idAutodiagnostico)
+    //   })
+    //   // , catchError(err => of(err))
+    // );
+
+    return this._propertiesService.obtenerProperties()
+      .pipe(
+        switchMap(properties => this.http.post(`${properties.autodiagnostico_backend}/legajo/autodiagnostico`, this._resultado, {
+          headers: new HttpHeaders({
+            'Content-Type': 'application/json'
+          })
+        })),
+        tap( idAutodiagnostico => {
+          this.guardarEnLocalStorage();
+          return of(idAutodiagnostico)
+        })
+      );
     
   }
 

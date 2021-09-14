@@ -16,6 +16,7 @@ import { LugarAccesoService } from 'src/app/services/lugar-acceso/lugar-acceso.s
 import { DialogMensajeErrorComponent } from 'src/app/shared/dialog-mensaje-error/dialog-mensaje-error.component';
 
 // import { DialogTerminosCondicionesComponent } from '../components/dialog-terminos-condiciones/dialog-terminos-condiciones.component';
+import { PropertiesService } from '../../../services/properties/properties.service';
 
 @Component({
   selector: 'app-visitante',
@@ -28,7 +29,8 @@ export class VisitanteComponent implements OnInit, OnDestroy {
 
   // Campos Captcha
   @ViewChild('captchaElem', { static: false }) captchaElem: ReCaptcha2Component;
-  readonly siteKey: string = environment.siteKeyCaptcha;
+  // readonly siteKey: string = environment.siteKeyCaptcha;
+  public siteKey: string = null;
   readonly type: string = 'image';
   readonly lang: string = 'es-419';
 
@@ -39,8 +41,17 @@ export class VisitanteComponent implements OnInit, OnDestroy {
   constructor(private fb: FormBuilder,
               private router: Router,
               private dialog: MatDialog,
+              private _propertiesService: PropertiesService,
               private _usuarioService: UsuarioService,
-              private _resultadoService: ResultadoService) { }
+              private _resultadoService: ResultadoService) {
+                this.isLoading.emit(true);
+                this._propertiesService.obtenerProperties()
+                  .subscribe(properties => {
+                    console.log(properties.siteKeyCaptcha)
+                    this.siteKey = properties.siteKeyCaptcha
+                    this.isLoading.emit(false);
+                  });
+              }
 
   ngOnInit(): void {
     this.form = this.fb.group({

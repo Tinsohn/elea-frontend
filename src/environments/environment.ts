@@ -13,7 +13,7 @@ export const environment = {
 
   // filePath: '/aplicaciones/autodiagnostico/config.properties.json'
   // filePath: '../app/config/config.properties.json'
-  filePath: '../assets/properties.json'
+  propertiesFilePath: '../properties.json'
 };
 /*
  * For easier debugging in development mode, you can import the following file
