@@ -194,20 +194,22 @@ export class AutodiagnosticoService implements OnInit {
                 this.arrContactoEstrecho.push(false);
                 break;
               case 4:
-                if (pregunta.idOrdenEnPantalla === 7 || pregunta.idOrdenEnPantalla === 8) {
-                  // this.preguntasVacunacion.push(pregunta);
-                  this.txtPreguntasVacunacion.push(pregunta.descripcionPregunta)
-                } else {
-                  // this.preguntasAntecedentes.push(pregunta);
-                  this.txtPreguntasAntecedentes.push(pregunta.descripcionPregunta);
-                  this.arrAntecedentes.push(false);
-                }
+                // if (pregunta.idOrdenEnPantalla === 7 || pregunta.idOrdenEnPantalla === 8) {
+                //   // this.preguntasVacunacion.push(pregunta);
+                //   this.txtPreguntasVacunacion.push(pregunta.descripcionPregunta);
+                // } else {
+                //   // this.preguntasAntecedentes.push(pregunta);
+                //   this.txtPreguntasAntecedentes.push(pregunta.descripcionPregunta);
+                //   this.arrAntecedentes.push(false);
+                // }
                 // this.preguntasAntecedentes.push(pregunta);
-                // this.arrAntecedentes.push(false);
+                this.txtPreguntasAntecedentes.push(pregunta.descripcionPregunta);
+                this.arrAntecedentes.push(false);
               break;
-              // case 5:
-              //   this.preguntasVacunacion.push(pregunta);
-              //   break;
+              case 5:
+                // this.preguntasVacunacion.push(pregunta);
+                this.txtPreguntasVacunacion.push(pregunta.descripcionPregunta);
+                break;
             }
           })
 

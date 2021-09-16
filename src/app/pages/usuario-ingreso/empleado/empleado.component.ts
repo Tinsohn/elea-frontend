@@ -51,7 +51,6 @@ export class EmpleadoComponent implements OnInit, OnDestroy {
                 this.isLoading.emit(true);
                 this._propertiesService.obtenerProperties()
                   .subscribe(properties => {
-                    console.log(properties.siteKeyCaptcha)
                     this.siteKey = properties.siteKeyCaptcha
                     this.isLoading.emit(false);
                   });
