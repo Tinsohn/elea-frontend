@@ -304,11 +304,16 @@ export class ResultadoService {
     // console.log('MES FECHA RECIBIDA:', mesFecha);
 
     let anio     = `${fecha.getFullYear()}`;
-    let mes      = `${fecha.getMonth().toString().length===1 ? '0'+mesFecha : mesFecha}`;
-    let dia      = `${fecha.getDate().toString().length===1 ? '0'+fecha.getDate() : fecha.getDate()}`;
-    let hora     = `${fecha.getHours().toString().length===1 ? '0'+fecha.getHours() : fecha.getHours()}`;
-    let minutos  = `${fecha.getMinutes().toString().length===1 ? '0'+fecha.getMinutes() : fecha.getMinutes()}`;
-    let segundos = `${fecha.getSeconds().toString().length===1 ? '0'+fecha.getSeconds() : fecha.getSeconds()}`;
+    // let mes      = `${fecha.getMonth().toString().length===1 ? '0'+mesFecha : mesFecha}`;
+    // let dia      = `${fecha.getDate().toString().length===1 ? '0'+fecha.getDate() : fecha.getDate()}`;
+    // let hora     = `${fecha.getHours().toString().length===1 ? '0'+fecha.getHours() : fecha.getHours()}`;
+    // let minutos  = `${fecha.getMinutes().toString().length===1 ? '0'+fecha.getMinutes() : fecha.getMinutes()}`;
+    // let segundos = `${fecha.getSeconds().toString().length===1 ? '0'+fecha.getSeconds() : fecha.getSeconds()}`;
+    let mes      = `${mesFecha < 10 ? '0'+mesFecha : mesFecha}`;
+    let dia      = `${fecha.getDate() < 10 ? '0'+fecha.getDate() : fecha.getDate()}`;
+    let hora     = `${fecha.getHours() < 10 ? '0'+fecha.getHours() : fecha.getHours()}`;
+    let minutos  = `${fecha.getMinutes() < 10 ? '0'+fecha.getMinutes() : fecha.getMinutes()}`;
+    let segundos = `${fecha.getSeconds() < 10 ? '0'+fecha.getSeconds() : fecha.getSeconds()}`;
 
     // console.log(`FECHA FORMATEADA: ${ anio }-${ mes }-${ dia }T${ hora }:${ minutos }:${ segundos }`);
 
