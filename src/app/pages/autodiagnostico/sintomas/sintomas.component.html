@@ -13,9 +13,10 @@
 
 
     <!-- campos -->
-    <div *ngFor="let preguntaSintoma of txtPreguntasSintomas; let i=index"
+    <!-- <div *ngFor="let preguntaSintoma of txtPreguntasSintomas; let i=index" -->
+    <div *ngFor="let preguntaSintoma of preguntasSintomas; let i=index"
           fxLayout="column" formArrayName="sintomas">
-        <mat-label class="font-color-gris step-header">{{ preguntaSintoma }}</mat-label>
+        <mat-label class="font-color-gris step-header">{{ preguntaSintoma.descripcionPregunta }}</mat-label>
         <mat-radio-group [formControlName]="i" fxLayout="column" required>
             <mat-radio-button value="si"><span class="txt-radio-button">SI</span></mat-radio-button>
             <mat-radio-button value="no"><span class="txt-radio-button">NO</span></mat-radio-button>

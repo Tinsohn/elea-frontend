@@ -25,9 +25,9 @@ export class ResumenComponent {
     return this._autodiagnosticoService.temperatura;
   }
 
-  get sintomas(): FormArray {
-    return this._autodiagnosticoService.sintomas;
-  }
+  // get sintomas(): FormArray {
+  //   return this._autodiagnosticoService.sintomas;
+  // }
 
   get antecedentes(): FormArray {
     return this._autodiagnosticoService.antecedentes;
@@ -36,6 +36,9 @@ export class ResumenComponent {
   
   get formVacunas(): FormGroup {
     return this._autodiagnosticoService.formVacunas;
+  }
+  get vacunasDosis(): string[] {
+    return this._autodiagnosticoService.formVacunas.get('vacunas')?.value;;
   }
 
   constructor(private router: Router,

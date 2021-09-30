@@ -3,6 +3,7 @@ import { FormArray, FormGroup } from '@angular/forms';
 
 import { AutodiagnosticoService } from '../../../services/autodiagnostico/autodiagnostico.service';
 import { Vacuna } from 'src/app/interfaces/vacuna.interface';
+import { Pregunta } from '../../../interfaces/pregunta.interface';
 
 @Component({
   selector: 'app-antecedentes',
@@ -11,12 +12,18 @@ import { Vacuna } from 'src/app/interfaces/vacuna.interface';
 })
 export class AntecedentesComponent {
 
-  get txtPreguntasAntecedentes(): string[] {
-    return this._autodiagnosticoService.txtPreguntasAntecedentes;
+  // get txtPreguntasAntecedentes(): string[] {
+  //   return this._autodiagnosticoService.txtPreguntasAntecedentes;
+  // }
+  get preguntasAntecedentes(): Pregunta[] {
+    return this._autodiagnosticoService.preguntasAntecedentes;
   }
 
   get txtPreguntasVacunacion(): string[] {
     return this._autodiagnosticoService.txtPreguntasVacunacion;
+  }
+  get preguntasVacunacion(): Pregunta[] {
+    return this._autodiagnosticoService.preguntasVacunacion;
   }
 
   // get antecedentes(): FormGroup {

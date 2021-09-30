@@ -16,8 +16,8 @@
     <!-- FORM AUTODIAGNOSTICO (ANTECEDENTES) -->
     <form [formGroup]="formAutodiagnostico">
     <!-- campos autodiagnostico -->
-        <div *ngFor="let preguntaAntecedente of txtPreguntasAntecedentes; let i=index" class="campo-checkbox" fxLayout fxLayoutAlign="start center" fxLayoutGap="16px" formArrayName="antecedentes">
-            <mat-checkbox class="font-color-gris" [formControlName]="i">{{ preguntaAntecedente }}</mat-checkbox>
+        <div *ngFor="let preguntaAntecedente of preguntasAntecedentes; let i=index" class="campo-checkbox" fxLayout fxLayoutAlign="start center" fxLayoutGap="16px" formArrayName="antecedentes">
+            <mat-checkbox class="font-color-gris" [formControlName]="i">{{ preguntaAntecedente.descripcionPregunta }}</mat-checkbox>
         </div>
     <!-- fin campos -->
     </form>
@@ -27,13 +27,25 @@
 
     <!-- FORM VACUNAS -->
     <form [formGroup]="formVacunas">
-        <div fxLayout="column">
+        <div fxLayout="column" *ngFor="let preguntaVacunacion of preguntasVacunacion; let i=index"
+             formArrayName="vacunas">
             <label class="font-color-gris">
-                <!-- {{ preguntasVacunacion[0].descripcionPregunta }} -->
+                {{ preguntaVacunacion.descripcionPregunta }}
+            </label>
+            <mat-form-field appearance="fill">
+                <mat-select [formControlName]="i" required>
+                    <mat-option value="0">Ninguna</mat-option>
+                    <mat-option *ngFor="let vacuna of vacunas" value="{{ vacuna.idVacuna }}">{{ vacuna.descripcionVacuna }}</mat-option>
+                </mat-select>
+            </mat-form-field>
+        </div>
+
+        <!-- <div fxLayout="column">
+            <label class="font-color-gris">
                 {{ txtPreguntasVacunacion[0] }}
             </label>
             <mat-form-field appearance="fill">
-                <!-- <mat-label>{{ txtPreguntasVacunacion[0] }}</mat-label> -->
+                <mat-label>{{ txtPreguntasVacunacion[0] }}</mat-label>
                 <mat-select formControlName="dosisUno" required>
                     <mat-option value="0">Ninguna</mat-option>
                     <mat-option *ngFor="let vacuna of vacunas" value="{{ vacuna.idVacuna }}">{{ vacuna.descripcionVacuna }}</mat-option>
@@ -41,19 +53,19 @@
             </mat-form-field>
         </div>
 
-        <div fxLayout="column" *ngIf="formVacunas.get('dosis1')?.value !== '0'">
+        <div fxLayout="column">
             <label class="font-color-gris">
                 {{ txtPreguntasVacunacion[1] }}
             </label>
             <mat-form-field appearance="fill">
-                <!-- <mat-label>{{ txtPreguntasVacunacion[1] }}</mat-label> -->
+                <mat-label>{{ txtPreguntasVacunacion[1] }}</mat-label>
                 <mat-select formControlName="dosisDos" required>
                     <mat-option value="0">Ninguna</mat-option>
                     <mat-option *ngFor="let vacuna of vacunas" value="{{ vacuna.idVacuna }}">{{ vacuna.descripcionVacuna }}</mat-option>
                 </mat-select>
-            </mat-form-field>
+            </mat-form-field> -->
             <mat-error *ngIf="formVacunas.errors">Si no selecciona ninguna vacuna como primer dosis, el valor por defecto de la segunda dosis será "Ninguna".</mat-error>
-        </div>
+        <!-- </div> -->
     </form>
 
 

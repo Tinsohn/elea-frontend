@@ -40,8 +40,8 @@ export class ResultadoService {
         || !localStorage.getItem('antecedentesLabel')
         // || !localStorage.getItem('dosisUnoLabel')
         // || !localStorage.getItem('dosisDosLabel')
-        || !localStorage.getItem('dosisUno')
-        || !localStorage.getItem('dosisDos')
+        // || !localStorage.getItem('dosisUno')
+        // || !localStorage.getItem('dosisDos')
         || !localStorage.getItem('resultado')
         || !localStorage.getItem('fecha_autodiagnostico')
         || !localStorage.getItem('fecha_hasta_resultado')) {
@@ -56,8 +56,8 @@ export class ResultadoService {
       antecedentesLabel: localStorage.getItem('antecedentesLabel'),
       // dosisUnoLabel: localStorage.getItem('dosisUnoLabel'),
       // dosisDosLabel: localStorage.getItem('dosisDosLabel'),
-      dosisUno: localStorage.getItem('dosisUno'),
-      dosisDos: localStorage.getItem('dosisDos'),
+      // dosisUno: localStorage.getItem('dosisUno'),
+      // dosisDos: localStorage.getItem('dosisDos'),
       resultado: (localStorage.getItem('resultado') === 'true') ? true : false,
       fecha_autodiagnostico: localStorage.getItem('fecha_autodiagnostico'),
       fecha_hasta_resultado: localStorage.getItem('fecha_hasta_resultado')
@@ -179,8 +179,8 @@ export class ResultadoService {
     localStorage.removeItem('antecedentesLabel');
     // localStorage.removeItem('dosisUnoLabel');
     // localStorage.removeItem('dosisDosLabel');
-    localStorage.removeItem('dosisUno');
-    localStorage.removeItem('dosisDos');
+    // localStorage.removeItem('dosisUno');
+    // localStorage.removeItem('dosisDos');
     localStorage.removeItem('resultado');
     localStorage.removeItem('fecha_autodiagnostico');
     localStorage.removeItem('fecha_hasta_resultado');
@@ -223,8 +223,8 @@ export class ResultadoService {
       modificadoPor: null,
       modificadoEn: null,
 
-      dosisUno: this._autodiagnosticoService.getDescripcionVacunaPorId(Number(this._autodiagnosticoService.formVacunas.get('dosisUno')?.value)),
-      dosisDos: this._autodiagnosticoService.getDescripcionVacunaPorId(Number(this._autodiagnosticoService.formVacunas.get('dosisDos')?.value))
+      // dosisUno: this._autodiagnosticoService.getDescripcionVacunaPorId(Number(this._autodiagnosticoService.formVacunas.get('dosisUno')?.value)),
+      // dosisDos: this._autodiagnosticoService.getDescripcionVacunaPorId(Number(this._autodiagnosticoService.formVacunas.get('dosisDos')?.value))
     }
   }
 
@@ -235,10 +235,13 @@ export class ResultadoService {
     const sintomasArray = this._autodiagnosticoService.sintomas.value as Array<string>;
     let stringTokenizer = '@@';
 
-    const numIdEmpiezaSintomas = 2;
+    // const numIdEmpiezaSintomas = 2;
 
+    // for (let i=0; i < sintomasArray.length; i++) {
+    //   stringTokenizer += `${i+numIdEmpiezaSintomas},${(sintomasArray[i] === 'no') ? '0' : '1'}@@`;
+    // }
     for (let i=0; i < sintomasArray.length; i++) {
-      stringTokenizer += `${i+numIdEmpiezaSintomas},${(sintomasArray[i] === 'no') ? '0' : '1'}@@`;
+      stringTokenizer += `${this._autodiagnosticoService.preguntasSintomas[i].idPregunta},${(sintomasArray[i] === 'no') ? '0' : '1'}@@`;
     }
 
     return stringTokenizer;
@@ -251,10 +254,13 @@ export class ResultadoService {
     const contactoEstrechoArray = this._autodiagnosticoService.contactoEstrecho.value as Array<string>;
     let stringTokenizer = '@@';
 
-    const numIdEmpiezaContactoEstrecho = 11;
+    // const numIdEmpiezaContactoEstrecho = 11;
 
+    // for (let i=0; i < contactoEstrechoArray.length; i++) {
+    //   stringTokenizer += `${i+numIdEmpiezaContactoEstrecho},${(!contactoEstrechoArray[i]) ? '0' : '1'}@@`;
+    // }
     for (let i=0; i < contactoEstrechoArray.length; i++) {
-      stringTokenizer += `${i+numIdEmpiezaContactoEstrecho},${(!contactoEstrechoArray[i]) ? '0' : '1'}@@`;
+      stringTokenizer += `${this._autodiagnosticoService.preguntasContactoEstrecho[i].idPregunta},${(!contactoEstrechoArray[i]) ? '0' : '1'}@@`;
     }
 
     return stringTokenizer;
@@ -267,28 +273,35 @@ export class ResultadoService {
     const antecedentesArray = this._autodiagnosticoService.antecedentes.value as Array<string>;
     let stringTokenizer = '@@';
 
-    const numIdEmpiezaAntecedentes = 13;
-    let idRespuesta: number;
+    // const numIdEmpiezaAntecedentes = 13;
+    // let idRespuesta: number;
 
+    // for (let i=0; i < antecedentesArray.length; i++) {
+    //   idRespuesta = i+numIdEmpiezaAntecedentes;
+    //   stringTokenizer += `${idRespuesta},${(!antecedentesArray[i]) ? '0' : '1'}@@`;
+    // }
     for (let i=0; i < antecedentesArray.length; i++) {
-      idRespuesta = i+numIdEmpiezaAntecedentes;
-      stringTokenizer += `${idRespuesta},${(!antecedentesArray[i]) ? '0' : '1'}@@`;
+      stringTokenizer += `${this._autodiagnosticoService.preguntasAntecedentes[i].idPregunta},${(!antecedentesArray[i]) ? '0' : '1'}@@`;
     }
 
     return stringTokenizer;
   }
 
   private stringTokenizadoVacunas() {
-    let {dosisUno, dosisDos} = this._autodiagnosticoService.formVacunas.value;
+    // let {dosisUno, dosisDos} = this._autodiagnosticoService.formVacunas.value;
+    const vacunasDosis: string[] = this._autodiagnosticoService.formVacunas.get('vacunas')?.value;
     let stringTokenizer = '@@';
 
     // if (dosisUno === '0' || dosisUno === 0) {
-    if (dosisUno === 0) {
-      dosisDos = '0';
-    }
+    // if (dosisUno === 0) {
+    //   dosisDos = '0';
+    // }
 
-    stringTokenizer += `${20},${this._autodiagnosticoService.getDescripcionVacunaPorId(Number(dosisUno))}@@`;
-    stringTokenizer += `${21},${this._autodiagnosticoService.getDescripcionVacunaPorId(Number(dosisDos))}@@`;
+    // stringTokenizer += `${20},${this._autodiagnosticoService.getDescripcionVacunaPorId(Number(dosisUno))}@@`;
+    // stringTokenizer += `${21},${this._autodiagnosticoService.getDescripcionVacunaPorId(Number(dosisDos))}@@`;
+    for (let i=0; i<vacunasDosis.length; i++) {
+      stringTokenizer += `${this._autodiagnosticoService.preguntasVacunacion[i].idPregunta},${this._autodiagnosticoService.getDescripcionVacunaPorId(Number(vacunasDosis[i]))}@@`;
+    }
 
     return stringTokenizer;
   }
@@ -345,8 +358,8 @@ export class ResultadoService {
     localStorage.setItem('antecedentesLabel', this._resultado.antecedentesLabel);
     // localStorage.setItem('dosisUnoLabel', this._resultado.dosisUnoLabel);
     // localStorage.setItem('dosisDosLabel', this._resultado.dosisDosLabel);
-    localStorage.setItem('dosisUno', this._resultado.dosisUno);
-    localStorage.setItem('dosisDos', this._resultado.dosisDos);
+    // localStorage.setItem('dosisUno', this._resultado.dosisUno);
+    // localStorage.setItem('dosisDos', this._resultado.dosisDos);
     localStorage.setItem('resultado', `${this._resultado.resultado}`);
     localStorage.setItem('fecha_autodiagnostico', this._resultado.fecha_autodiagnostico);
     localStorage.setItem('fecha_hasta_resultado', this._resultado.fecha_hasta_resultado);

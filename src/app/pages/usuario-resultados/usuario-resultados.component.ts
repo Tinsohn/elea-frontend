@@ -8,6 +8,7 @@ import { Resultado } from '../../interfaces/resultado.interface';
 import { LugarAccesoService } from '../../services/lugar-acceso/lugar-acceso.service';
 import { ParametrosService } from '../../services/parametros/parametros.service';
 import { Subscription } from 'rxjs';
+import { AutodiagnosticoService } from '../../services/autodiagnostico/autodiagnostico.service';
 
 @Component({
   selector: 'app-usuario-resultados',
@@ -23,18 +24,23 @@ export class UsuarioResultadosComponent implements OnInit, OnDestroy {
   private _parametrosSubscription: Subscription;
 
   get usuario(): Usuario {
-    return { ...this.usuarioService.usuario }
+    return { ...this._usuarioService.usuario }
   }
 
   get resultado(): Resultado {
-    return this.resultadoService.resultado;
+    return this._resultadoService.resultado;
+  }
+
+  get vacunasDosis(): string[] {
+    return this._autodiagnosticoService.formVacunas.get('vacunas')?.value;
   }
 
   constructor(private router: Router,
-              private usuarioService: UsuarioService,
-              private resultadoService: ResultadoService,
+              private _usuarioService: UsuarioService,
+              private _resultadoService: ResultadoService,
               public lugarAccesoService: LugarAccesoService,
-              public parametrosService: ParametrosService) { }
+              public parametrosService: ParametrosService,
+              private _autodiagnosticoService: AutodiagnosticoService) { }
 
   ngOnInit() {
     this._lugarAccesoSubscription = this.lugarAccesoService.getLugarAccesoPorId(this.usuario.idLugarAcceso)
@@ -60,7 +66,11 @@ export class UsuarioResultadosComponent implements OnInit, OnDestroy {
   }
 
   cerrarSesion() {
-    this.usuarioService.cerrarSesionUsuario();
+    this._usuarioService.cerrarSesionUsuario();
     this.router.navigate(['/ingreso']);
+  }
+
+  getDescripcionVacunaPorId(idVacuna: string): string {
+    return this._autodiagnosticoService.getDescripcionVacunaPorId(Number(idVacuna));
   }
 }

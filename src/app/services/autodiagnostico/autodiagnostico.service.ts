@@ -55,12 +55,16 @@ export class AutodiagnosticoService implements OnInit {
   private arrContactoEstrecho: boolean[] = [];
   private arrAntecedentes    : boolean[] = [];
 
+  // private _formVacunas: FormGroup = this.fb.group({
+  //   dosisUno: [ '0' ],
+  //   dosisDos: [ '0' ]
+  // }, {
+  //   validators: [ this.validacionVacunas('dosisUno', 'dosisDos') ]
+  // });
   private _formVacunas: FormGroup = this.fb.group({
-    dosisUno: [ '0' ],
-    dosisDos: [ '0' ]
-  }, {
-    validators: [ this.fechaDesdeMenorAHasta('dosisUno', 'dosisDos') ]
+    vacunas: this.fb.array(['0'], this.validacionVacunas)
   });
+  private arrVacunacion: string [] = [];
 
   // Campos: Estados
   private _sintomasEstado        : boolean = false;
@@ -160,9 +164,16 @@ export class AutodiagnosticoService implements OnInit {
 
   obtenerPreguntas() {
     this.txtPreguntasSintomas = [];
+    this.preguntasSintomas = [];
+
     this.txtPreguntasContactoEstrecho = [];
+    this.preguntasContactoEstrecho = [];
+
     this.txtPreguntasAntecedentes = [];
+    this.preguntasAntecedentes = [];
+
     this.txtPreguntasVacunacion = [];
+    this.preguntasVacunacion = [];
 
     // return this.http.get<Pregunta[]>(`${this.autodiagnostico_backend}/pregunta`)
     return this._propertiesService.obtenerProperties()
@@ -178,19 +189,21 @@ export class AutodiagnosticoService implements OnInit {
           this.arrAntecedentes = [];
 
           preguntas.forEach(pregunta => {
+            // console.log(pregunta);
             switch (pregunta.idPantalla) {
               case 1:
                 // this.preguntaTemperatura = pregunta;
                 this.txtPreguntaTemperatura = pregunta.descripcionPregunta;
                 break;
               case 2:
-                  // this.preguntasSintomas.push(pregunta);
+                  this.preguntasSintomas.push(pregunta);
                   this.txtPreguntasSintomas.push(pregunta.descripcionPregunta);
                   this.arrSintomas.push('no');
+                  // this.arrSintomas.push(`${ pregunta.idPregunta },0`);
                 break;
               case 3:
-                // this.preguntasContactoEstrecho.push(pregunta);
-                this.txtPreguntasContactoEstrecho.push(pregunta.descripcionPregunta);
+                this.preguntasContactoEstrecho.push(pregunta);
+                // this.txtPreguntasContactoEstrecho.push(pregunta.descripcionPregunta);
                 this.arrContactoEstrecho.push(false);
                 break;
               case 4:
@@ -202,13 +215,14 @@ export class AutodiagnosticoService implements OnInit {
                 //   this.txtPreguntasAntecedentes.push(pregunta.descripcionPregunta);
                 //   this.arrAntecedentes.push(false);
                 // }
-                // this.preguntasAntecedentes.push(pregunta);
-                this.txtPreguntasAntecedentes.push(pregunta.descripcionPregunta);
+                this.preguntasAntecedentes.push(pregunta);
+                // this.txtPreguntasAntecedentes.push(pregunta.descripcionPregunta);
                 this.arrAntecedentes.push(false);
               break;
               case 5:
-                // this.preguntasVacunacion.push(pregunta);
+                this.preguntasVacunacion.push(pregunta);
                 this.txtPreguntasVacunacion.push(pregunta.descripcionPregunta);
+                this.arrVacunacion.push('0');
                 break;
             }
           })
@@ -218,6 +232,13 @@ export class AutodiagnosticoService implements OnInit {
             sintomas: this.fb.array(this.arrSintomas),
             contactoEstrecho: this.fb.array(this.arrContactoEstrecho),
             antecedentes: this.fb.array(this.arrAntecedentes),
+          });
+
+
+          this._formVacunas = this.fb.group({
+            vacunas: this.fb.array(this.arrVacunacion)
+          },{
+            validators: [ this.validacionVacunas() ]
           });
         })
       );
@@ -242,7 +263,8 @@ export class AutodiagnosticoService implements OnInit {
   }
 
   getDescripcionVacunaPorId(idVacuna: number): string {
-    if (idVacuna === 0 || this.formVacunas.get('dosisUno')?.value === '0') {
+    // if (idVacuna === 0 || this.formVacunas.get('dosisUno')?.value === '0') {
+    if (idVacuna === 0 || this.vacunasHelper()) {
       return 'Ninguna';
     }
     return this._vacunas.filter(vacuna => vacuna.idVacuna === idVacuna)[0].descripcionVacuna;
@@ -369,18 +391,53 @@ export class AutodiagnosticoService implements OnInit {
   /**
    * Validacion vacunas
    */
-  private fechaDesdeMenorAHasta( dosisUno: string, dosisDos: string ) {
-    return ( formGroup: AbstractControl ): ValidationErrors | null => {
-      const dosisUnoValue = formGroup.get(dosisUno)?.value;
-      const dosisDosValue = formGroup.get(dosisDos)?.value;
+  // private validacionVacunas( dosisUno: string, dosisDos: string ) {
+  //   return ( formGroup: AbstractControl ): ValidationErrors | null => {
+  //     const dosisUnoValue = formGroup.get(dosisUno)?.value;
+  //     const dosisDosValue = formGroup.get(dosisDos)?.value;
       
-      if (dosisUnoValue === '0' && dosisDosValue !== '0') {
+  //     if (dosisUnoValue === '0' && dosisDosValue !== '0') {
+  //       return {
+  //         sinDosisUno: true
+  //       }
+  //     }
+
+  //     return null;
+  //   }
+  // }
+
+  private validacionVacunas( ) {
+    return ( formGroup: AbstractControl ): ValidationErrors | null => {
+      if (this.vacunasHelper()) {
         return {
-          sinDosisUno: true
+          sinDosisAnterior: true
         }
       }
 
       return null;
     }
+  }
+
+  // Método que verifica cuando no se selecciona ninguna vacuna en dosis anteriores
+  // a las dosis que sí tienen seleccionada alguna vacuna
+  private vacunasHelper() {
+    const vacunas = this.formVacunas.get('vacunas')?.value;
+    
+    let flag: boolean = false;
+    let valorAnterior = '0';
+
+    if (vacunas.length > 0) {
+      for(let i=0; i<vacunas.length; i++) {
+        if(!flag) {
+          flag = true;
+          valorAnterior = vacunas[i];
+        } else {
+          if(valorAnterior === '0' && vacunas[i] !== '0') {
+            return true;
+          }
+        }
+      }
+    }
+    return false;
   }
 }

@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { FormArray, FormGroup } from '@angular/forms';
+import { Pregunta } from 'src/app/interfaces/pregunta.interface';
 import { AutodiagnosticoService } from '../../../services/autodiagnostico/autodiagnostico.service';
 
 @Component({
@@ -11,6 +12,10 @@ export class SintomasComponent {
 
   get txtPreguntasSintomas(): string[] {
     return this._autodiagnosticoService.txtPreguntasSintomas;
+  }
+
+  get preguntasSintomas(): Pregunta[] {
+    return this._autodiagnosticoService.preguntasSintomas;
   }
 
   // get sintomasForm(): FormGroup {

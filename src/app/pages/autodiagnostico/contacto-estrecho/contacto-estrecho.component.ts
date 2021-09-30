@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormArray, FormGroup } from '@angular/forms';
 import { AutodiagnosticoService } from '../../../services/autodiagnostico/autodiagnostico.service';
+import { Pregunta } from '../../../interfaces/pregunta.interface';
 
 @Component({
   selector: 'app-contacto-estrecho',
@@ -11,6 +12,9 @@ export class ContactoEstrechoComponent implements OnInit {
 
   get txtPreguntasContactoEstrecho(): string[] {
     return this._autodiagnosticoService.txtPreguntasContactoEstrecho;
+  }
+  get preguntasContactoEstrecho(): Pregunta[] {
+    return this._autodiagnosticoService.preguntasContactoEstrecho;
   }
 
   get formAutodiagnostico(): FormGroup {
