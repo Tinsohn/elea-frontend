@@ -130,6 +130,9 @@ export class AutodiagnosticoService implements OnInit {
   get antecedentes(): FormArray {
     return this._formAutodiagnostico.get('antecedentes') as FormArray;
   }
+  get vacunasFormField(): FormArray {
+    return this._formVacunas.get('vacunas') as FormArray;
+  }
   // Getter y setter: valores de temperatura
   get temperaturaValue(): number {
     return this._formAutodiagnostico.get('temperatura')?.value;
@@ -187,6 +190,7 @@ export class AutodiagnosticoService implements OnInit {
           this.arrSintomas = [];
           this.arrContactoEstrecho = [];
           this.arrAntecedentes = [];
+          this.arrVacunacion = [];
 
           preguntas.forEach(pregunta => {
             // console.log(pregunta);
@@ -324,10 +328,7 @@ export class AutodiagnosticoService implements OnInit {
     this.antecedentes.reset(this.arrAntecedentes);
   }
   private resetVacunas() {
-    this.formVacunas.reset({
-      dosisUno: '0',
-      dosisDos: '0'
-    });
+    this.vacunasFormField.reset(this.arrVacunacion);
   }
   
   // --------------
