@@ -6,6 +6,8 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { AngularMaterialModule } from 'src/app/angular-material/angular-material.module';
 import { FlexLayoutModule } from '@angular/flex-layout';
 
+import { SharedModule } from '../../shared/shared.module';
+
 import { AutodiagnosticoComponent } from './autodiagnostico.component';
 import { TemperaturaComponent } from './temperatura/temperatura.component';
 import { SintomasComponent } from './sintomas/sintomas.component';
@@ -29,7 +31,8 @@ import { ContactoEstrechoComponent } from './contacto-estrecho/contacto-estrecho
     CommonModule,
     AngularMaterialModule,
     FlexLayoutModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    SharedModule
   ],
   exports: [
     AutodiagnosticoComponent

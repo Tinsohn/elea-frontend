@@ -194,40 +194,43 @@ export class AutodiagnosticoService implements OnInit {
 
           preguntas.forEach(pregunta => {
             // console.log(pregunta);
-            switch (pregunta.idPantalla) {
-              case 1:
-                // this.preguntaTemperatura = pregunta;
-                this.txtPreguntaTemperatura = pregunta.descripcionPregunta;
+            if(pregunta.estadoLogico) {
+
+              switch (pregunta.idPantalla) {
+                case 1:
+                  // this.preguntaTemperatura = pregunta;
+                  this.txtPreguntaTemperatura = pregunta.descripcionPregunta;
+                  break;
+                case 2:
+                    this.preguntasSintomas.push(pregunta);
+                    this.txtPreguntasSintomas.push(pregunta.descripcionPregunta);
+                    this.arrSintomas.push('no');
+                    // this.arrSintomas.push(`${ pregunta.idPregunta },0`);
+                  break;
+                case 3:
+                  this.preguntasContactoEstrecho.push(pregunta);
+                  // this.txtPreguntasContactoEstrecho.push(pregunta.descripcionPregunta);
+                  this.arrContactoEstrecho.push(false);
+                  break;
+                case 4:
+                  // if (pregunta.idOrdenEnPantalla === 7 || pregunta.idOrdenEnPantalla === 8) {
+                  //   // this.preguntasVacunacion.push(pregunta);
+                  //   this.txtPreguntasVacunacion.push(pregunta.descripcionPregunta);
+                  // } else {
+                  //   // this.preguntasAntecedentes.push(pregunta);
+                  //   this.txtPreguntasAntecedentes.push(pregunta.descripcionPregunta);
+                  //   this.arrAntecedentes.push(false);
+                  // }
+                  this.preguntasAntecedentes.push(pregunta);
+                  // this.txtPreguntasAntecedentes.push(pregunta.descripcionPregunta);
+                  this.arrAntecedentes.push(false);
                 break;
-              case 2:
-                  this.preguntasSintomas.push(pregunta);
-                  this.txtPreguntasSintomas.push(pregunta.descripcionPregunta);
-                  this.arrSintomas.push('no');
-                  // this.arrSintomas.push(`${ pregunta.idPregunta },0`);
-                break;
-              case 3:
-                this.preguntasContactoEstrecho.push(pregunta);
-                // this.txtPreguntasContactoEstrecho.push(pregunta.descripcionPregunta);
-                this.arrContactoEstrecho.push(false);
-                break;
-              case 4:
-                // if (pregunta.idOrdenEnPantalla === 7 || pregunta.idOrdenEnPantalla === 8) {
-                //   // this.preguntasVacunacion.push(pregunta);
-                //   this.txtPreguntasVacunacion.push(pregunta.descripcionPregunta);
-                // } else {
-                //   // this.preguntasAntecedentes.push(pregunta);
-                //   this.txtPreguntasAntecedentes.push(pregunta.descripcionPregunta);
-                //   this.arrAntecedentes.push(false);
-                // }
-                this.preguntasAntecedentes.push(pregunta);
-                // this.txtPreguntasAntecedentes.push(pregunta.descripcionPregunta);
-                this.arrAntecedentes.push(false);
-              break;
-              case 5:
-                this.preguntasVacunacion.push(pregunta);
-                this.txtPreguntasVacunacion.push(pregunta.descripcionPregunta);
-                this.arrVacunacion.push('0');
-                break;
+                case 5:
+                  this.preguntasVacunacion.push(pregunta);
+                  this.txtPreguntasVacunacion.push(pregunta.descripcionPregunta);
+                  this.arrVacunacion.push('0');
+                  break;
+              }
             }
           })
 
@@ -281,8 +284,10 @@ export class AutodiagnosticoService implements OnInit {
     this.resetTemperatura();
     this.resetSintomas();
     this.resetContactoEstrecho();
-    this.resetAntecedentes();
-    this.resetVacunas();
+    if(localStorage.getItem('nroLegajo') && localStorage.getItem('nroLegajo') === '0') {
+      this.resetAntecedentes();
+      this.resetVacunas();
+    }
 
     this._sintomasEstado         = false;
     this._contactoEstrechoEstado = false;

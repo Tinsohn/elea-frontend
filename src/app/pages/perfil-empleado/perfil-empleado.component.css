@@ -1,0 +1,39 @@
+img {
+    width: 150px;
+}
+
+.contenedor-perfil {
+    padding: 3em 0;
+}
+
+.div-cuerpo {
+    width: 80%;
+    margin: 0 auto;
+}
+
+@media screen and (min-width: 775px) {
+    .div-cuerpo {
+        width: 80%;
+    }
+}
+
+@media screen and (min-width: 1200px) {
+    .div-cuerpo {
+        width: 65%;
+    }
+}
+
+@media screen and (min-width: 1400px) {
+    .div-cuerpo {
+        width: 50%;
+    }
+}
+
+form {
+    margin-bottom: 2rem;
+    /* width: 100%; */
+}
+
+mat-form-field {
+    width: 100%;
+}

@@ -20,6 +20,7 @@ import { LugarAccesoService } from 'src/app/services/lugar-acceso/lugar-acceso.s
 // import { DialogTerminosCondicionesComponent } from '../components/dialog-terminos-condiciones/dialog-terminos-condiciones.component';
 import { DialogMensajeErrorComponent } from 'src/app/shared/dialog-mensaje-error/dialog-mensaje-error.component';
 import { PropertiesService } from '../../../services/properties/properties.service';
+import { PerfilEmpleadoService } from '../../../services/perfil-empleado/perfil-empleado.service';
 
 @Component({
   selector: 'app-empleado',
@@ -47,7 +48,8 @@ export class EmpleadoComponent implements OnInit, OnDestroy {
               private dialog: MatDialog,
               private _propertiesService: PropertiesService,
               private _usuarioService: UsuarioService,
-              private _resultadoService: ResultadoService) {
+              private _resultadoService: ResultadoService,
+              private _perfilEmpleadoService: PerfilEmpleadoService) {
                 this.isLoading.emit(true);
                 this._propertiesService.obtenerProperties()
                   .subscribe(properties => {
@@ -116,7 +118,7 @@ export class EmpleadoComponent implements OnInit, OnDestroy {
   }
   
 
-  submit() {
+  submit(button: string) {
     this.isLoading.emit(true);
 
     // const { nroLegajo, dni, emailUsuario, idLugarAcceso } = this.form.value;
@@ -128,36 +130,52 @@ export class EmpleadoComponent implements OnInit, OnDestroy {
         // console.log('RESPUESTA', resp);
         
         if ( !resp.ok ) {
-          this.reset();
-          this.dialog.open(DialogMensajeErrorComponent, {
-            data: { msg: resp.message }
-          });
-          this.isLoading.emit(false);
+          // this.reset();
+          // this.dialog.open(DialogMensajeErrorComponent, {
+          //   data: { msg: resp.message }
+          // });
+          // this.isLoading.emit(false);
+          this.openDialogRespNegativa(resp);
         } else {
           // this.router.navigate(['/autoevaluacion']);
           // this._resultadoAutodiagSubscription = this._resultadoService.obtenerAutodiagnostico(String(nroLegajo), dni)
-          this._resultadoAutodiagSubscription = this._resultadoService.obtenerAutodiagnostico(this._usuarioService.usuario.nroLegajo, dni)
-            .subscribe(resp => {
-              if ( resp.ok ) {
-                if ( !resp.isAutodiagnostico || !resp.isBloqueado) {
-                  // console.log('Usted NO realizo un autodiagnostico o NO esta bloqueado');
-                  this.router.navigate(['/autoevaluacion']);
-                } else if ( resp.isBloqueado ) {
-                  // console.warn('Usted esta bloqueado');
-                  // this.reset();
-                  this.dialog.open(DialogMensajeErrorComponent, {
-                    data: {
-                      title: 'Usuario bloqueado',
-                      msg: 'Estimado usuario, usted ya cuenta con un autodiagnóstico no habilitado activo. Por favor, vuelva cuando este autodiagnóstico expire o consulte en el consultorio médico de ELEA por su situación.'
+
+
+          // TODO: Cargar perfil
+          this._perfilEmpleadoService.obtenerPerfil(this._usuarioService.usuario.nroLegajo)
+            .subscribe( resp => {
+              if ( !resp.ok ) {
+                this.openDialogRespNegativa(resp);
+              } else {
+                if (button === 'cargarPerfil') {
+                  this.router.navigate(['/perfil']);
+                } else if (button === 'autodiagnostico') {
+                  // Busco el ultimo autodiagnostico realizado
+                  this._resultadoAutodiagSubscription = this._resultadoService.obtenerAutodiagnostico(this._usuarioService.usuario.nroLegajo, dni)
+                  .subscribe(resp => {
+                    if ( resp.ok ) {
+                      if ( !resp.isAutodiagnostico || !resp.isBloqueado) {
+                        // console.log('Usted NO realizo un autodiagnostico o NO esta bloqueado');
+                        this.router.navigate(['/autoevaluacion']);
+                      } else if ( resp.isBloqueado ) {
+                        // console.warn('Usted esta bloqueado');
+                        // this.reset();
+                        this.dialog.open(DialogMensajeErrorComponent, {
+                          data: {
+                            title: 'Usuario bloqueado',
+                            msg: 'Estimado usuario, usted ya cuenta con un autodiagnóstico no habilitado activo. Por favor, vuelva cuando este autodiagnóstico expire o consulte en el consultorio médico de ELEA por su situación.'
+                          }
+                        });
+                      }
+                    } else {
+                      this.dialog.open(DialogMensajeErrorComponent, {
+                        data: { msg: resp.message }
+                      });
                     }
+                    this.isLoading.emit(false);
                   });
                 }
-              } else {
-                this.dialog.open(DialogMensajeErrorComponent, {
-                  data: { msg: resp.message }
-                });
               }
-              this.isLoading.emit(false);
             });
         }
       });
@@ -215,6 +233,7 @@ export class EmpleadoComponent implements OnInit, OnDestroy {
   //   this.dialog.open(DialogTerminosCondicionesComponent);
   // }
 
+
   private reset() {
     this.form.reset({
       // nroLegajo: '',
@@ -225,5 +244,13 @@ export class EmpleadoComponent implements OnInit, OnDestroy {
     });
     this.captchaElem.resetCaptcha();
     this.form.markAsUntouched();
+  }
+
+  private openDialogRespNegativa(resp) {
+    this.reset();
+    this.dialog.open(DialogMensajeErrorComponent, {
+      data: { msg: resp.message }
+    });
+    this.isLoading.emit(false);
   }
 }

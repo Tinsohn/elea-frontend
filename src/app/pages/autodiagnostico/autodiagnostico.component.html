@@ -30,7 +30,7 @@
       
 
       <!-- inicio ANTECEDENTES -->
-      <mat-step>
+      <mat-step *ngIf="!isEmpleado">
         <app-antecedentes></app-antecedentes>
       </mat-step>
       <!-- fin ANTECEDENTES -->

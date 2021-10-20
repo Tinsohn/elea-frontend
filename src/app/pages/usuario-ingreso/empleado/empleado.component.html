@@ -1,4 +1,5 @@
-<form [formGroup]="form" (ngSubmit)="submit()" fxLayout="column" fxLayoutAlign="space-between stretch" autocomplete="on">
+<!-- <form [formGroup]="form" (ngSubmit)="submit()" fxLayout="column" fxLayoutAlign="space-between stretch" autocomplete="on"> -->
+<form [formGroup]="form" fxLayout="column" fxLayoutAlign="space-between stretch" autocomplete="on">
     <!-- DNI -->
     <mat-form-field appearance="fill">
         <mat-label>DNI</mat-label>
@@ -50,6 +51,7 @@
     <!-- BOTON SUBMIT -->
     <div class="div-boton">
         <!-- <button mat-raised-button color="primary" [disabled]="form.invalid" type="submit">SIGUIENTE</button> -->
-        <button mat-raised-button color="primary" [disabled]="form.invalid" type="submit">COMENZAR AUTODIAGNÓSTICO</button>
+        <button mat-raised-button color="primary" [disabled]="form.invalid" (click)="submit('cargarPerfil')">CARGAR PERFIL</button>
+        <button mat-raised-button color="primary" [disabled]="form.invalid" (click)="submit('autodiagnostico')">COMENZAR AUTODIAGNÓSTICO</button>
     </div>
 </form>

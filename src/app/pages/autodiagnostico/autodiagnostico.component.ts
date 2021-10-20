@@ -12,6 +12,8 @@ import { Vacuna } from '../../interfaces/vacuna.interface';
 export class AutodiagnosticoComponent implements OnInit, OnDestroy {
   loading: boolean = false;
 
+  isEmpleado: boolean = false;
+
   // vacunas: Vacuna[] = [];
 
   private _rangoTemperaturaSubscription: Subscription;
@@ -19,13 +21,19 @@ export class AutodiagnosticoComponent implements OnInit, OnDestroy {
   private _vacunasSubscription: Subscription;
 
   constructor(private _autodiagnosticoService: AutodiagnosticoService,
-              private _resultadoService: ResultadoService) { }
+              private _resultadoService: ResultadoService) {
+                if(localStorage.getItem('nroLegajo') === '0') {
+                  this.isEmpleado = false;
+                } else {
+                  this.isEmpleado = true;
+                }
+              }
 
   ngOnInit(): void {
     // inicializa los valores tempMin y tempMax en el service
     this._rangoTemperaturaSubscription = this._autodiagnosticoService.obtenerRangoTemperatura();
 
-    // inicializa arrays de txtPreguntaX
+    // inicializa arrays de preguntaX
     this._preguntasSubscription = this._autodiagnosticoService.obtenerPreguntas()
       .subscribe();
 
