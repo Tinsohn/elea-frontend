@@ -1,10 +1,11 @@
 export interface Respuesta {
     id?              : number;
-    idAutodiagnostico: number;
+    idAutodiagnostico?: number;
     idPregunta       : number;
     respuestaPregunta: string;
 
     idPantalla?: number;
+    nroLegajo?: string;
 }
 
 /**

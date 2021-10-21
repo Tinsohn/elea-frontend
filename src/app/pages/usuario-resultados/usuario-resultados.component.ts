@@ -70,7 +70,7 @@ export class UsuarioResultadosComponent implements OnInit, OnDestroy {
     this.router.navigate(['/ingreso']);
   }
 
-  getDescripcionVacunaPorId(idVacuna: string): string {
-    return this._autodiagnosticoService.getDescripcionVacunaPorId(Number(idVacuna));
+  getDescripcionVacunaPorId(idVacuna: string, index: number): string {
+    return this._autodiagnosticoService.getDescripcionVacunaPorId(Number(idVacuna), index);
   }
 }

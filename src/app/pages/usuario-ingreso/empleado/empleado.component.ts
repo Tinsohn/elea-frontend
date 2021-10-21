@@ -22,6 +22,8 @@ import { DialogMensajeErrorComponent } from 'src/app/shared/dialog-mensaje-error
 import { PropertiesService } from '../../../services/properties/properties.service';
 import { PerfilEmpleadoService } from '../../../services/perfil-empleado/perfil-empleado.service';
 
+
+
 @Component({
   selector: 'app-empleado',
   templateUrl: './empleado.component.html',
@@ -37,6 +39,8 @@ export class EmpleadoComponent implements OnInit, OnDestroy {
   public siteKey: string = null;
   readonly type: string = 'image';
   readonly lang: string = 'es-419';
+
+  private perfilIncompleto: boolean = false;
 
   form: FormGroup;
 
@@ -73,11 +77,11 @@ export class EmpleadoComponent implements OnInit, OnDestroy {
                   Validators.maxLength(8), 
                   Validators.pattern('^(m|M|f|F)?[1-9]{1}[0-9]{6,7}$')
                 ]],
-      emailUsuario: ['', [
-                          Validators.required, 
-                          Validators.pattern('^[_a-zA-Z0-9]+(.[_a-zA-Z0-9]+)*@[a-zA-Z0-9]+([\.][a-z0-9]+)*([\.][a-z]{2,4})$')
-                        ]],
-      idLugarAcceso: ['', Validators.required],
+      // emailUsuario: ['', [
+      //                     Validators.required, 
+      //                     Validators.pattern('^[_a-zA-Z0-9]+(.[_a-zA-Z0-9]+)*@[a-zA-Z0-9]+([\.][a-z0-9]+)*([\.][a-z]{2,4})$')
+      //                   ]],
+      idLugarAcceso: ['1', Validators.required],
       recaptcha: ['', Validators.required]
       // terminosCondicion: [false, Validators.required]
     });
@@ -122,10 +126,11 @@ export class EmpleadoComponent implements OnInit, OnDestroy {
     this.isLoading.emit(true);
 
     // const { nroLegajo, dni, emailUsuario, idLugarAcceso } = this.form.value;
-    const { dni, emailUsuario, idLugarAcceso } = this.form.value;
+    // const { dni, emailUsuario, idLugarAcceso } = this.form.value;
+    const { dni, idLugarAcceso } = this.form.value;
 
     // this._autenticarUsuarioSubscription = this._usuarioService.autenticarUsuarioEmpleadoPorDni(dni, String(nroLegajo), emailUsuario, idLugarAcceso)
-    this._autenticarUsuarioSubscription = this._usuarioService.autenticarUsuarioEmpleadoPorDni(dni, emailUsuario, idLugarAcceso)
+    this._autenticarUsuarioSubscription = this._usuarioService.autenticarUsuarioEmpleadoPorDni(dni, idLugarAcceso)
       .subscribe( resp => {
         // console.log('RESPUESTA', resp);
         
@@ -141,42 +146,141 @@ export class EmpleadoComponent implements OnInit, OnDestroy {
           // this._resultadoAutodiagSubscription = this._resultadoService.obtenerAutodiagnostico(String(nroLegajo), dni)
 
 
-          // TODO: Cargar perfil
-          this._perfilEmpleadoService.obtenerPerfil(this._usuarioService.usuario.nroLegajo)
+          // Cargar perfil
+          this._perfilEmpleadoService.cargarPerfil(this._usuarioService.usuario.nroLegajo)
             .subscribe( resp => {
-              if ( !resp.ok ) {
+              // console.log(resp)
+
+              if(!resp.ok ) {
                 this.openDialogRespNegativa(resp);
               } else {
+                this._perfilEmpleadoService.guardarPefilLocalStorage();
+                this.perfilIncompleto = resp.perfilIncompleto;
+
+                if (!resp.existePerfil) {
+                  this.isLoading.emit(false);
+                  if (button === 'autodiagnostico') {
+                    const dialogRef = this.dialog.open(DialogMensajeErrorComponent, {
+                      data: {
+                        title: 'No se encontró ningún perfil',
+                        msg: resp.message
+                      }
+                    });
+                    dialogRef.afterClosed().subscribe(() => this.router.navigate(['/perfil/crear']));
+                    return;
+                  } else if(button === 'cargarPerfil') {
+                    this.router.navigate(['/perfil/crear']);
+                    return;
+                  }
+                }
+
+                if (this.perfilIncompleto && button === 'autodiagnostico') {
+                  this.isLoading.emit(false);
+                  const dialogRef = this.dialog.open(DialogMensajeErrorComponent, {
+                    data: {
+                      title: 'Perfil incompleto',
+                      msg: resp.message
+                    }
+                  });
+
+                  dialogRef.afterClosed().subscribe(() => this.router.navigate(['/perfil/actualizar']))
+                  return;
+                }
+
                 if (button === 'cargarPerfil') {
-                  this.router.navigate(['/perfil']);
+                  this.router.navigate(['/perfil/actualizar']);
                 } else if (button === 'autodiagnostico') {
-                  // Busco el ultimo autodiagnostico realizado
+                  // Traer el ultimo autodiagnostico
                   this._resultadoAutodiagSubscription = this._resultadoService.obtenerAutodiagnostico(this._usuarioService.usuario.nroLegajo, dni)
-                  .subscribe(resp => {
-                    if ( resp.ok ) {
-                      if ( !resp.isAutodiagnostico || !resp.isBloqueado) {
-                        // console.log('Usted NO realizo un autodiagnostico o NO esta bloqueado');
-                        this.router.navigate(['/autoevaluacion']);
-                      } else if ( resp.isBloqueado ) {
-                        // console.warn('Usted esta bloqueado');
-                        // this.reset();
+                    .subscribe(resp => {
+                      this.isLoading.emit(false);
+                      if ( resp.ok ) {
+                        if ( !resp.isAutodiagnostico || !resp.isBloqueado) {
+                          // console.log('Usted NO realizo un autodiagnostico o NO esta bloqueado');
+                          this.router.navigate(['/autoevaluacion']);
+                        } else if ( resp.isBloqueado ) {
+                          // console.warn('Usted esta bloqueado');
+                          // this.reset();
+                          this.dialog.open(DialogMensajeErrorComponent, {
+                            data: {
+                              title: 'Usuario bloqueado',
+                              msg: 'Estimado usuario, usted ya cuenta con un autodiagnóstico no habilitado activo. Por favor, vuelva cuando este autodiagnóstico expire o consulte en el consultorio médico de ELEA por su situación.'
+                            }
+                          });
+                        }
+                      } else {
                         this.dialog.open(DialogMensajeErrorComponent, {
-                          data: {
-                            title: 'Usuario bloqueado',
-                            msg: 'Estimado usuario, usted ya cuenta con un autodiagnóstico no habilitado activo. Por favor, vuelva cuando este autodiagnóstico expire o consulte en el consultorio médico de ELEA por su situación.'
-                          }
+                          data: { msg: resp.message }
                         });
                       }
-                    } else {
-                      this.dialog.open(DialogMensajeErrorComponent, {
-                        data: { msg: resp.message }
-                      });
-                    }
-                    this.isLoading.emit(false);
-                  });
+                    });
+                  
                 }
               }
             });
+
+
+
+          // this._perfilEmpleadoService.cargarRespuestas(this._usuarioService.usuario.nroLegajo)
+          //   .subscribe( resp => {
+          //     if ( !resp.ok ) {
+          //       this.openDialogRespNegativa(resp);
+          //     } else {
+          //       // if (button === this.DESC_BTN_CARGA_PERFIL) {
+          //       //   this.router.navigate(['/perfil']);
+          //       // } else if (button === this.DESC_BTN_AUTODIAGNOSTICO) {
+          //         // Busco el ultimo autodiagnostico realizado
+          //         // this._resultadoAutodiagSubscription = this._resultadoService.obtenerAutodiagnostico(this._usuarioService.usuario.nroLegajo, dni)
+
+          //         this.perfilIncompleto = resp.perfilIncompleto;
+
+          //         // Traer el ultimo autodiagnostico
+          //         this._resultadoAutodiagSubscription = this._resultadoService.obtenerAutodiagnostico(this._usuarioService.usuario.nroLegajo, dni)
+          //           .subscribe(resp => {
+          //             if ( resp.ok ) {
+          //               this._perfilEmpleadoService.cargarEmailUsuario(localStorage.getItem('emailU'));
+          //               this._usuarioService.cargarEmailUsuario(localStorage.getItem('emailU'));
+
+          //               if (this.perfilIncompleto) {
+          //                 this.isLoading.emit(false);
+          //                 const dialogRef = this.dialog.open(DialogMensajeErrorComponent, {
+          //                   data: {
+          //                     title: 'Perfil incompleto',
+          //                     msg: 'Por favor, complete su perfil.'
+          //                   }
+          //                 });
+
+          //                 dialogRef.afterClosed().subscribe(() => this.router.navigate(['/perfil']))
+          //                 return;
+          //               }
+
+          //               if (button === 'cargarPerfil') {
+          //                 this.router.navigate(['/perfil']);
+          //               } else if (button === 'autodiagnostico') {
+          //               if ( !resp.isAutodiagnostico || !resp.isBloqueado) {
+          //                 // console.log('Usted NO realizo un autodiagnostico o NO esta bloqueado');
+          //                 this.router.navigate(['/autoevaluacion']);
+          //               } else if ( resp.isBloqueado ) {
+          //                 // console.warn('Usted esta bloqueado');
+          //                 // this.reset();
+          //                 this.dialog.open(DialogMensajeErrorComponent, {
+          //                   data: {
+          //                     title: 'Usuario bloqueado',
+          //                     msg: 'Estimado usuario, usted ya cuenta con un autodiagnóstico no habilitado activo. Por favor, vuelva cuando este autodiagnóstico expire o consulte en el consultorio médico de ELEA por su situación.'
+          //                   }
+          //                 });
+          //               }
+          //             }
+          //             } else {
+          //               this.dialog.open(DialogMensajeErrorComponent, {
+          //                 data: { msg: resp.message }
+          //               });
+          //             }
+          //             this.isLoading.emit(false);
+          //           });
+          //       // }
+          //     }
+          //   });
         }
       });
       /*.subscribe( empleado => {

@@ -70,7 +70,7 @@
                     <li>- 2da dosis: {{resultado.dosisDos}}</li>
                 </ul> -->
                 <ul class="info-vacunas" *ngFor="let vacunaDosis of vacunasDosis; let i=index">
-                    <li>- Dosis {{ i+1 }}: {{getDescripcionVacunaPorId(vacunaDosis)}}</li>
+                    <li>- Dosis {{ i+1 }}: {{getDescripcionVacunaPorId(vacunaDosis, i)}}</li>
                 </ul>
             </div>
         </div>

@@ -82,7 +82,7 @@ export class UsuarioService {
   // ingreso empleado
   // ----------------
   // autenticarUsuarioEmpleadoPorDni(dni: string, nroLegajo: string, emailUsuario: string, idLugarAcceso: number) {
-  autenticarUsuarioEmpleadoPorDni(dni: string, emailUsuario: string, idLugarAcceso: number) {
+  autenticarUsuarioEmpleadoPorDni(dni: string, idLugarAcceso: number) {
     // return this.http.get<Usuario>(`${this._autodiagnostico_backend}/legajo/empleado/?dni=${dni}`)
     return this._propertiesService.obtenerProperties()
             .pipe(
@@ -91,7 +91,6 @@ export class UsuarioService {
                 if ( usuario ) {
                   this._usuario = usuario;
                   
-                  this._usuario.emailUsuario  = emailUsuario.toLowerCase();
                   this._usuario.empresa       = 'ELEA';
                   this._usuario.idLugarAcceso = idLugarAcceso;
   
@@ -178,6 +177,9 @@ export class UsuarioService {
   //             }))
   //           );
   // }
+  cargarEmailUsuario(emailU:string) {
+    this.usuario.emailUsuario = emailU;
+  }
 
   // -----------------
   // ingreso visitante

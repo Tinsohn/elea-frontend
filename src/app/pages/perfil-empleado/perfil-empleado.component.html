@@ -1,25 +1,46 @@
 <div class="contenedor-perfil">
     <div fxLayout="column" fxLayoutAlign="center center" fxLayoutGap="1em">
         <img src="./assets/elea-logo-v2@2x.png" alt="elea-logo">
-        <h2>Perfil</h2>
+        <h2>Perfil de empleado</h2>
     </div>
 
     <div class="div-cuerpo">
-        <h4 class="font-color-gris step-header">E-mail de contacto</h4>
-        
-        <form [formGroup]="formEmailUsuario">
-            <mat-form-field appearance="fill">
-                <mat-label>E-mail</mat-label>
-                <input matInput formControlName="emailUsuario" type="text" required>
-                <mat-hint>Este e-mail nos proporcionará un medio para enviarle los resultados de su autodiagnóstico</mat-hint>
-                <!-- <mat-error *ngIf="this.formEmailUsuario.get('emailUsuario').invalid">{{getErrorMessage('emailUsuario')}}</mat-error> -->
-            </mat-form-field>
-        </form>
+        <!-- boton paso anterior -->
+        <div class="btn-autodiagnostico-atras">
+            <button mat-button (click)="volverIngreso()">
+                <mat-icon>arrow_back</mat-icon>
+                <span class="btn-atras-leyenda">INICIO</span>
+            </button>
+        </div>
+        <!-- fin boton paso anterior -->
 
-        <app-forms-antecedentes-vacunas></app-forms-antecedentes-vacunas>
 
-        <div class="div-boton">
-            <button mat-raised-button color="primary" (click)="submit()">ACEPTAR</button>
+        <div [ngClass]="loading ? 'hidden' : ''">
+            <h4 class="font-color-gris step-header">E-mail de contacto</h4>
+            
+            <form [formGroup]="formEmailUsuario">
+                <mat-form-field appearance="fill">
+                    <mat-label>E-mail</mat-label>
+                    <input matInput formControlName="emailUsuario" type="text" required>
+                    <mat-hint>Este e-mail nos proporcionará un medio para enviarle los resultados de su autodiagnóstico</mat-hint>
+                    <!-- <mat-error *ngIf="this.formEmailUsuario.get('emailUsuario').invalid">{{getErrorMessage('emailUsuario')}}</mat-error> -->
+                </mat-form-field>
+            </form>
+
+            <app-forms-antecedentes-vacunas></app-forms-antecedentes-vacunas>
+
+            <div class="div-boton">
+                <button mat-raised-button color="primary" [disabled]="formEmailUsuario.invalid || formVacunas.errors" (click)="submit()">{{ funcion | uppercase }} PERFIL</button>
+            </div>
+        </div>
+
+        <!-- SPINNER -->
+        <div [ngClass]="!loading ? 'hidden' : ''">
+            <mat-grid-list cols="1">
+                <mat-grid-tile>
+                    <mat-spinner diameter="70" strokeWidth="10"></mat-spinner>
+                </mat-grid-tile>
+            </mat-grid-list>
         </div>
     </div>
 

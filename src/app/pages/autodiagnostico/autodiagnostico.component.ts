@@ -34,7 +34,7 @@ export class AutodiagnosticoComponent implements OnInit, OnDestroy {
     this._rangoTemperaturaSubscription = this._autodiagnosticoService.obtenerRangoTemperatura();
 
     // inicializa arrays de preguntaX
-    this._preguntasSubscription = this._autodiagnosticoService.obtenerPreguntas()
+    this._preguntasSubscription = this._autodiagnosticoService.obtenerPreguntas(this.isEmpleado)
       .subscribe();
 
     // inicializa array de vacunas

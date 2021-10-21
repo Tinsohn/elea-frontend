@@ -9,13 +9,14 @@ import { UsuarioResultadosComponent } from './pages/usuario-resultados/usuario-r
 import { UsuarioGuard } from './guards/usuario/usuario.guard';
 import { AutodiagnosticoGuard } from './guards/autodiagnostico/autodiagnostico.guard';
 import { PerfilEmpleadoComponent } from './pages/perfil-empleado/perfil-empleado.component';
+import { PerfilEmpleadoGuard } from './guards/perfil-empleado/perfil-empleado.guard';
 
 const routes: Routes = [
   // { path: '', component: HomeComponent },
   { path: 'ingreso', component: UsuarioIngresoComponent },
   { path: 'autoevaluacion', component: AutodiagnosticoComponent, canLoad: [UsuarioGuard], canActivate: [UsuarioGuard] },
   { path: 'resultados', component: UsuarioResultadosComponent, canLoad: [UsuarioGuard, AutodiagnosticoGuard], canActivate: [UsuarioGuard, AutodiagnosticoGuard] },
-  { path: 'perfil', component: PerfilEmpleadoComponent }, // TODO: generar guard
+  { path: 'perfil/:funcion', component: PerfilEmpleadoComponent, canLoad: [PerfilEmpleadoGuard], canActivate: [PerfilEmpleadoGuard] },
   // { path: '**', pathMatch: 'full', redirectTo: '' }
   { path: '**', pathMatch: 'full', redirectTo: 'ingreso' }
 ];

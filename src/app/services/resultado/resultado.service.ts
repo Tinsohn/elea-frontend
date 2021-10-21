@@ -70,24 +70,31 @@ export class ResultadoService {
   // -----------------------------------------------
   //  Obtener autodiagnostico de usuario ingresante
   // -----------------------------------------------
+  // obtenerAutodiagnostico(nroLegajo: string, dni: string) {
   obtenerAutodiagnostico(nroLegajo: string, dni: string) {
-    let busqueda = '';
+    // let busqueda = '';
 
-    if(nroLegajo) {
-      busqueda += `nroLegajo=${nroLegajo}&`;
-    }
-    busqueda += `dni=${dni}`;
+    // if(nroLegajo) {
+    //   busqueda += `nroLegajo=${nroLegajo}&`;
+    // }
+    // busqueda += `dni=${dni}`;
 
     // return this.http.get<Autodiagnostico[]>(`${this._autodiagnostico_backend}/buscar?${busqueda}&pagina=1`)
     return this._propertiesService.obtenerProperties()
       .pipe(
-        switchMap(properties => this.http.get<Autodiagnostico[]>(`${properties.autodiagnostico_backend}/buscar?${busqueda}&pagina=1`)),
-        tap(listaAutodiagnosticos => {
-          if ( listaAutodiagnosticos.length ) {
-            // console.log(listaAutodiagnosticos);
-            const autodiagnostico: Autodiagnostico = listaAutodiagnosticos[0];
+        // switchMap(properties => this.http.get<Autodiagnostico[]>(`${properties.autodiagnostico_backend}/buscar?${busqueda}&pagina=1`)),
+        switchMap(properties => this.http.get<Autodiagnostico>(`${properties.autodiagnostico_backend}/autodiagnostico?nroLegajo=${nroLegajo}`)),
+        // tap(listaAutodiagnosticos => {
+        tap(respAutodiagnostico => {
+          // if ( listaAutodiagnosticos.length ) {
+          if ( respAutodiagnostico ) {
+            // console.log(respAutodiagnostico);
+            const autodiagnostico: Autodiagnostico = respAutodiagnostico;
   
             // console.log(autodiagnostico);
+            if(autodiagnostico.nroLegajo !== '0') {
+              localStorage.setItem('emailU', autodiagnostico.emailUsuario);
+            }
   
             this._resultado = {
               legajo: this._usuarioService.usuario,
@@ -103,7 +110,7 @@ export class ResultadoService {
           }
         }),
         map(listaAutodiagnosticos => {
-          if ( listaAutodiagnosticos.length ) {
+          if ( listaAutodiagnosticos ) {
             const bloqueado: boolean = !this._resultado.resultado && 
                                        (new Date(this._resultado.fecha_hasta_resultado).getTime() > new Date().getTime());
             if ( !bloqueado ) {
@@ -300,7 +307,7 @@ export class ResultadoService {
     // stringTokenizer += `${20},${this._autodiagnosticoService.getDescripcionVacunaPorId(Number(dosisUno))}@@`;
     // stringTokenizer += `${21},${this._autodiagnosticoService.getDescripcionVacunaPorId(Number(dosisDos))}@@`;
     for (let i=0; i<vacunasDosis.length; i++) {
-      stringTokenizer += `${this._autodiagnosticoService.preguntasVacunacion[i].idPregunta},${this._autodiagnosticoService.getDescripcionVacunaPorId(Number(vacunasDosis[i]))}@@`;
+      stringTokenizer += `${this._autodiagnosticoService.preguntasVacunacion[i].idPregunta},${this._autodiagnosticoService.getDescripcionVacunaPorId(Number(vacunasDosis[i]), i)}@@`;
     }
 
     return stringTokenizer;

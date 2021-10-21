@@ -108,7 +108,7 @@ export class ResumenComponent {
     return this._autodiagnosticoService.antecedentesEstado;
   }
 
-  getDescripcionVacunaPorId(idVacuna: string): string {
-    return this._autodiagnosticoService.getDescripcionVacunaPorId(Number(idVacuna));
+  getDescripcionVacunaPorId(idVacuna: string, index: number): string {
+    return this._autodiagnosticoService.getDescripcionVacunaPorId(Number(idVacuna), index);
   }
 }

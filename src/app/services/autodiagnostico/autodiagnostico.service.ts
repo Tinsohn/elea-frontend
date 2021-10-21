@@ -8,6 +8,8 @@ import { PropertiesService } from '../properties/properties.service';
 import { ParametrosService } from '../parametros/parametros.service';
 import { Pregunta } from 'src/app/interfaces/pregunta.interface';
 import { Vacuna } from 'src/app/interfaces/vacuna.interface';
+import { PerfilEmpleadoService } from '../perfil-empleado/perfil-empleado.service';
+import { PreguntaRespuesta } from '../../interfaces/PreguntaRespuesta.interface';
 
 @Injectable({
   providedIn: 'root'
@@ -159,29 +161,31 @@ export class AutodiagnosticoService implements OnInit {
   constructor(private fb: FormBuilder,
               private http: HttpClient,
               private _propertiesService: PropertiesService,
-              private _parametrosService: ParametrosService) {}
+              private _parametrosService: ParametrosService,
+              private _perfilEmpleadoService: PerfilEmpleadoService) {}
 
   ngOnInit(): void {
     // this.obtenerRangoTemperatura();
   }
 
-  obtenerPreguntas() {
-    this.txtPreguntasSintomas = [];
+  obtenerPreguntas(cargarRespuestasEmpleado = false) {
+    // this.txtPreguntasSintomas = [];
     this.preguntasSintomas = [];
 
-    this.txtPreguntasContactoEstrecho = [];
+    // this.txtPreguntasContactoEstrecho = [];
     this.preguntasContactoEstrecho = [];
 
-    this.txtPreguntasAntecedentes = [];
+    // this.txtPreguntasAntecedentes = [];
     this.preguntasAntecedentes = [];
 
-    this.txtPreguntasVacunacion = [];
+    // this.txtPreguntasVacunacion = [];
     this.preguntasVacunacion = [];
 
     // return this.http.get<Pregunta[]>(`${this.autodiagnostico_backend}/pregunta`)
     return this._propertiesService.obtenerProperties()
       .pipe(
         switchMap(properties => this.http.get<Pregunta[]>(`${properties.autodiagnostico_backend}/pregunta`)),
+        // tap(preguntas => {
         tap(preguntas => {
 
           // let arrSintomas: string[] = [];
@@ -194,7 +198,7 @@ export class AutodiagnosticoService implements OnInit {
 
           preguntas.forEach(pregunta => {
             // console.log(pregunta);
-            if(pregunta.estadoLogico) {
+            if(pregunta.estadoLogico === 1) {
 
               switch (pregunta.idPantalla) {
                 case 1:
@@ -203,7 +207,7 @@ export class AutodiagnosticoService implements OnInit {
                   break;
                 case 2:
                     this.preguntasSintomas.push(pregunta);
-                    this.txtPreguntasSintomas.push(pregunta.descripcionPregunta);
+                    // this.txtPreguntasSintomas.push(pregunta.descripcionPregunta);
                     this.arrSintomas.push('no');
                     // this.arrSintomas.push(`${ pregunta.idPregunta },0`);
                   break;
@@ -227,12 +231,16 @@ export class AutodiagnosticoService implements OnInit {
                 break;
                 case 5:
                   this.preguntasVacunacion.push(pregunta);
-                  this.txtPreguntasVacunacion.push(pregunta.descripcionPregunta);
+                  // this.txtPreguntasVacunacion.push(pregunta.descripcionPregunta);
                   this.arrVacunacion.push('0');
                   break;
               }
             }
           })
+
+          if(cargarRespuestasEmpleado) {
+            this.cargarRespuestasEmpleado()
+          }
 
           this._formAutodiagnostico = this.fb.group({
             temperatura: [37],
@@ -269,11 +277,52 @@ export class AutodiagnosticoService implements OnInit {
       );
   }
 
-  getDescripcionVacunaPorId(idVacuna: number): string {
+
+  cargarRespuestasEmpleado() {
+    // console.log(this._perfilEmpleadoService.perfil)
+    if(this._perfilEmpleadoService.perfil) {
+      this.arrAntecedentes = [];
+      this.arrVacunacion = [];
+
+      // const perfil = this._perfilEmpleadoService.perfil;
+      const perfil = JSON.parse(localStorage.getItem('perfil'));
+
+      perfil.preguntasRespuestas.forEach(preguntaRespuesta => {
+        if(preguntaRespuesta.pregunta.idPantalla === 4) {
+          if (!preguntaRespuesta.respuesta || preguntaRespuesta.respuesta.respuestaPregunta === '0') {
+            this.arrAntecedentes.push(false);
+          } else if ( preguntaRespuesta.respuesta.respuestaPregunta === '1' ) {
+            this.arrAntecedentes.push(true);
+          }
+        } else if(preguntaRespuesta.pregunta.idPantalla === 5) {
+          if (!preguntaRespuesta.respuesta || preguntaRespuesta.respuesta.respuestaPregunta === '0') {
+            this.arrVacunacion.push('0');
+          } else {
+            this.arrVacunacion.push(preguntaRespuesta.respuesta.respuestaPregunta);
+          }
+        }
+      });
+      // console.log(this.arrAntecedentes);
+      // console.log(this.arrVacunacion);
+    }
+  }
+
+
+  getDescripcionVacunaPorId(idVacuna: number, index: number): string {
     // if (idVacuna === 0 || this.formVacunas.get('dosisUno')?.value === '0') {
-    if (idVacuna === 0 || this.vacunasHelper()) {
+    if (idVacuna === 0) {
       return 'Ninguna';
     }
+
+    // por si no carga las vacunas cuando ya se las obtiene antes por el perfil
+    if(this._vacunas.length < 1) {
+      return 'Ninguna';
+    }
+
+    if(this.dosisAnteriorNula(index)) {
+      return 'Ninguna'
+    }
+
     return this._vacunas.filter(vacuna => vacuna.idVacuna === idVacuna)[0].descripcionVacuna;
   }
 
@@ -428,6 +477,7 @@ export class AutodiagnosticoService implements OnInit {
   // a las dosis que sí tienen seleccionada alguna vacuna
   private vacunasHelper() {
     const vacunas = this.formVacunas.get('vacunas')?.value;
+    // console.log(vacunas)
     
     let flag: boolean = false;
     let valorAnterior = '0';
@@ -438,12 +488,40 @@ export class AutodiagnosticoService implements OnInit {
           flag = true;
           valorAnterior = vacunas[i];
         } else {
+          // if(valorAnterior === '0' && vacunas[i] !== '0') {
           if(valorAnterior === '0' && vacunas[i] !== '0') {
             return true;
+          } else {
+            valorAnterior = vacunas[i];
           }
         }
       }
     }
     return false;
+  }
+
+  private dosisAnteriorNula(index: number): boolean {
+    const vacunas = this.formVacunas.get('vacunas')?.value;
+    
+    let flag: boolean = false;
+    let valorAnterior = '0';
+
+    if (vacunas.length > 0) {
+      for(let i=0; i<index; i++) {
+        if(!flag) {
+          flag = true;
+          valorAnterior = vacunas[i];
+        } else {
+          // if(valorAnterior === '0' && vacunas[i] !== '0') {
+          if(valorAnterior === '0' && vacunas[i] !== '0') {
+            return true;
+          } else {
+            valorAnterior = vacunas[i];
+          }
+        }
+      }
+    }
+
+    return false
   }
 }

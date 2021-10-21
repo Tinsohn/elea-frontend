@@ -4,7 +4,6 @@ import { Pregunta } from 'src/app/interfaces/pregunta.interface';
 import { Vacuna } from 'src/app/interfaces/vacuna.interface';
 
 import { AutodiagnosticoService } from 'src/app/services/autodiagnostico/autodiagnostico.service';
-import { PerfilEmpleadoService } from 'src/app/services/perfil-empleado/perfil-empleado.service';
 
 @Component({
   selector: 'app-forms-antecedentes-vacunas',
@@ -39,7 +38,6 @@ export class FormsAntecedentesVacunasComponent {
     return this._autodiagnosticoService.vacunas;
   }
 
-  constructor(private _autodiagnosticoService: AutodiagnosticoService,
-              private _perfilEmpleado: PerfilEmpleadoService) { }
+  constructor(private _autodiagnosticoService: AutodiagnosticoService) { }
 
 }
