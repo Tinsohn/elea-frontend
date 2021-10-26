@@ -193,6 +193,7 @@ export class PerfilEmpleadoComponent implements OnInit, OnDestroy {
     this._snackBar.openFromComponent(PerfilCreadoMsjComponent, {
       data: { funcion: this.funcion },
       duration: 5000,
+      panelClass: ['mat-snackbar-bgcolor']
     });
   }
 }
@@ -207,13 +208,15 @@ interface Data {
 
 @Component({
   selector: 'app-perfil-creado-msj-component',
-  template: `<span class="msj">
+  template: `<p class="msj">
               Perfil {{data.funcion === 'crear' ? 'creado' : 'actualizado'}} correctamente.
-            </span>`,
+            </p>`,
   styles: [`
     .msj {
+      margin: 0;
       text-align: center;
-      color: green;
+      font-size: 1.1rem;
+      color: white;
     }
   `],
 })

@@ -177,3 +177,11 @@ h4.step-header {
     height: fit-content;
     margin: 0 auto;
 }
+
+
+
+
+
+.mat-snackbar-bgcolor {
+    background-color: #3f51b5;
+}
