@@ -28,7 +28,7 @@ export class PerfilEmpleadoComponent implements OnInit, OnDestroy {
 
   formEmailUsuario: FormGroup;
 
-  // private _perfilEmpleadoSubscription: Subscription;
+  private _perfilEmpleadoSubscription: Subscription;
   private _preguntasSubscription: Subscription;
   private _vacunasSubscription: Subscription;
 
@@ -84,9 +84,9 @@ export class PerfilEmpleadoComponent implements OnInit, OnDestroy {
   ngOnDestroy(): void {
     localStorage.removeItem('perfil');
 
-    // if(this._perfilEmpleadoSubscription) {
-    //   this._perfilEmpleadoSubscription.unsubscribe();
-    // }
+    if(this._perfilEmpleadoSubscription) {
+      this._perfilEmpleadoSubscription.unsubscribe();
+    }
     if(this._preguntasSubscription) {
       this._preguntasSubscription.unsubscribe();
     }
@@ -103,7 +103,7 @@ export class PerfilEmpleadoComponent implements OnInit, OnDestroy {
 
     if(this.funcion === 'crear') {
 
-      this._perfilEmpleadoService.insertarPerfil(perfil)
+      this._perfilEmpleadoSubscription = this._perfilEmpleadoService.insertarPerfil(perfil)
         .subscribe(() => {
           this.loading = false;
           
@@ -120,7 +120,7 @@ export class PerfilEmpleadoComponent implements OnInit, OnDestroy {
 
     } else if(this.funcion === 'actualizar') {
 
-      this._perfilEmpleadoService.actualizarPerfil(perfil).subscribe(() => {
+      this._perfilEmpleadoSubscription = this._perfilEmpleadoService.actualizarPerfil(perfil).subscribe(() => {
         this.loading = false;
 
         this.openSnackBar();

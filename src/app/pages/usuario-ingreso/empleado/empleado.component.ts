@@ -45,6 +45,7 @@ export class EmpleadoComponent implements OnInit, OnDestroy {
   form: FormGroup;
 
   private _autenticarUsuarioSubscription: Subscription;
+  private _prefilEmpleadoSubscription: Subscription;
   private _resultadoAutodiagSubscription: Subscription;
 
   constructor(private fb: FormBuilder,
@@ -90,6 +91,9 @@ export class EmpleadoComponent implements OnInit, OnDestroy {
   ngOnDestroy(): void {
     if (this._autenticarUsuarioSubscription){
       this._autenticarUsuarioSubscription.unsubscribe();
+    }
+    if (this._prefilEmpleadoSubscription) {
+      this._prefilEmpleadoSubscription.unsubscribe();
     }
     if (this._resultadoAutodiagSubscription) {
       this._resultadoAutodiagSubscription.unsubscribe();
@@ -147,7 +151,7 @@ export class EmpleadoComponent implements OnInit, OnDestroy {
 
 
           // Cargar perfil
-          this._perfilEmpleadoService.cargarPerfil(this._usuarioService.usuario.nroLegajo)
+          this._prefilEmpleadoSubscription = this._perfilEmpleadoService.cargarPerfil(this._usuarioService.usuario.nroLegajo)
             .subscribe( resp => {
               // console.log(resp)
 

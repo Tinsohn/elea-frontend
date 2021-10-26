@@ -1,6 +1,8 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, EventEmitter, Input, Output, OnDestroy } from '@angular/core';
 import { FormArray, FormControl, FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
+
+import { Subscription } from 'rxjs';
 
 import { MatDialog } from '@angular/material/dialog';
 
@@ -15,7 +17,7 @@ import { ResultadoService } from '../../../services/resultado/resultado.service'
   templateUrl: './resumen.component.html',
   styleUrls: ['./resumen.component.css']
 })
-export class ResumenComponent {
+export class ResumenComponent implements OnDestroy {
   @Output() isLoading: EventEmitter<boolean> = new EventEmitter();
   private isAceptado: boolean = false;
 
@@ -41,10 +43,18 @@ export class ResumenComponent {
     return this._autodiagnosticoService.formVacunas.get('vacunas')?.value;;
   }
 
+  private _resultadoSubscription: Subscription;
+
   constructor(private router: Router,
               public dialog: MatDialog,
               private _resultadoService: ResultadoService,
               private _autodiagnosticoService: AutodiagnosticoService) { }
+
+  ngOnDestroy(): void {
+    if(this._resultadoSubscription) {
+      this._resultadoSubscription.unsubscribe();
+    }
+  }
 
   reset(stepper: any) {
     stepper.reset();
@@ -66,7 +76,7 @@ export class ResumenComponent {
         this.isLoading.emit(true);
 
         // console.log('se acepto')
-        this._resultadoService.grabarResultado()
+        this._resultadoSubscription = this._resultadoService.grabarResultado()
           .subscribe( data => {
             // ID o respuesta
             // console.log('id autodiagnostico:', data);

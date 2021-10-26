@@ -125,5 +125,8 @@
       }
     }
   },
-  "defaultProject": "elea-frontend"
+  "defaultProject": "elea-frontend",
+  "cli": {
+    "analytics": false
+  }
 }
