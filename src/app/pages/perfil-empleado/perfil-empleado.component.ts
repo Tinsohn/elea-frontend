@@ -31,6 +31,7 @@ export class PerfilEmpleadoComponent implements OnInit, OnDestroy {
   private _perfilEmpleadoSubscription: Subscription;
   private _preguntasSubscription: Subscription;
   private _vacunasSubscription: Subscription;
+  private _dialogCloseSubscription: Subscription;
 
   get formVacunas(): FormGroup {
     return this._autodiagnosticoService.formVacunas;
@@ -49,6 +50,10 @@ export class PerfilEmpleadoComponent implements OnInit, OnDestroy {
     this.loading = true;
 
     this.funcion = this._rutaActiva.snapshot.params.funcion;
+
+    if (this.funcion !== 'crear' && this.funcion !== 'actualizar') {
+      this.router.navigate(['/ingreso']);
+    }
 
     let emailU: string;
     if (!localStorage.getItem('emailU') || localStorage.getItem('emailU') === 'null') {
@@ -93,6 +98,9 @@ export class PerfilEmpleadoComponent implements OnInit, OnDestroy {
     if(this._vacunasSubscription) {
       this._vacunasSubscription.unsubscribe();
     }
+    if(this._dialogCloseSubscription) {
+      this._dialogCloseSubscription.unsubscribe();
+    }
   }
 
   submit() {
@@ -112,10 +120,12 @@ export class PerfilEmpleadoComponent implements OnInit, OnDestroy {
           this.router.navigate(['/ingreso']);
         }, err => {
           this.loading = false;
-          this.dialog.open(DialogMensajeErrorComponent, {
+          const dialogRef = this.dialog.open(DialogMensajeErrorComponent, {
             data: { msg: 'Hubo un problema al crear el perfil. Por favor, vuelva a intentarlo' }
           })
-          this.router.navigate(['/ingreso']);
+          
+          this._dialogCloseSubscription = dialogRef.afterClosed()
+            .subscribe(() => this.router.navigate(['/ingreso']));
         });
 
     } else if(this.funcion === 'actualizar') {
@@ -128,12 +138,22 @@ export class PerfilEmpleadoComponent implements OnInit, OnDestroy {
         this.router.navigate(['/ingreso']);
       }, err => {
         this.loading = false;
-        this.dialog.open(DialogMensajeErrorComponent, {
+        const dialogRef = this.dialog.open(DialogMensajeErrorComponent, {
           data: { msg: 'Hubo un problema al actualizar el perfil. Por favor, vuelva a intentarlo' }
         })
-        this.router.navigate(['/ingreso']);
+
+        this._dialogCloseSubscription = dialogRef.afterClosed()
+          .subscribe(() => this.router.navigate(['/ingreso']));
       });
 
+    } else {
+      this.loading = false;
+      const dialogRef = this.dialog.open(DialogMensajeErrorComponent, {
+        data: { msg: 'Error inesperado. Por favor, vuelva a intentarlo' }
+      })
+      
+      this._dialogCloseSubscription = dialogRef.afterClosed()
+        .subscribe(() => this.router.navigate(['/ingreso']));
     }
     // this.router.navigate(['/ingreso']);
   }
