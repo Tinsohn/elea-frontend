@@ -72,6 +72,13 @@ export class ResultadoService {
   // -----------------------------------------------
   // obtenerAutodiagnostico(nroLegajo: string, dni: string) {
   obtenerAutodiagnostico(nroLegajo: string, dni: string) {
+    let params = `nroLegajo=${nroLegajo}&dni=${dni}`;
+    // let params = `nroLegajo=${nroLegajo}`;
+
+    // if (dni) {
+    //   params += `&dni=${dni}`;
+    // }
+
     // let busqueda = '';
 
     // if(nroLegajo) {
@@ -83,7 +90,7 @@ export class ResultadoService {
     return this._propertiesService.obtenerProperties()
       .pipe(
         // switchMap(properties => this.http.get<Autodiagnostico[]>(`${properties.autodiagnostico_backend}/buscar?${busqueda}&pagina=1`)),
-        switchMap(properties => this.http.get<Autodiagnostico>(`${properties.autodiagnostico_backend}/autodiagnostico?nroLegajo=${nroLegajo}`)),
+        switchMap(properties => this.http.get<Autodiagnostico>(`${properties.autodiagnostico_backend}/autodiagnostico?${params}`)),
         // tap(listaAutodiagnosticos => {
         tap(respAutodiagnostico => {
           // if ( listaAutodiagnosticos.length ) {
