@@ -46,7 +46,7 @@
         </div>
 
         <!-- <div id="qr-datos" *ngIf="resultado.resultado"> -->
-        <div id="imagen-evento-div" *ngIf="resultado.resultado && usuario.nroLegajo !== '0'">
+        <div id="imagen-evento-div" *ngIf="existeImagen && resultado.resultado && usuario.nroLegajo !== '0'">
             <!-- <img id="qr-image" src="assets/qr-code.png" alt="qr-resultado"> -->
             <img id="imagen-evento-img" src="assets/imagen-evento.png" alt="imagen-evento">
         </div>

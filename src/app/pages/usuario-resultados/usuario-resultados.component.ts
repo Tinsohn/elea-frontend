@@ -9,6 +9,7 @@ import { LugarAccesoService } from '../../services/lugar-acceso/lugar-acceso.ser
 import { ParametrosService } from '../../services/parametros/parametros.service';
 import { Subscription } from 'rxjs';
 import { AutodiagnosticoService } from '../../services/autodiagnostico/autodiagnostico.service';
+import { PropertiesService } from '../../services/properties/properties.service';
 
 @Component({
   selector: 'app-usuario-resultados',
@@ -17,11 +18,14 @@ import { AutodiagnosticoService } from '../../services/autodiagnostico/autodiagn
 })
 export class UsuarioResultadosComponent implements OnInit, OnDestroy {
 
+  existeImagen: boolean = false;
+
   nombreLugarAcceso: string = '';
   msjNoHabilitado: string = '';
 
   private _lugarAccesoSubscription: Subscription;
   private _parametrosSubscription: Subscription;
+  private _propertiesSubscription: Subscription;
 
   get usuario(): Usuario {
     return { ...this._usuarioService.usuario }
@@ -40,7 +44,8 @@ export class UsuarioResultadosComponent implements OnInit, OnDestroy {
               private _resultadoService: ResultadoService,
               public lugarAccesoService: LugarAccesoService,
               public parametrosService: ParametrosService,
-              private _autodiagnosticoService: AutodiagnosticoService) { }
+              private _autodiagnosticoService: AutodiagnosticoService,
+              private _propertiesService: PropertiesService) { }
 
   ngOnInit() {
     this._lugarAccesoSubscription = this.lugarAccesoService.getLugarAccesoPorId(this.usuario.idLugarAcceso)
@@ -52,6 +57,11 @@ export class UsuarioResultadosComponent implements OnInit, OnDestroy {
       .subscribe(parametros => {
         this.msjNoHabilitado = parametros[3].valorParametro;
       });
+
+    this._propertiesSubscription = this._propertiesService.obtenerProperties()
+      .subscribe(props => {
+        this.existeImagen = props.mostrarImagenEvento;
+      });
   }
 
   ngOnDestroy() {
@@ -61,6 +71,10 @@ export class UsuarioResultadosComponent implements OnInit, OnDestroy {
 
     if(this._parametrosSubscription) {
       this._parametrosSubscription.unsubscribe();
+    }
+
+    if(this._propertiesSubscription) {
+      this._propertiesSubscription.unsubscribe();
     }
     localStorage.clear();
   }
