@@ -18,7 +18,8 @@ import { PropertiesService } from '../../services/properties/properties.service'
 })
 export class UsuarioResultadosComponent implements OnInit, OnDestroy {
 
-  existeImagen: boolean = false;
+  mostrarImagenEventoEmpleados: boolean = false;
+  mostrarImagenEventoExternos: boolean = false;
 
   nombreLugarAcceso: string = '';
   msjNoHabilitado: string = '';
@@ -60,7 +61,8 @@ export class UsuarioResultadosComponent implements OnInit, OnDestroy {
 
     this._propertiesSubscription = this._propertiesService.obtenerProperties()
       .subscribe(props => {
-        this.existeImagen = props.mostrarImagenEvento;
+        this.mostrarImagenEventoEmpleados = props.mostrarImagenEventoEmpleados;
+        this.mostrarImagenEventoExternos = props.mostrarImagenEventoExternos;
       });
   }
 
