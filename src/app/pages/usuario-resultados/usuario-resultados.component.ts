@@ -20,6 +20,7 @@ export class UsuarioResultadosComponent implements OnInit, OnDestroy {
 
   mostrarImagenEventoEmpleados: boolean = false;
   mostrarImagenEventoExternos: boolean = false;
+  nombreImagen: string;
 
   nombreLugarAcceso: string = '';
   msjNoHabilitado: string = '';
@@ -59,10 +60,20 @@ export class UsuarioResultadosComponent implements OnInit, OnDestroy {
         this.msjNoHabilitado = parametros[3].valorParametro;
       });
 
+    this.nombreImagen = 'imagen-evento';
     this._propertiesSubscription = this._propertiesService.obtenerProperties()
       .subscribe(props => {
         this.mostrarImagenEventoEmpleados = props.mostrarImagenEventoEmpleados;
         this.mostrarImagenEventoExternos = props.mostrarImagenEventoExternos;
+
+        if (this.mostrarImagenEventoEmpleados && this.mostrarImagenEventoExternos) {
+          this.nombreImagen += '-todos'
+        } else if (this.mostrarImagenEventoEmpleados && !this.mostrarImagenEventoExternos) {
+          this.nombreImagen += '-empleados'
+        } else if (!this.mostrarImagenEventoEmpleados && this.mostrarImagenEventoExternos) {
+          this.nombreImagen += '-externos'
+        }
+        this.nombreImagen += '.png'
       });
   }
 
